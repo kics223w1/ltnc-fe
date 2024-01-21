@@ -13,10 +13,15 @@ import { app, BrowserWindow, shell, screen, nativeTheme } from 'electron';
 import { getAssetPath } from './models/app-directory';
 import { OS_PLATFORM } from './models/constant';
 import { getOSPlatform, resolveHtmlPath } from './utils';
+import sqlServerConnectorService from './service/sql-server-connector-service';
+import notificationService from './service/notification-service';
+import { listenEventsFromRendererProcess } from '.';
 
 let mainWindow: BrowserWindow | null = null;
 
-nativeTheme.themeSource = 'light';
+nativeTheme.themeSource = 'dark';
+
+listenEventsFromRendererProcess();
 
 if (process.env.NODE_ENV === 'production') {
   const sourceMapSupport = require('source-map-support');
@@ -96,6 +101,8 @@ const createWindow = async () => {
       mainWindow.show();
     }
 
+    sqlServerConnectorService.connectDatabase();
+
     // For the data can be lazy loading, let's load if after the mainWindow is opened
     if (mainWindow) {
     }
@@ -127,7 +134,7 @@ const createWindow = async () => {
   // Disable all default shortcuts of Electron (e.g. Ctrl+W)
   mainWindow.setMenu(null);
 
-  // Save for the notification center
+  notificationService.setMainWindow(mainWindow);
 };
 
 /**
@@ -142,19 +149,6 @@ app.on('window-all-closed', () => {
   }
 });
 
-const sendEventToMainWindow = (event: any, arg: any) => {
-  console.log(`⚡️ Sent Signal ${event}`);
-  if (mainWindow === null) {
-    return;
-  }
-
-  // Prevent an error when sending a icp message to invalid windows
-  if (mainWindow.isDestroyed()) {
-    return;
-  }
-  mainWindow.webContents.send(event, arg);
-};
-
 app
   .whenReady()
   .then(() => {
@@ -164,6 +158,7 @@ app
 
     app.on('activate', () => {
       console.log('👉 Main window is activate!!!');
+
       // On macOS it's common to re-create a window in the app when the
       // dock icon is clicked and there are no other windows openn
       if (mainWindow === null) createWindow();
