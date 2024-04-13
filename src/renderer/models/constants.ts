@@ -100,6 +100,8 @@ enum ICON_SVG {
   TRAY_AND_ARROW_DOWN_FILL = 'tray.and.arrow.down.fill.svg',
   BOTH_HORIZONTAL_CIRCLE = 'bolt.horizontal.circle.svg',
   ARROW_UP_RIGHT_CIRCLE_FILE = 'arrow.up.right.circle.fill.svg',
+  PERSON_2_1 = 'person.2.1.svg',
+  TABLE_CELL_1 = 'table.cell.1.svg',
 }
 
 enum CONNECTION_FORM {
