@@ -6,7 +6,7 @@ import { WINDOWS } from './models/constants';
 import { useEffect, useState } from 'react';
 import DialogLayout from './components/dialog/dialog-layout';
 import { EVENTS_FROM_MAIN_PROCESS } from '/main/models/constant';
-import { ThemeProvider } from './components/theme-provider';
+import { ThemeProvider } from './components/theme/ThemeProvider';
 
 // Bug blue outline, Ref: https://github.com/palantir/blueprint/issues/2691
 FocusStyleManager.onlyShowFocusOnTabs();
@@ -18,7 +18,6 @@ const MainApp = () => {
     window.electron.ipcRenderer.on(
       EVENTS_FROM_MAIN_PROCESS.ON_SHOW_DIALOG,
       (newWindowsID: WINDOWS) => {
-        console.log('huy vao ne: ', newWindowsID);
         setWindowsID(newWindowsID);
       }
     );
@@ -28,7 +27,7 @@ const MainApp = () => {
 
   return (
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-      <div className="flex flex-col h-screen w-screen overflow-hidden bg-[#161719]">
+      <div className="flex flex-col h-screen w-screen overflow-hidden">
         <MainView />
       </div>
       {windowsID !== undefined && (

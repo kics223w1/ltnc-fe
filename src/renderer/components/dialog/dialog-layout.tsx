@@ -5,6 +5,7 @@ import { Button } from '/~/components/ui/button';
 import { ICON_SVG, WINDOWS } from '/renderer/models/constants';
 import IconSVG from '../utils/icon-svg';
 import ConnectionConfigDialog from './connection-config-dialog';
+import SignInDialog from './sigin-in-dialog';
 
 type ParamsDialogLayout = {
   windowsID: WINDOWS;
@@ -12,12 +13,14 @@ type ParamsDialogLayout = {
   showErrorToaster: (message: string) => void;
 };
 
-const noButtonCloseDialogs: WINDOWS[] = [];
+const noButtonCloseDialogs: WINDOWS[] = [WINDOWS.SIGN_IN];
 
 const renderWindowDialog = (windowsID: WINDOWS, handClose: () => void) => {
   switch (windowsID) {
     case WINDOWS.CONNECTION_CONFIG:
       return <ConnectionConfigDialog handClose={handClose} />;
+    case WINDOWS.SIGN_IN:
+      return <SignInDialog />;
     default:
       return <ConnectionConfigDialog handClose={handClose} />;
   }

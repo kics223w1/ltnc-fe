@@ -1,12 +1,29 @@
-enum FONT_WEIGHT {
-  BOLD = 'FONT_WEIGHT_BOLD',
-  SEMI_BOLD = 'FONT_WEIGHT_SEMI_BOLD',
-  MEDIUM = 'FONT_WEIGHT_MEDIUM',
-  REGULAR = 'FONT_WEIGHT_REGULAR',
+enum FONT_SIZE {
+  TEN = '10',
+  ELEVEN = '11',
+  TWELVE = '12',
+  THIRTEEN = '13',
+  FOURTEEN = '14',
+  FIFTEEN = '15',
+  SIXTEEN = '16',
+  SEVENTEEN = '17',
+  EIGHTEEN = '18',
+  NINETEEN = '19',
+  TWENTY = '20',
+  TWENTY_FOUR = '24',
+  TWENTY_EIGHT = '28',
 }
 
 enum FONT_FAMILY {
-  SF_PRO = 'SF_PRO',
+  SF_MONO = 'FONT_FAMILY_SF_MONO',
+  SF_PRO = 'FONT_FAMILY_SF_PRO',
+}
+
+enum FONT_WEIGHT {
+  REGULAR = 'FONT_WEIGHT_REGULAR',
+  MEDIUM = 'FONT_WEIGHT_MEDIUM',
+  SEMI_BOLD = 'FONT_WEIGHT_SEMI_BOLD',
+  BOLD = 'FONT_WEIGHT_BOLD',
 }
 
 enum MONACO_EDITOR_LANGUAGE {
@@ -21,12 +38,15 @@ enum MONACO_EDITOR_LANGUAGE {
 
 enum WINDOWS {
   CONNECTION_CONFIG = 'WINDOWS_CONNECTION_CONFIG',
+  SIGN_IN = 'WINDOWS_SIGN_IN',
 }
 
 enum ICON_SVG {
   APPLE_LOGO = 'apple.logo.svg',
+  BELL = 'bell.svg',
   MINUS = 'minus.svg',
   MINUS_THICKER = 'minus.thicker.svg',
+  MOON_STARS = 'moon.stars.svg',
   PLUS = 'plus.svg',
   PLUS_THICKER = 'plus.thicker.svg',
   PIN_FILL = 'pin.fill.svg',
@@ -75,6 +95,7 @@ enum ICON_SVG {
   WAND_AND_STARS = 'wand.and.stars.svg',
   SQUARE_AND_PENCIL = 'square.and.pencil.svg',
   STAR_CIRCLE = 'star.circle.svg',
+  SUN_MAX = 'sun.max.svg',
   TORTOISE = 'tortoise.svg',
   TRAY_AND_ARROW_DOWN_FILL = 'tray.and.arrow.down.fill.svg',
   BOTH_HORIZONTAL_CIRCLE = 'bolt.horizontal.circle.svg',
@@ -85,6 +106,11 @@ enum CONNECTION_FORM {
   CONNECTION_SQL_SERVER_FORM = 'CONNECTION_FORM_CONNECTION_SQL_SERVER_FORM',
 }
 
+enum TAB_WIDTH {
+  TWO_SPACES = 'TAB_WIDTH_TWO_SPACES',
+  FOUR_SPACES = 'TAB_WIDTH_FOUR_SPACES',
+}
+
 export {
   FONT_WEIGHT,
   FONT_FAMILY,
@@ -92,4 +118,6 @@ export {
   WINDOWS,
   ICON_SVG,
   CONNECTION_FORM,
+  FONT_SIZE,
+  TAB_WIDTH,
 };

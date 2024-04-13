@@ -13,7 +13,6 @@ import { app, BrowserWindow, shell, screen, nativeTheme } from 'electron';
 import { getAssetPath } from './models/app-directory';
 import { OS_PLATFORM } from './models/constant';
 import { getOSPlatform, resolveHtmlPath } from './utils';
-import sqlServerConnectorService from './service/sql-server-connector-service';
 import notificationService from './service/notification-service';
 import { listenEventsFromRendererProcess } from '.';
 
@@ -100,8 +99,6 @@ const createWindow = async () => {
     } else {
       mainWindow.show();
     }
-
-    sqlServerConnectorService.connectDatabase();
 
     // For the data can be lazy loading, let's load if after the mainWindow is opened
     if (mainWindow) {
