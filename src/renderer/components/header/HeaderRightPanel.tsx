@@ -6,21 +6,25 @@ import IconSVG from '../utils/icon-svg';
 
 const HeaderRightPanel = () => {
   return (
-    <div className="flex items-center justify-end w-full h-12 border-b border-border px-4 pt-1 gap-3">
+    <div className="flex items-center justify-end w-full h-12 border-b border-border px-4 pt-1 gap-2">
       <Button
         variant={'default'}
         size={'sm'}
-        className="px-5"
+        className="px-5 mr-1"
         onClick={() => {
           openDialog(WINDOWS.SIGN_IN);
         }}
       >
         Sign In
       </Button>
+
+      <ModeToggle />
+      <Button variant={'ghost'} size={'icon'}>
+        <IconSVG iconName={ICON_SVG.GEAR} css="w-[18px] h-[18px]" style={{}} />
+      </Button>
       <Button variant={'ghost'} size={'icon'}>
         <IconSVG iconName={ICON_SVG.BELL} css="w-4 h-4" style={{}} />
       </Button>
-      <ModeToggle />
     </div>
   );
 };
