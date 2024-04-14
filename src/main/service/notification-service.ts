@@ -1,6 +1,7 @@
 import { BrowserWindow, ipcMain } from 'electron';
 import {
   EVENTS_FROM_MAIN_PROCESS,
+  MAIN_VIEW_TAB,
   NOTIFICATION_SERVICE,
 } from '../models/constant';
 import { WINDOWS } from '/renderer/models/constants';
@@ -42,6 +43,21 @@ class NotificationService {
         this.sendNotificationToMainWindows(
           EVENTS_FROM_MAIN_PROCESS.ON_SHOW_DIALOG,
           args.windowID
+        );
+      }
+    );
+
+    ipcMain.on(
+      EVENTS_FROM_MAIN_PROCESS.ON_UPDATE_MAIN_VIEW,
+      (
+        event,
+        args: {
+          tab: MAIN_VIEW_TAB;
+        }
+      ) => {
+        this.sendNotificationToMainWindows(
+          EVENTS_FROM_MAIN_PROCESS.ON_UPDATE_MAIN_VIEW,
+          args.tab
         );
       }
     );
