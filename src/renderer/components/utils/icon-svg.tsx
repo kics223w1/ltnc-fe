@@ -32,7 +32,7 @@ const IconSVG = ({ id, iconName, css, style }: props) => {
       id={id ? id : ''}
       loading="lazy"
       draggable={false}
-      className={css}
+      className={`${css} select-none`}
       src={src.default}
       style={{
         filter: filterText,

@@ -52,6 +52,7 @@ enum ICON_SVG {
   PIN_FILL = 'pin.fill.svg',
   GEAR = 'gear.svg',
   LOCK = 'lock.svg',
+  DOC = 'doc.svg',
   LOCK_OPEN = 'lock.open.svg',
   PERSON_FILL = 'person.fill.svg',
   GITHUB = 'github.svg',
@@ -64,7 +65,7 @@ enum ICON_SVG {
   NETWORK = 'network.svg',
   INFO_CIRCLE_FILL = 'info.circle.fill.svg',
   IPHONE = 'iphone.svg',
-  FOLDER_FILL = 'folder.fill.svg',
+  FOLDER = 'folder.svg',
   QUESTION_MARK_CIRCLE = 'questionmark.circle.svg',
   HEART_FILL = 'heart.fill.svg',
   QR_ICON = 'qr-icon.svg',
@@ -102,6 +103,7 @@ enum ICON_SVG {
   ARROW_UP_RIGHT_CIRCLE_FILE = 'arrow.up.right.circle.fill.svg',
   PERSON_2_1 = 'person.2.1.svg',
   TABLE_CELL_1 = 'table.cell.1.svg',
+  PERSON_3_SEQUENCE_1 = 'person.3.sequence.1.svg',
 }
 
 enum CONNECTION_FORM {

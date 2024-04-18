@@ -16,7 +16,7 @@ const ChildrenNode = ({ icon, currentTab, tab, setCurrentTab }: Params) => {
       onClick={() => {
         setCurrentTab(tab);
       }}
-      className={`flex flex-shrink-0 items-center gap-1 w-full px-7 py-[2px] ${
+      className={`flex flex-shrink-0 items-center gap-1.5 w-full px-7 py-[2px] ${
         currentTab === tab ? 'bg-hoverBackground' : 'hover:bg-hoverBackground'
       } rounded cursor-pointer truncate`}
     >

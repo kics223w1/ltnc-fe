@@ -5,9 +5,9 @@ export const getTabTitle = (tab: MAIN_VIEW_TAB): string => {
     case MAIN_VIEW_TAB.DOCTOR_LIST:
       return 'Doctor List';
     case MAIN_VIEW_TAB.NURSE_INFORMATION:
-      return 'Nurse Information';
+      return 'Nurse List';
     case MAIN_VIEW_TAB.OTHER_STAFFS_INFORMATION:
-      return 'Other Staff Information';
+      return 'Other Staff List';
     case MAIN_VIEW_TAB.STAFF_MANAGEMENT:
       return 'Management';
     case MAIN_VIEW_TAB.PATIENT_HISTORY:
@@ -18,6 +18,12 @@ export const getTabTitle = (tab: MAIN_VIEW_TAB): string => {
       return 'Patient Billing';
     case MAIN_VIEW_TAB.PATIENT_BOOKING:
       return 'Patient Booking';
+    case MAIN_VIEW_TAB.ADMIN_DOCTOR_DASHBOARD:
+      return 'Doctor Dashboard';
+    case MAIN_VIEW_TAB.ADMIN_NURSE_DASHBOARD:
+      return 'Nurse Dashboard';
+    case MAIN_VIEW_TAB.ADMIN_OTHER_STAFF_DASHBOARD:
+      return 'Other Staff Dashboard';
     default:
       return '';
   }
