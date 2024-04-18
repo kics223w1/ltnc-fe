@@ -16,12 +16,16 @@ const ChildrenNode = ({ icon, currentTab, tab, setCurrentTab }: Params) => {
       onClick={() => {
         setCurrentTab(tab);
       }}
-      className={`flex items-center gap-1 w-full px-7 py-[2px] ${
+      className={`flex flex-shrink-0 items-center gap-1 w-full px-7 py-[2px] ${
         currentTab === tab ? 'bg-hoverBackground' : 'hover:bg-hoverBackground'
-      } rounded cursor-pointer`}
+      } rounded cursor-pointer truncate`}
     >
-      <IconSVG css="w-5 h-5" style={{}} iconName={icon} />
-      <span className="text-base font-customMedium">{getTabTitle(tab)}</span>
+      <div className="flex flex-shrink-0 w-5 h-5">
+        <IconSVG css="w-5 h-5" style={{}} iconName={icon} />
+      </div>
+      <span className="text-base font-customMedium dark:text-white">
+        {getTabTitle(tab)}
+      </span>
     </div>
   );
 };
