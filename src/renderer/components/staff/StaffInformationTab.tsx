@@ -40,101 +40,13 @@ const rows = [
   { id: 9, lastName: 'Roxie', firstName: 'Harvey', age: 65 },
 ];
 
-const nurseRows = [
-  {
-    id: 1,
-    name: 'John Doe',
-    phone: '1234567890',
-    email: 'sample@gmail.com',
-    department: 'Cardiology',
-    degree: 'MBBS',
-  },
-  {
-    id: 2,
-    name: 'Jane Smith',
-    phone: '9876543210',
-    email: 'example@gmail.com',
-    department: 'Pediatrics',
-    degree: 'MD',
-  },
-  {
-    id: 3,
-    name: 'Michael Johnson',
-    phone: '5555555555',
-    email: 'michael@example.com',
-    department: 'Orthopedics',
-    degree: 'MD',
-  },
-  {
-    id: 4,
-    name: 'Emily Davis',
-    phone: '9999999999',
-    email: 'emily@example.com',
-    department: 'Dermatology',
-    degree: 'MD',
-  },
-  {
-    id: 5,
-    name: 'David Wilson',
-    phone: '1111111111',
-    email: 'david@example.com',
-    department: 'Ophthalmology',
-    degree: 'MD',
-  },
-];
 
-const otherStaffs = [
-  {
-    id: 1,
-    name: 'John Doe',
-    type: 'Labortory Technician',
-    phone: '1234567890',
-    email: 'sample@gmail.com',
-    department: 'Cardiology',
-    degree: 'MBBS',
-  },
-  {
-    id: 2,
-    name: 'Jane Smith',
-    type: 'Technician',
-    phone: '9876543210',
-    email: 'example@gmail.com',
-    department: 'Pediatrics',
-    degree: 'MD',
-  },
-  {
-    id: 3,
-    name: 'Michael Johnson',
-    type: "Nurse's Assistant",
-    phone: '5555555555',
-    email: 'michael@example.com',
-    department: 'Orthopedics',
-    degree: 'MD',
-  },
-  {
-    id: 4,
-    name: 'Emily Davis',
-    type: 'Receptionist',
-    phone: '9999999999',
-    email: 'emily@example.com',
-    department: 'Dermatology',
-    degree: 'MD',
-  },
-  {
-    id: 5,
-    name: 'David Wilson',
-    type: 'Pharmacist',
-    phone: '1111111111',
-    email: 'david@example.com',
-    department: 'Ophthalmology',
-    degree: 'MD',
-  },
-];
+
+
 
 const StaffInformationTab = () => {
   return (
     <div className="flex flex-col w-full h-full px-12">
-      <DoctorTable />
     </div>
   );
 };

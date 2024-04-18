@@ -45,7 +45,6 @@ const nurseRows = [
     phone: '1234567890',
     email: 'sample@gmail.com',
     dob: '01/01/1990',
-
     department: 'Cardiology',
     degree: 'MBBS',
   },
