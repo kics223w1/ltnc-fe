@@ -1,14 +1,17 @@
 import { useEffect, useState } from 'react';
 import HeaderRightPanel from '../header/HeaderRightPanel';
 import { EVENTS_FROM_MAIN_PROCESS, MAIN_VIEW_TAB } from '/main/models/constant';
-import DoctorTable from '../table/DoctorTable';
-import NurseTable from '../table/NurseTable';
 import OtherStaffTable from '../table/OtherStaffTable';
 import PatientAppointment from '../patient/PatientAppointment';
 import DoctorList from '../staff/DoctorList';
 import PatientBooking from '../patient/PatientBooking';
 import PatientHistory from '../patient/PatientHistory';
 import PatientBilling from '../patient/PatientBilling';
+import NurseList from '../staff/NurseList';
+import AdminDoctorDashboard from '../admin/AdminDoctorDashboard';
+import OtherStaffList from '../staff/OtherStaffList';
+import AdminNurseDashboard from '../admin/AdminNurseDashboard';
+import AdminOtherStaffDashboard from '../admin/AdminOtherStaffDashboard';
 
 const RightPanelMainView = () => {
   const [currentTab, setCurrentTab] = useState(MAIN_VIEW_TAB.DOCTOR_LIST);
@@ -43,9 +46,9 @@ const buildView = (tab: MAIN_VIEW_TAB) => {
     case MAIN_VIEW_TAB.DOCTOR_LIST:
       return <DoctorList />;
     case MAIN_VIEW_TAB.NURSE_INFORMATION:
-      return <NurseTable />;
+      return <NurseList />;
     case MAIN_VIEW_TAB.OTHER_STAFFS_INFORMATION:
-      return <OtherStaffTable />;
+      return <OtherStaffList />;
     case MAIN_VIEW_TAB.PATIENT_APPOINTMENT:
       return <PatientAppointment />;
     case MAIN_VIEW_TAB.PATIENT_BOOKING:
@@ -54,6 +57,12 @@ const buildView = (tab: MAIN_VIEW_TAB) => {
       return <PatientHistory />;
     case MAIN_VIEW_TAB.PATIENT_BILLING:
       return <PatientBilling />;
+    case MAIN_VIEW_TAB.ADMIN_DOCTOR_DASHBOARD:
+      return <AdminDoctorDashboard />;
+    case MAIN_VIEW_TAB.ADMIN_NURSE_DASHBOARD:
+      return <AdminNurseDashboard />;
+    case MAIN_VIEW_TAB.ADMIN_OTHER_STAFF_DASHBOARD:
+      return <AdminOtherStaffDashboard />;
     default:
       return <></>;
   }

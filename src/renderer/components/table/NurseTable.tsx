@@ -100,38 +100,23 @@ const NurseTable = () => {
   });
 
   return (
-    <div className="flex flex-col w-full h-full px-12">
-      <div className="flex items-center gap-4 my-5">
-        <Input></Input>
-        <Button variant={'default'} size={'lg'}>
-          Search
-        </Button>
-      </div>
-      <div className="h-[500px]">
-        <ThemeProvider theme={tableTheme}>
-          <DataGrid
-            rows={nurseRows}
-            columns={columns}
-            initialState={{
-              pagination: {
-                paginationModel: {
-                  pageSize: 10,
-                },
+    <div className="h-[500px] w-full">
+      <ThemeProvider theme={tableTheme}>
+        <DataGrid
+          checkboxSelection
+          rows={nurseRows}
+          columns={columns}
+          initialState={{
+            pagination: {
+              paginationModel: {
+                pageSize: 10,
               },
-            }}
-            pageSizeOptions={[10]}
-            disableRowSelectionOnClick
-          />
-        </ThemeProvider>
-      </div>
-      <div className="flex items-center justify-end gap-4 mt-5">
-        <Button variant={'outline'} size={'lg'}>
-          Edit
-        </Button>
-        <Button variant={'default'} size={'lg'}>
-          Schedule
-        </Button>
-      </div>
+            },
+          }}
+          pageSizeOptions={[10]}
+          disableRowSelectionOnClick
+        />
+      </ThemeProvider>
     </div>
   );
 };

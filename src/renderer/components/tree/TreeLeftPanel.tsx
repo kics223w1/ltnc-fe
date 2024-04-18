@@ -43,12 +43,6 @@ const TreeLeftPanel = () => {
           MAIN_VIEW_TAB.PATIENT_BILLING,
           MAIN_VIEW_TAB.PATIENT_BOOKING,
         ]}
-        icons={[
-          ICON_SVG.TABLE_CELL_1,
-          ICON_SVG.TABLE_CELL_1,
-          ICON_SVG.TABLE_CELL_1,
-          ICON_SVG.TABLE_CELL_1,
-        ]}
         title={'Patient'}
         setCurrentTab={handleSetCurrentTab}
         currentTab={currentTab}
@@ -61,13 +55,18 @@ const TreeLeftPanel = () => {
           MAIN_VIEW_TAB.OTHER_STAFFS_INFORMATION,
           MAIN_VIEW_TAB.STAFF_MANAGEMENT,
         ]}
-        icons={[
-          ICON_SVG.TABLE_CELL_1,
-          ICON_SVG.TABLE_CELL_1,
-          ICON_SVG.TABLE_CELL_1,
-          ICON_SVG.TABLE_CELL_1,
-        ]}
         title={'Staff'}
+        setCurrentTab={handleSetCurrentTab}
+        currentTab={currentTab}
+      ></ParentNode>
+
+      <ParentNode
+        tabs={[
+          MAIN_VIEW_TAB.ADMIN_DOCTOR_DASHBOARD,
+          MAIN_VIEW_TAB.ADMIN_NURSE_DASHBOARD,
+          MAIN_VIEW_TAB.ADMIN_OTHER_STAFF_DASHBOARD,
+        ]}
+        title={'Admin'}
         setCurrentTab={handleSetCurrentTab}
         currentTab={currentTab}
       ></ParentNode>
