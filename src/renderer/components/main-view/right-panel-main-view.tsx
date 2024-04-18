@@ -7,6 +7,8 @@ import OtherStaffTable from '../table/OtherStaffTable';
 import PatientAppointment from '../patient/PatientAppointment';
 import DoctorList from '../staff/DoctorList';
 import PatientBooking from '../patient/PatientBooking';
+import PatientHistory from '../patient/PatientHistory';
+import PatientBilling from '../patient/PatientBilling';
 
 const RightPanelMainView = () => {
   const [currentTab, setCurrentTab] = useState(MAIN_VIEW_TAB.DOCTOR_LIST);
@@ -29,11 +31,9 @@ const RightPanelMainView = () => {
 
   return (
     <div className="w-full h-full flex flex-col">
-      <div className="w-full h-full flex flex-col">
-        <HeaderRightPanel />
-        {buildView(currentTab)}
-      </div>
-      <div className="w-full h-12 border-t border-border"></div>
+      <HeaderRightPanel />
+      <div className="w-full h-[calc(100%-96px)]">{buildView(currentTab)}</div>
+      <div className="flex flex-shrink-0 w-full h-12 border-t border-border"></div>
     </div>
   );
 };
@@ -50,6 +50,10 @@ const buildView = (tab: MAIN_VIEW_TAB) => {
       return <PatientAppointment />;
     case MAIN_VIEW_TAB.PATIENT_BOOKING:
       return <PatientBooking />;
+    case MAIN_VIEW_TAB.PATIENT_HISTORY:
+      return <PatientHistory />;
+    case MAIN_VIEW_TAB.PATIENT_BILLING:
+      return <PatientBilling />;
     default:
       return <></>;
   }

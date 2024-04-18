@@ -6,7 +6,7 @@ import IconSVG from '../utils/icon-svg';
 
 const HeaderRightPanel = () => {
   return (
-    <div className="flex items-center justify-end w-full h-12 border-b border-border px-4 pt-1 gap-2">
+    <div className="flex flex-shrink-0 items-center justify-end w-full h-12 border-b border-border px-4 pt-1 gap-2">
       <Button
         variant={'default'}
         size={'sm'}

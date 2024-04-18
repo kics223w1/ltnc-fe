@@ -24,10 +24,10 @@ module.exports = {
       },
     },
     fontFamily: {
-      custom: ['Custom Font'],
-      customBold: ['Custom Font Bold'],
-      customSemiBold: ['Custom Font SemiBold'],
-      customMedium: ['Custom Font Medium'],
+      sfProBold: ['SF-Pro-Bold'],
+      sfProSemiBold: ['SF-Pro-SemiBold'],
+      sfProMedium: ['SF-Pro-Medium'],
+      sfProRegular: ['SF-Pro-Regular'],
     },
     extend: {
       colors: {
@@ -67,9 +67,9 @@ module.exports = {
         },
       },
       borderRadius: {
-        lg: `10px`,
-        md: `6px`,
-        sm: '4px',
+        lg: `8px`,
+        md: `4px`,
+        sm: '2px',
       },
       keyframes: {
         'accordion-down': {
