@@ -29,11 +29,9 @@ const RightPanelMainView = () => {
 
   return (
     <div className="w-full h-full flex flex-col">
-      <div className="w-full h-full flex flex-col">
-        <HeaderRightPanel />
-        {buildView(currentTab)}
-      </div>
-      <div className="w-full h-12 border-t border-border"></div>
+      <HeaderRightPanel />
+      <div className="w-full h-[calc(100%-96px)]">{buildView(currentTab)}</div>
+      <div className="flex flex-shrink-0 w-full h-12 border-t border-border"></div>
     </div>
   );
 };

@@ -59,6 +59,34 @@ body {
   font-family: 'SF-Pro-Regular';
 }
 
+@font-face {
+  font-family: 'SF-Pro-Regular';
+  src: url('../../assets/fonts/SF-Pro-Text-Regular.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'SF-Pro-Medium';
+  src: url('../../assets/fonts/SF-Pro-Text-Medium.ttf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'SF-Pro-SemiBold';
+  src: url('../../assets/fonts/SF-Pro-Text-SemiBold.ttf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'SF-Pro-Bold';
+  src: url('../../assets/fonts/SF-Pro-Text-Bold.ttf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
 span {
   @apply select-none;
 }
