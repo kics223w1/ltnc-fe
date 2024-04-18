@@ -1,15 +1,15 @@
 import { useEffect, useState } from 'react';
 import HeaderRightPanel from '../header/HeaderRightPanel';
 import { EVENTS_FROM_MAIN_PROCESS, MAIN_VIEW_TAB } from '/main/models/constant';
-import StaffInformationTab from '../staff/StaffInformationTab';
 import DoctorTable from '../table/DoctorTable';
 import NurseTable from '../table/NurseTable';
 import OtherStaffTable from '../table/OtherStaffTable';
+import PatientAppointment from '../patient/PatientAppointment';
+import DoctorList from '../staff/DoctorList';
+import PatientBooking from '../patient/PatientBooking';
 
 const RightPanelMainView = () => {
-  const [currentTab, setCurrentTab] = useState(
-    MAIN_VIEW_TAB.DOCTOR_INFORMATION
-  );
+  const [currentTab, setCurrentTab] = useState(MAIN_VIEW_TAB.DOCTOR_LIST);
 
   useEffect(() => {
     const ipcListener1 = window.electron.ipcRenderer.on(
@@ -31,15 +31,28 @@ const RightPanelMainView = () => {
     <div className="w-full h-full flex flex-col">
       <div className="w-full h-full flex flex-col">
         <HeaderRightPanel />
-        {currentTab === MAIN_VIEW_TAB.DOCTOR_INFORMATION && <DoctorTable />}
-        {currentTab === MAIN_VIEW_TAB.NURSE_INFORMATION && <NurseTable />}
-        {currentTab === MAIN_VIEW_TAB.OTHER_STAFFS_INFORMATION && (
-          <OtherStaffTable />
-        )}
+        {buildView(currentTab)}
       </div>
       <div className="w-full h-12 border-t border-border"></div>
     </div>
   );
+};
+
+const buildView = (tab: MAIN_VIEW_TAB) => {
+  switch (tab) {
+    case MAIN_VIEW_TAB.DOCTOR_LIST:
+      return <DoctorList />;
+    case MAIN_VIEW_TAB.NURSE_INFORMATION:
+      return <NurseTable />;
+    case MAIN_VIEW_TAB.OTHER_STAFFS_INFORMATION:
+      return <OtherStaffTable />;
+    case MAIN_VIEW_TAB.PATIENT_APPOINTMENT:
+      return <PatientAppointment />;
+    case MAIN_VIEW_TAB.PATIENT_BOOKING:
+      return <PatientBooking />;
+    default:
+      return <></>;
+  }
 };
 
 export default RightPanelMainView;
