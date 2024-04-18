@@ -7,6 +7,8 @@ import OtherStaffTable from '../table/OtherStaffTable';
 import PatientAppointment from '../patient/PatientAppointment';
 import DoctorList from '../staff/DoctorList';
 import PatientBooking from '../patient/PatientBooking';
+import PatientHistory from '../patient/PatientHistory';
+import PatientBilling from '../patient/PatientBilling';
 
 const RightPanelMainView = () => {
   const [currentTab, setCurrentTab] = useState(MAIN_VIEW_TAB.DOCTOR_LIST);
@@ -48,6 +50,10 @@ const buildView = (tab: MAIN_VIEW_TAB) => {
       return <PatientAppointment />;
     case MAIN_VIEW_TAB.PATIENT_BOOKING:
       return <PatientBooking />;
+    case MAIN_VIEW_TAB.PATIENT_HISTORY:
+      return <PatientHistory />;
+    case MAIN_VIEW_TAB.PATIENT_BILLING:
+      return <PatientBilling />;
     default:
       return <></>;
   }
