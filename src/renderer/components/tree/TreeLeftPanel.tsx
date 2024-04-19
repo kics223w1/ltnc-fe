@@ -65,6 +65,7 @@ const TreeLeftPanel = () => {
           MAIN_VIEW_TAB.ADMIN_DOCTOR_DASHBOARD,
           MAIN_VIEW_TAB.ADMIN_NURSE_DASHBOARD,
           MAIN_VIEW_TAB.ADMIN_OTHER_STAFF_DASHBOARD,
+          MAIN_VIEW_TAB.ADMIN_MACHINE_DASHBOARD,
         ]}
         title={'Admin'}
         setCurrentTab={handleSetCurrentTab}
