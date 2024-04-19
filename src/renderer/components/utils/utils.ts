@@ -24,6 +24,8 @@ export const getTabTitle = (tab: MAIN_VIEW_TAB): string => {
       return 'Nurse Dashboard';
     case MAIN_VIEW_TAB.ADMIN_OTHER_STAFF_DASHBOARD:
       return 'Other Staff Dashboard';
+    case MAIN_VIEW_TAB.ADMIN_MACHINE_DASHBOARD:
+      return 'Machine Dashboard';
     default:
       return '';
   }

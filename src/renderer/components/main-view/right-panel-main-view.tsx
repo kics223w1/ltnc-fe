@@ -12,6 +12,7 @@ import AdminDoctorDashboard from '../admin/AdminDoctorDashboard';
 import OtherStaffList from '../staff/OtherStaffList';
 import AdminNurseDashboard from '../admin/AdminNurseDashboard';
 import AdminOtherStaffDashboard from '../admin/AdminOtherStaffDashboard';
+import AdminMachineDashboard from '../admin/AdminMachineDashboard';
 
 const RightPanelMainView = () => {
   const [currentTab, setCurrentTab] = useState(MAIN_VIEW_TAB.DOCTOR_LIST);
@@ -63,6 +64,8 @@ const buildView = (tab: MAIN_VIEW_TAB) => {
       return <AdminNurseDashboard />;
     case MAIN_VIEW_TAB.ADMIN_OTHER_STAFF_DASHBOARD:
       return <AdminOtherStaffDashboard />;
+    case MAIN_VIEW_TAB.ADMIN_MACHINE_DASHBOARD:
+      return <AdminMachineDashboard />;
     default:
       return <></>;
   }

@@ -18,7 +18,7 @@ import DialogSignUpContent from '../dialog/SignUpContent';
 
 const HeaderRightPanel = () => {
   return (
-    <div className="flex flex-shrink-0 items-center justify-end w-full h-12 border-b border-border px-4 pt-1 gap-2">
+    <div className="flex flex-shrink-0 items-center w-full h-12 border-b border-border px-4 pt-1 gap-2">
       <Dialog>
         <DialogTrigger asChild>
           <Button variant={'outline'} size={'sm'} className="px-5 mr-1">
@@ -36,10 +36,6 @@ const HeaderRightPanel = () => {
         </DialogTrigger>
         <DialogSignInContent />
       </Dialog>
-
-      <Button variant={'ghost'} size={'icon'}>
-        <IconSVG iconName={ICON_SVG.BELL} css="w-4 h-4" style={{}} />
-      </Button>
     </div>
   );
 };
