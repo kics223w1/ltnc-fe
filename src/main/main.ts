@@ -18,6 +18,7 @@ import { listenEventsFromRendererProcess } from '.';
 import machineService from './service/machine-service';
 import networkService from './service/network-service';
 import doctorService from './service/doctor-service';
+import managementService from './service/management-service';
 
 let mainWindow: BrowserWindow | null = null;
 

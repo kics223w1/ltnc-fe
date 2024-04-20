@@ -2,6 +2,7 @@ import axios from 'axios';
 import { HttpProxyAgent } from 'http-proxy-agent';
 import { HttpsProxyAgent } from 'https-proxy-agent';
 import Doctor from '../models/doctor';
+import Examination from '../models/examination';
 
 class NetworkService {
   private instance: any;
@@ -16,6 +17,16 @@ class NetworkService {
       httpAgent: new HttpProxyAgent(`http://192.168.0.101:9090}`),
       httpsAgent: new HttpsProxyAgent(`https://192.168.0.101:9090`),
     });
+  }
+
+  public async getExaminations(userID: string): Promise<Examination[]> {
+    try {
+      const response = await this.instance.get(`/examinations/${userID}`);
+      const obj: { examinations: Examination[] } = response.data;
+      return obj.examinations;
+    } catch (e) {
+      return [];
+    }
   }
 
   public async getDoctors(): Promise<Doctor[]> {

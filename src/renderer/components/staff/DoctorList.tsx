@@ -10,7 +10,7 @@ import DoctorTable from '../table/DoctorTable';
 const DoctorList = () => {
   return (
     <div className="flex flex-col pt-10 px-12 w-full h-full">
-      <DoctorTable />
+      {/* <DoctorTable /> */}
 
       <div className="flex items-center justify-end gap-4 mt-5">
         <TooltipProvider>
