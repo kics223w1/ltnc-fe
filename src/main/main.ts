@@ -16,9 +16,7 @@ import { getOSPlatform, resolveHtmlPath } from './utils';
 import notificationService from './service/notification-service';
 import { listenEventsFromRendererProcess } from '.';
 import machineService from './service/machine-service';
-import networkService from './service/network-service';
-import doctorService from './service/doctor-service';
-import managementService from './service/management-service';
+import userService from './service/user-service';
 
 let mainWindow: BrowserWindow | null = null;
 
@@ -107,7 +105,7 @@ const createWindow = async () => {
     // For the data can be lazy loading, let's load if after the mainWindow is opened
     if (mainWindow) {
       await Promise.all([
-        doctorService.loadDataAtLaunch(),
+        userService.loadDataAtLaunch(),
         machineService.loadDataAtLaunch(),
       ]);
     }

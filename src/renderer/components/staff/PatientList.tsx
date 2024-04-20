@@ -1,19 +1,19 @@
 import { useState } from 'react';
 import { Button } from '/~/components/ui/button';
 import { useToast } from '/~/components/ui/use-toast';
-import NurseTable from '../table/NurseTable';
-import Nurse from '../../../main/models/nurse';
+import PatientTable from '../table/PatientTable';
+import Patient from '../../../main/models/patient';
 
-const NurseList = () => {
-  const [selectedNurses, setSelectedNurses] = useState<Nurse[]>([]);
+const PatientList = () => {
+  const [selectedPatients, setSelectedPatients] = useState<Patient[]>([]);
   const { toast } = useToast();
 
   const handleSchedule = () => {
-    if (selectedNurses.length === 0) {
+    if (selectedPatients.length === 0) {
       toast({
         variant: 'destructive',
-        title: 'Chưa chọn y tá',
-        description: 'Vui lòng chọn ít nhất một y tá để xem lịch khám',
+        title: 'Chưa chọn bệnh nhân',
+        description: 'Vui lòng chọn ít nhất một bệnh nhân để xem lịch khám',
       });
       return;
     }
@@ -27,10 +27,10 @@ const NurseList = () => {
             Xem lịch khám
           </Button>
         </div>
-        <NurseTable setSelectedNurses={setSelectedNurses} />
+        <PatientTable setSelectedPatients={setSelectedPatients} />
       </div>
     </div>
   );
 };
 
-export default NurseList;
+export default PatientList;

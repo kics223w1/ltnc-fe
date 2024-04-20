@@ -2,8 +2,8 @@ import { ROLE } from './constants';
 import Examination from './examination';
 import User from './user';
 
-class Patient extends User {
-  private examinations: Examination[];
+class Nurse extends User {
+  public examinations: Examination[];
 
   constructor(
     userId: string,
@@ -28,7 +28,7 @@ class Patient extends User {
       phone,
       email,
       CID,
-      ROLE.PATIENT,
+      ROLE.NURSE,
       createdAt,
       updatedAt,
       deletedAt,
@@ -37,14 +37,6 @@ class Patient extends User {
 
     this.examinations = [];
   }
-
-  getExaminations(): Examination[] {
-    return this.examinations;
-  }
-
-  setExaminations(examinations: Examination[]): void {
-    this.examinations = examinations;
-  }
 }
 
-export default Patient;
+export default Nurse;

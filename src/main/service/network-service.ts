@@ -4,6 +4,7 @@ import { HttpsProxyAgent } from 'https-proxy-agent';
 import Doctor from '../models/doctor';
 import Examination from '../models/examination';
 import Patient from '../models/patient';
+import Nurse from '../models/nurse';
 
 const host = '192.168.0.100';
 const port = 9090;
@@ -35,9 +36,9 @@ class NetworkService {
 
   public async getDoctors(): Promise<Doctor[]> {
     try {
-      const response = await this.instance.get('/doctors');
+      const response = await this.instance.get('/users/doctor');
       const obj: { doctors: Doctor[] } = response.data;
-      return obj.doctors;
+      return obj.doctors ? obj.doctors : [];
     } catch (e) {
       return [];
     }
@@ -45,9 +46,19 @@ class NetworkService {
 
   public async getPatients(): Promise<Patient[]> {
     try {
-      const response = await this.instance.get('/patients');
+      const response = await this.instance.get('/users/patient');
       const obj: { patients: Patient[] } = response.data;
-      return obj.patients;
+      return obj.patients ? obj.patients : [];
+    } catch (e) {
+      return [];
+    }
+  }
+
+  public async getNurses(): Promise<Doctor[]> {
+    try {
+      const response = await this.instance.get('/users/nurse');
+      const obj: { nurse: Nurse[] } = response.data;
+      return obj.nurse ? obj.nurse : [];
     } catch (e) {
       return [];
     }

@@ -1,23 +1,24 @@
 import Doctor from '../../main/models/doctor';
+import User from '../../main/models/user';
 
-class DoctorTableModel {
+class UserTableModel {
   constructor() {}
 
-  public convertToRows(doctors: Doctor[]) {
-    return doctors.flatMap((doctor) => {
-      return [this.convertToRow(doctor)];
+  public convertToRows(users: User[]) {
+    return users.flatMap((user) => {
+      return [this.convertToRow(user)];
     });
   }
 
-  public convertToRow(doctor: Doctor) {
+  public convertToRow(user: User) {
     return {
-      id: doctor.userId,
-      usedId: doctor.userId,
-      userName: doctor.userName,
-      role: doctor.role,
-      phone: doctor.phone,
-      email: doctor.email,
-      dateOfBirth: doctor.dateOfBirth,
+      id: user.userId,
+      usedId: user.userId,
+      userName: user.userName,
+      role: user.role,
+      phone: user.phone,
+      email: user.email,
+      dateOfBirth: user.dateOfBirth,
     };
   }
 
@@ -57,4 +58,4 @@ class DoctorTableModel {
   }
 }
 
-export default DoctorTableModel;
+export default UserTableModel;

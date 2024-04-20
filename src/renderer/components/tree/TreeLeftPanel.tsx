@@ -51,7 +51,7 @@ const TreeLeftPanel = () => {
       <ParentNode
         tabs={[
           MAIN_VIEW_TAB.DOCTOR_LIST,
-          MAIN_VIEW_TAB.NURSE_INFORMATION,
+          MAIN_VIEW_TAB.NURSE_LIST,
           MAIN_VIEW_TAB.PATIENT_LIST,
           MAIN_VIEW_TAB.STAFF_MANAGEMENT,
         ]}

@@ -7,14 +7,15 @@ import { Button } from '../../../~/components/ui/button';
 import { ReloadIcon } from '@radix-ui/react-icons';
 import { USER_SERVICE } from '../../../main/models/constants';
 import UserTableModel from '../../models/doctor-table-model';
+import Patient from '../../../main/models/patient';
 
 const model = new UserTableModel();
 
 type Params = {
-  setSelectedDoctors: (doctor: Doctor[]) => void;
+  setSelectedPatients: (patients: Patient[]) => void;
 };
 
-const DoctorTable = ({ setSelectedDoctors }: Params) => {
+const PatientTable = ({ setSelectedPatients }: Params) => {
   const { theme, setTheme } = useTheme();
   const tableTheme = createTheme({
     palette: {
@@ -24,18 +25,18 @@ const DoctorTable = ({ setSelectedDoctors }: Params) => {
 
   const columns = model.getColumns();
 
-  const [doctors, setDoctors] = useState<Doctor[]>([]);
+  const [patients, setPatients] = useState<Patient[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [rows, setRows] = useState<any[]>([]);
 
   useEffect(() => {
     const setup = async () => {
-      const newDoctors: Doctor[] = await handleGetDoctors();
-      if (newDoctors.length === 0) {
-        handleReloadDoctors();
+      const newPatients: Patient[] = await handleGetPatients();
+      if (newPatients.length === 0) {
+        handleReloadPatients();
         return;
       }
-      setDoctors(newDoctors);
+      setPatients(newPatients);
     };
 
     setup();
@@ -43,37 +44,41 @@ const DoctorTable = ({ setSelectedDoctors }: Params) => {
 
   useEffect(() => {
     try {
-      const newRows = model.convertToRows(doctors);
+      const newRows = model.convertToRows(patients);
       setRows(newRows);
     } catch (e) {
       setRows([]);
       console.error(e);
     }
-  }, [doctors]);
+  }, [patients]);
 
-  const handleGetDoctors = async () => {
+  const handleGetPatients = async () => {
     return await window.electron.ipcRenderer.invoke(
-      USER_SERVICE.GET_DOCTORS,
+      USER_SERVICE.GET_PATIENTS,
       {}
     );
   };
 
-  const handleReloadDoctors = async () => {
+  const handleReloadPatients = async () => {
     setIsLoading(true);
-    const newDoctors = await window.electron.ipcRenderer.invoke(
-      USER_SERVICE.RELOAD_DOCTORS,
+    const newPatients = await window.electron.ipcRenderer.invoke(
+      USER_SERVICE.RELOAD_PATIENTS,
       {}
     );
 
     setIsLoading(false);
 
-    setDoctors(newDoctors);
+    setPatients(newPatients);
   };
 
   return (
     <div className="flex flex-col gap-2">
       <div className="flex items-center justify-end">
-        <Button variant={'outline'} size={'icon'} onClick={handleReloadDoctors}>
+        <Button
+          variant={'outline'}
+          size={'icon'}
+          onClick={handleReloadPatients}
+        >
           <ReloadIcon className={`${isLoading ? 'animate-spin' : ''}`} />
         </Button>
       </div>
@@ -92,10 +97,10 @@ const DoctorTable = ({ setSelectedDoctors }: Params) => {
               },
             }}
             onRowSelectionModelChange={(params) => {
-              const newSelectedDoctors = doctors.flatMap((doc) =>
+              const newSelected = patients.flatMap((doc) =>
                 params.includes(doc.userId) ? [doc] : []
               );
-              setSelectedDoctors(newSelectedDoctors);
+              setSelectedPatients(newSelected);
             }}
             pageSizeOptions={[10]}
             disableRowSelectionOnClick
@@ -106,4 +111,4 @@ const DoctorTable = ({ setSelectedDoctors }: Params) => {
   );
 };
 
-export default DoctorTable;
+export default PatientTable;
