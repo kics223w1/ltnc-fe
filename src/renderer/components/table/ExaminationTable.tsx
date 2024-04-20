@@ -2,35 +2,34 @@ import { DataGrid } from '@mui/x-data-grid';
 import { useTheme } from '../theme/ThemeProvider';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useEffect, useState } from 'react';
-import { DOCTOR_SERVICE } from '../../../main/models/constants';
-import Doctor from '../../../main/models/doctor';
+import { MANAGEMENT_SERVICE } from '../../../main/models/constants';
 import { Button } from '../../../~/components/ui/button';
 import { ReloadIcon } from '@radix-ui/react-icons';
-import DoctorTableModel from '../../models/doctor-table-model';
+import ExaminationTableModel from '../../models/examination-table-model';
+import Examination from '../../../main/models/examination';
 
-const model = new DoctorTableModel();
+const model = new ExaminationTableModel();
 
 type Params = {
-  setSelectedDoctors: (doctor: Doctor[]) => void;
+  setSelectedExamination: (examination: Examination | undefined) => void;
 };
 
-const DoctorTable = ({ setSelectedDoctors }: Params) => {
+const ExaminationTable = ({ setSelectedExamination }: Params) => {
   const { theme, setTheme } = useTheme();
   const tableTheme = createTheme({
     palette: {
       mode: theme === 'light' ? 'light' : 'dark',
     },
   });
-
   const columns = model.getColumns();
 
-  const [doctors, setDoctors] = useState<Doctor[]>([]);
+  const [examinations, setExaminations] = useState<Examination[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [rows, setRows] = useState<any[]>([]);
 
   useEffect(() => {
     const setup = async () => {
-      handleReloadDoctors();
+      handleReloadExaminations();
     };
 
     setup();
@@ -38,31 +37,35 @@ const DoctorTable = ({ setSelectedDoctors }: Params) => {
 
   useEffect(() => {
     try {
-      const newRows = model.convertToRows(doctors);
+      const newRows = model.convertToRows(examinations);
       setRows(newRows);
     } catch (e) {
       setRows([]);
-
       console.error(e);
     }
-  }, [doctors]);
+  }, [examinations]);
 
-  const handleReloadDoctors = async () => {
+  const handleReloadExaminations = async () => {
     setIsLoading(true);
-    const newDoctors = await window.electron.ipcRenderer.invoke(
-      DOCTOR_SERVICE.RELOAD_DOCTORS,
+
+    const newExaminations = await window.electron.ipcRenderer.invoke(
+      MANAGEMENT_SERVICE.GET_EXAMINATIONS,
       {}
     );
 
     setIsLoading(false);
 
-    setDoctors(newDoctors);
+    setExaminations(newExaminations);
   };
 
   return (
     <div className="flex flex-col gap-2">
       <div className="flex items-center justify-end">
-        <Button variant={'outline'} size={'icon'} onClick={handleReloadDoctors}>
+        <Button
+          variant={'outline'}
+          size={'icon'}
+          onClick={handleReloadExaminations}
+        >
           <ReloadIcon className={`${isLoading ? 'animate-spin' : ''}`} />
         </Button>
       </div>
@@ -81,10 +84,9 @@ const DoctorTable = ({ setSelectedDoctors }: Params) => {
               },
             }}
             onRowSelectionModelChange={(params) => {
-              const newSelectedDoctors = doctors.flatMap((doc) =>
-                params.includes(doc.userId) ? [doc] : []
-              );
-              setSelectedDoctors(newSelectedDoctors);
+              const lastId = params.length > 0 ? params[params.length - 1] : -1;
+              const newSelected = examinations.find((ex) => ex.id === lastId);
+              setSelectedExamination(newSelected);
             }}
             pageSizeOptions={[10]}
             disableRowSelectionOnClick
@@ -95,4 +97,4 @@ const DoctorTable = ({ setSelectedDoctors }: Params) => {
   );
 };
 
-export default DoctorTable;
+export default ExaminationTable;

@@ -11,10 +11,14 @@
 import path from 'path';
 import { app, BrowserWindow, shell, screen, nativeTheme } from 'electron';
 import { getAssetPath } from './models/app-directory';
-import { OS_PLATFORM } from './models/constant';
+import { OS_PLATFORM } from './models/constants';
 import { getOSPlatform, resolveHtmlPath } from './utils';
 import notificationService from './service/notification-service';
 import { listenEventsFromRendererProcess } from '.';
+import machineService from './service/machine-service';
+import networkService from './service/network-service';
+import doctorService from './service/doctor-service';
+import managementService from './service/management-service';
 
 let mainWindow: BrowserWindow | null = null;
 
@@ -102,6 +106,10 @@ const createWindow = async () => {
 
     // For the data can be lazy loading, let's load if after the mainWindow is opened
     if (mainWindow) {
+      await Promise.all([
+        doctorService.loadDataAtLaunch(),
+        machineService.loadDataAtLaunch(),
+      ]);
     }
   });
 

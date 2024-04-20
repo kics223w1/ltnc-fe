@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react';
 import HeaderRightPanel from '../header/HeaderRightPanel';
-import { EVENTS_FROM_MAIN_PROCESS, MAIN_VIEW_TAB } from '/main/models/constant';
+import {
+  EVENTS_FROM_MAIN_PROCESS,
+  MAIN_VIEW_TAB,
+} from '../../../main/models/constants';
 import OtherStaffTable from '../table/OtherStaffTable';
 import PatientAppointment from '../patient/PatientAppointment';
 import DoctorList from '../staff/DoctorList';
@@ -13,6 +16,7 @@ import OtherStaffList from '../staff/OtherStaffList';
 import AdminNurseDashboard from '../admin/AdminNurseDashboard';
 import AdminOtherStaffDashboard from '../admin/AdminOtherStaffDashboard';
 import AdminMachineDashboard from '../admin/AdminMachineDashboard';
+import Management from '../staff/Management';
 
 const RightPanelMainView = () => {
   const [currentTab, setCurrentTab] = useState(MAIN_VIEW_TAB.DOCTOR_LIST);
@@ -50,6 +54,8 @@ const buildView = (tab: MAIN_VIEW_TAB) => {
       return <NurseList />;
     case MAIN_VIEW_TAB.OTHER_STAFFS_INFORMATION:
       return <OtherStaffList />;
+    case MAIN_VIEW_TAB.STAFF_MANAGEMENT:
+      return <Management />;
     case MAIN_VIEW_TAB.PATIENT_APPOINTMENT:
       return <PatientAppointment />;
     case MAIN_VIEW_TAB.PATIENT_BOOKING:

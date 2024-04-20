@@ -1,18 +1,5 @@
 import { Button } from '~/components/ui/button';
-import { openDialog } from '/renderer/ipc-service';
-import { ICON_SVG, WINDOWS } from '/renderer/models/constants';
-import IconSVG from '../utils/icon-svg';
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '/~/components/ui/dialog';
-import { Label } from '/~/components/ui/label';
-import { Input } from '/~/components/ui/input';
+import { Dialog, DialogTrigger } from '/~/components/ui/dialog';
 import DialogSignInContent from '../dialog/SignInContent';
 import DialogSignUpContent from '../dialog/SignUpContent';
 

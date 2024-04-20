@@ -5,7 +5,7 @@ import { Button } from '/~/components/ui/button';
 import {
   EVENTS_FROM_MAIN_PROCESS,
   MAIN_VIEW_TAB,
-} from '../../../main/models/constant';
+} from '../../../main/models/constants';
 
 const columns: any = [
   { field: 'id', headerName: 'ID', width: 90 },

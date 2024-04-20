@@ -1,5 +1,7 @@
-import { ICON_SVG } from '/renderer/models/constants';
-import { EVENTS_FROM_MAIN_PROCESS, MAIN_VIEW_TAB } from '/main/models/constant';
+import {
+  EVENTS_FROM_MAIN_PROCESS,
+  MAIN_VIEW_TAB,
+} from '../../../main/models/constants';
 import { useEffect, useState } from 'react';
 import ParentNode from './ParentNode';
 
