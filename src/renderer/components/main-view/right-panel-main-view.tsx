@@ -62,6 +62,7 @@ const buildView = (tab: MAIN_VIEW_TAB) => {
       return <NurseList />;
     case MAIN_VIEW_TAB.PATIENT_LIST:
       return <PatientList />;
+
     case MAIN_VIEW_TAB.OTHER_STAFFS_INFORMATION:
       return <OtherStaffList />;
     case MAIN_VIEW_TAB.STAFF_MANAGEMENT:
