@@ -8,7 +8,7 @@ export const getTabTitle = (tab: MAIN_VIEW_TAB): string => {
       return 'Danh sách y tá';
     case MAIN_VIEW_TAB.OTHER_STAFFS_INFORMATION:
       return 'Danh sách nhân viên khác';
-    case MAIN_VIEW_TAB.STAFF_MANAGEMENT:
+    case MAIN_VIEW_TAB.MANAGEMENT_EXAMINATION:
       return 'Quản lý ca khám';
     case MAIN_VIEW_TAB.PATIENT_HISTORY:
       return 'Lịch sử khám bệnh';

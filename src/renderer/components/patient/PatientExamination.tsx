@@ -7,6 +7,8 @@ import {
 import ExaminationTable from '../table/ExaminationTable';
 import { useState } from 'react';
 import Examination from '../../../main/models/examination';
+import { Dialog, DialogTrigger } from '../../../~/components/ui/dialog';
+import DetailExamination from '../dialog/DetailExamination';
 
 type Params = {};
 
@@ -41,13 +43,36 @@ const PatientExamination = ({}: Params) => {
         examinations={examinations}
         setSelectedExaminations={setSelectedExaminations}
       />
-      <div className="flex items-center justify-end gap-4 mt-5">
-        <Button variant={'outline'} size={'lg'}>
-          Huỷ lịch
-        </Button>
-        <Button variant={'default'} size={'lg'} onClick={handleNewAppointment}>
-          Đặt lịch
-        </Button>
+      <div className="flex items-center justify-between gap-4 mt-5">
+        <Dialog>
+          <DialogTrigger disabled={selectedExaminations.length === 0}>
+            <Button
+              disabled={selectedExaminations.length === 0}
+              variant={'default'}
+              size={'lg'}
+            >
+              Xem chi tiết
+            </Button>
+          </DialogTrigger>
+          {examinations.length > 0 && (
+            <DetailExamination
+              examination={examinations[examinations.length - 1]}
+            />
+          )}
+        </Dialog>
+
+        <div className="flex items-center gap-4">
+          <Button variant={'outline'} size={'lg'}>
+            Huỷ lịch
+          </Button>
+          <Button
+            variant={'default'}
+            size={'lg'}
+            onClick={handleNewAppointment}
+          >
+            Đặt lịch
+          </Button>
+        </div>
       </div>
     </div>
   );
