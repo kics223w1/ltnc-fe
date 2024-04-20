@@ -26,6 +26,13 @@ export const getTabTitle = (tab: MAIN_VIEW_TAB): string => {
       return 'Quản trị máy móc';
     case MAIN_VIEW_TAB.PATIENT_LIST:
       return 'Danh sách bệnh nhân';
+
+    //   return 'Machine Dashboard';
+    // case MAIN_VIEW_TAB.MACHINE_LIST:
+    //   return 'Machine List';
+    // case MAIN_VIEW_TAB.MEDICINE_LIST:
+    //   return 'Medicine List';
+
     default:
       return '';
   }

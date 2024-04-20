@@ -8,81 +8,96 @@ const columns: any = [
   { field: 'id', headerName: 'ID', width: 90 },
   {
     field: 'name',
-    headerName: 'Full Name',
+    headerName: "Machine's Name",
     width: 150,
   },
   {
-    field: 'dob',
-    headerName: 'Date of Birth',
+    field: 'vendor',
+    headerName: 'Vendor',
+    width: 200,
+  },
+  {
+    field: 'status',
+    headerName: 'Status',
     width: 150,
   },
   {
-    field: 'email',
-    headerName: 'Email',
-    width: 200,
-  },
-  {
-    field: 'phone',
-    headerName: 'Phone Number',
-    width: 200,
-  },
-  {
-    field: 'department',
-    headerName: 'Department',
-    width: 200,
-  },
-  {
-    field: 'degree',
-    headerName: 'Degree',
-    width: 200,
+    field: 'desc',
+    headerName: 'Description',
+    width: 300,
   },
 ];
 
-const doctorRows = [
+const machineRows = [
   {
     id: 1,
-    name: 'John Doe',
-    phone: '1234567890',
-    email: 'sample@gmail.com',
-    dob: '01/01/1990',
-    department: 'Cardiology',
-    degree: 'MBBS',
+    name: 'MRI Machine',
+    vendor: 'ABC Medical',
+    status: 'Operational',
+    desc: 'A powerful imaging machine used for detailed scans.',
   },
   {
     id: 2,
-    name: 'Jane Smith',
-    phone: '9876543210',
-    email: 'example@gmail.com',
-    dob: '01/01/1990',
-    department: 'Pediatrics',
-    degree: 'MD',
+    name: 'X-ray Machine',
+    vendor: 'XYZ Imaging',
+    status: 'Under Maintenance',
+    desc: "Used for producing images of the inside of a patient's body.",
   },
   {
     id: 3,
-    name: 'Michael Johnson',
-    phone: '5555555555',
-    email: 'michael@example.com',
-    dob: '01/01/1990',
-    department: 'Orthopedics',
-    degree: 'MD',
+    name: 'Ultrasound Machine',
+    vendor: 'DEF Technologies',
+    status: 'Operational',
+    desc: 'Utilizes high-frequency sound waves to visualize internal organs.',
   },
   {
     id: 4,
-    name: 'Emily Davis',
-    phone: '9999999999',
-    email: 'emily@example.com',
-    dob: '01/01/1990',
-    department: 'Dermatology',
-    degree: 'MD',
+    name: 'CT Scanner',
+    vendor: 'GHI Medical Solutions',
+    status: 'Operational',
+    desc: 'Produces detailed cross-sectional images of the body.',
   },
   {
     id: 5,
-    name: 'David Wilson',
-    phone: '1111111111',
-    email: 'david@example.com',
-    dob: '01/01/1990',
-    department: 'Ophthalmology',
-    degree: 'MD',
+    name: 'ECG Machine',
+    vendor: 'QRS Healthcare',
+    status: 'Operational',
+    desc: 'Used to record the electrical activity of the heart over time.',
+  },
+  {
+    id: 6,
+    name: 'Ventilator',
+    vendor: 'LMN Technologies',
+    status: 'Operational',
+    desc: 'Assists patients in breathing when they are unable to do so on their own.',
+  },
+  {
+    id: 7,
+    name: 'Anesthesia Machine',
+    vendor: 'OPQ Medical Devices',
+    status: 'Operational',
+    desc: 'Administers anesthetic gases to patients undergoing surgery.',
+  },
+  {
+    id: 8,
+    name: 'Defibrillator',
+    vendor: 'RST Healthcare Solutions',
+    status: 'Operational',
+    desc: 'Used to deliver an electric shock to the heart to restore normal rhythm.',
+  },
+  {
+    id: 9,
+    name: 'Blood Gas Analyzer',
+    vendor: 'UVW Diagnostics',
+    status: 'Under Maintenance',
+    desc: 'Measures the concentration of oxygen and carbon dioxide in blood.',
+  },
+  {
+    id: 10,
+    name: 'Infusion Pump',
+    vendor: 'IJK Medical Devices',
+    status: 'Operational',
+    desc: "Delivers fluids, such as medications or nutrients, into a patient's body in controlled amounts.",
   },
 ];
 
@@ -90,8 +105,6 @@ type Params = {};
 
 const MachineTable = () => {
   const { theme, setTheme } = useTheme();
-
-  useEffect(() => {}, []);
 
   const tableTheme = createTheme({
     palette: {
@@ -104,7 +117,7 @@ const MachineTable = () => {
       <ThemeProvider theme={tableTheme}>
         <DataGrid
           checkboxSelection
-          rows={doctorRows}
+          rows={machineRows}
           columns={columns}
           initialState={{
             pagination: {

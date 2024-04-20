@@ -61,6 +61,13 @@ const TreeLeftPanel = () => {
       ></ParentNode>
 
       <ParentNode
+        tabs={[MAIN_VIEW_TAB.MACHINE_LIST, MAIN_VIEW_TAB.MEDICINE_LIST]}
+        title={'Machine and Medicine'}
+        setCurrentTab={handleSetCurrentTab}
+        currentTab={currentTab}
+      ></ParentNode>
+
+      <ParentNode
         tabs={[
           MAIN_VIEW_TAB.ADMIN_DOCTOR_DASHBOARD,
           MAIN_VIEW_TAB.ADMIN_NURSE_DASHBOARD,
