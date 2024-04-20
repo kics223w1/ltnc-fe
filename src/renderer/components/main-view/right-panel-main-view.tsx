@@ -4,7 +4,6 @@ import {
   EVENTS_FROM_MAIN_PROCESS,
   MAIN_VIEW_TAB,
 } from '../../../main/models/constants';
-import OtherStaffTable from '../table/OtherStaffTable';
 import PatientExamination from '../patient/PatientExamination';
 import DoctorList from '../staff/DoctorList';
 import PatientBooking from '../patient/PatientBooking';
@@ -14,7 +13,6 @@ import NurseList from '../staff/NurseList';
 import AdminDoctorDashboard from '../admin/AdminDoctorDashboard';
 import OtherStaffList from '../staff/OtherStaffList';
 import AdminNurseDashboard from '../admin/AdminNurseDashboard';
-import AdminOtherStaffDashboard from '../admin/AdminOtherStaffDashboard';
 import AdminMachineDashboard from '../admin/AdminMachineDashboard';
 import Management from '../staff/Management';
 import PatientList from '../staff/PatientList';
@@ -76,8 +74,6 @@ const buildView = (tab: MAIN_VIEW_TAB) => {
       return <AdminDoctorDashboard />;
     case MAIN_VIEW_TAB.ADMIN_NURSE_DASHBOARD:
       return <AdminNurseDashboard />;
-    case MAIN_VIEW_TAB.ADMIN_OTHER_STAFF_DASHBOARD:
-      return <AdminOtherStaffDashboard />;
     case MAIN_VIEW_TAB.ADMIN_MACHINE_DASHBOARD:
       return <AdminMachineDashboard />;
     default:

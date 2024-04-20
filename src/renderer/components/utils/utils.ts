@@ -22,8 +22,6 @@ export const getTabTitle = (tab: MAIN_VIEW_TAB): string => {
       return 'Quản trị bác sĩ';
     case MAIN_VIEW_TAB.ADMIN_NURSE_DASHBOARD:
       return 'Quản trị y tá';
-    case MAIN_VIEW_TAB.ADMIN_OTHER_STAFF_DASHBOARD:
-      return 'Quản trị nhân viên khác';
     case MAIN_VIEW_TAB.ADMIN_MACHINE_DASHBOARD:
       return 'Quản trị máy móc';
     case MAIN_VIEW_TAB.PATIENT_LIST:

@@ -36,6 +36,8 @@ const PatientBooking = () => {
     undefined
   );
 
+  const [isInternal, setIsInternal] = useState<boolean>(true);
+
   useEffect(() => {
     if (selectedDoctors.length === 0) {
       setSelectedDoctor(undefined);
@@ -47,7 +49,7 @@ const PatientBooking = () => {
 
   return (
     <div className="w-full h-full flex flex-col gap-3 px-12 pt-10 pb-10 overflow-auto">
-      <div className="flex items-center gap-4 w-full">
+      <div className="flex items-center gap-20 w-full">
         <span className="text-base font-sfProSemiBold flex flex-shrink-0">
           Chọn ngày khám
         </span>
@@ -56,9 +58,25 @@ const PatientBooking = () => {
 
       <div className="relative">
         <div className="flex items-center gap-3 absolute">
-          <span className="text-base font-sfProSemiBold">Chọn khoa khám: </span>
-          <Button variant={'outline'}>Khoa Ngoại</Button>
-          <Button variant={'outline'}>Khoa Nội</Button>
+          <span className="text-base font-sfProSemiBold">
+            Chọn khoa khám và bác sĩ:{' '}
+          </span>
+          <Button
+            variant={isInternal ? 'outline' : 'default'}
+            onClick={() => {
+              setIsInternal(false);
+            }}
+          >
+            Khoa Ngoại
+          </Button>
+          <Button
+            variant={isInternal ? 'default' : 'outline'}
+            onClick={() => {
+              setIsInternal(true);
+            }}
+          >
+            Khoa Nội
+          </Button>
         </div>
         <DoctorTable setSelectedDoctors={setSelectedDoctors} />
       </div>

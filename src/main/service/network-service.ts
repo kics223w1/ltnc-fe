@@ -4,7 +4,7 @@ import { HttpsProxyAgent } from 'https-proxy-agent';
 import Doctor from '../models/doctor';
 import Examination from '../models/examination';
 import Patient from '../models/patient';
-import Nurse from '../models/nurse';
+import Medicine from '../models/medicine';
 
 const host = '192.168.0.100';
 const port = 9090;
@@ -27,8 +27,7 @@ class NetworkService {
   public async getExaminations(userID: string): Promise<Examination[]> {
     try {
       const response = await this.instance.get(`/examinations/${userID}`);
-      const obj: { examinations: Examination[] } = response.data;
-      return obj.examinations;
+      return response.data ? response.data : [];
     } catch (e) {
       return [];
     }
@@ -37,8 +36,7 @@ class NetworkService {
   public async getDoctors(): Promise<Doctor[]> {
     try {
       const response = await this.instance.get('/users/doctor');
-      const obj: { doctors: Doctor[] } = response.data;
-      return obj.doctors ? obj.doctors : [];
+      return response.data ? response.data : [];
     } catch (e) {
       return [];
     }
@@ -47,8 +45,7 @@ class NetworkService {
   public async getPatients(): Promise<Patient[]> {
     try {
       const response = await this.instance.get('/users/patient');
-      const obj: { patients: Patient[] } = response.data;
-      return obj.patients ? obj.patients : [];
+      return response.data ? response.data : [];
     } catch (e) {
       return [];
     }
@@ -57,8 +54,16 @@ class NetworkService {
   public async getNurses(): Promise<Doctor[]> {
     try {
       const response = await this.instance.get('/users/nurse');
-      const obj: { nurse: Nurse[] } = response.data;
-      return obj.nurse ? obj.nurse : [];
+      return response.data ? response.data : [];
+    } catch (e) {
+      return [];
+    }
+  }
+
+  public async getMedicines(): Promise<Medicine[]> {
+    try {
+      const response = await this.instance.get('/medicine');
+      return response.data ? response.data : [];
     } catch (e) {
       return [];
     }
