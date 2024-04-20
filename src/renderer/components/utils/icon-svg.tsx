@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useTheme } from '../theme/ThemeProvider';
-import { ICON_SVG } from '/renderer/models/constants';
+import { ICON_SVG } from '../../../main/models/constantss';
 
 type props = {
   id?: string;

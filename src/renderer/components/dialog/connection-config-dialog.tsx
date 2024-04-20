@@ -5,7 +5,7 @@ import {
 } from '/~/components/ui/dropdown-menu';
 
 import React from 'react';
-import { CONNECTION_FORM } from '/renderer/models/constants';
+import { CONNECTION_FORM } from '../../../main/models/constantss';
 
 const renderForm = (connectionForm: CONNECTION_FORM) => {
   switch (connectionForm) {

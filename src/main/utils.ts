@@ -1,5 +1,5 @@
 import path from 'path';
-import { OS_PLATFORM } from './models/constant';
+import { OS_PLATFORM } from './models/constants';
 
 export let resolveHtmlPath: (htmlFileName: string) => string;
 

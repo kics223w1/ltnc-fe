@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { Button } from '../../../~/components/ui/button';
 import { Input } from '../../../~/components/ui/input';
 import {
@@ -11,63 +12,61 @@ import {
 import DatePickerWithPresets from '../date-picker/DatePickerWithPresets';
 import DoctorTable from '../table/DoctorTable';
 import BookingBox from './BookingBox';
+import Doctor from '../../../main/models/doctor';
+import Examination from '../../../main/models/examination';
 
-const data = [
-  {
-    doctorName: 'Dr. John Doe',
-    time: 'Apr 19, 2024 · 10:00 PM - 11:00 PM',
-    imageSrc:
-      'https://camblyavatars.s3.amazonaws.com/6143a8bdbfabaaaeca1770a6s200?h=7532edab237dd4ebbb9464c62a407168',
-  },
-  {
-    doctorName: 'Dr. Jane Smith',
-    time: 'Apr 20, 2024 · 9:00 AM - 10:00 AM',
-    imageSrc:
-      'https://camblyavatars.s3.amazonaws.com/6143a8bdbfabaaaeca1770a6s200?h=7532edab237dd4ebbb9464c62a407168',
-  },
-  {
-    doctorName: 'Dr. Mark Johnson',
-    time: 'Apr 20, 2024 · 11:00 AM - 12:00 PM',
-    imageSrc:
-      'https://camblyavatars.s3.amazonaws.com/6143a8bdbfabaaaeca1770a6s200?h=7532edab237dd4ebbb9464c62a407168',
-  },
-  {
-    doctorName: 'Dr. Sarah Davis',
-    time: 'Apr 20, 2024 · 2:00 PM - 3:00 PM',
-    imageSrc:
-      'https://camblyavatars.s3.amazonaws.com/6143a8bdbfabaaaeca1770a6s200?h=7532edab237dd4ebbb9464c62a407168',
-  },
+const times = [
+  '7 AM - 8 AM',
+  '8 AM - 9 AM',
+  '9 AM - 10 AM',
+  '10 AM - 11 AM',
+  '11 AM - 12 PM',
+  '12 PM - 1 PM',
+  '1 PM - 2 PM',
+  '2 PM - 3 PM',
+  '3 PM - 4 PM',
+  '4 PM - 5 PM',
 ];
 
-const data2 = [...data, ...data, ...data, ...data, ...data, ...data];
-
 const PatientBooking = () => {
+  const [selectedDoctors, setSelectedDoctors] = useState<Doctor[]>([]);
+
+  const [examinations, setExaminations] = useState<Examination[]>([]);
+  const [selectedDoctor, setSelectedDoctor] = useState<Doctor | undefined>(
+    undefined
+  );
+
+  useEffect(() => {
+    if (selectedDoctors.length === 0) {
+      setSelectedDoctor(undefined);
+      return;
+    }
+
+    setSelectedDoctor(selectedDoctors[selectedDoctors.length - 1]);
+  }, [selectedDoctors]);
+
   return (
-    <div className="w-full h-full flex flex-col gap-3 px-44 pt-10 pb-10  overflow-auto">
-      <div className="flex items-center justify-between gap-5">
-        <DatePickerWithPresets css="w-full" />
-        <div className="flex items-center gap-2">
-          <Button variant={'outline'}>Button 2</Button>
-          <Button variant={'outline'}>Button 1</Button>
-        </div>
+    <div className="w-full h-full flex flex-col gap-3 px-12 pt-10 pb-10 overflow-auto relative">
+      <div className="flex items-center gap-3 absolute">
+        <span className="text-base font-sfProSemiBold">Chọn khoa khám: </span>
+        <Button variant={'outline'}>Khoa Ngoại</Button>
+        <Button variant={'outline'}>Khoa Nội</Button>
       </div>
 
-      <div className="flex items-center justify-between gap-5 mb-2">
-        <Input className="w-full" placeholder="Find your doctor..." />
-        <Button variant={'outline'}>Button 1</Button>
-      </div>
+      <DoctorTable setSelectedDoctors={setSelectedDoctors} />
 
-      <div className="flex flex-col gap-5">
-        {data2.map((item, index) => {
-          return (
-            <BookingBox
-              key={index}
-              doctorName={item.doctorName}
-              time={item.time}
-              imageSrc={item.imageSrc}
-            />
-          );
-        })}
+      <div className="w-full h-px bg-border my-5">
+        <DatePickerWithPresets css="w-full mt-5" />
+
+        {selectedDoctor !== undefined && (
+          <div className="flex flex-col gap-5 mt-5 pb-10">
+            {times.map((time) => {
+              return (
+                <BookingBox doctorName={selectedDoctor.userName} time={time} />
+              );
+            })}
+          </div>
+        )}
       </div>
     </div>
   );

@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react';
 import HeaderRightPanel from '../header/HeaderRightPanel';
-import { EVENTS_FROM_MAIN_PROCESS, MAIN_VIEW_TAB } from '/main/models/constant';
+import {
+  EVENTS_FROM_MAIN_PROCESS,
+  MAIN_VIEW_TAB,
+} from '../../../main/models/constants';
 import OtherStaffTable from '../table/OtherStaffTable';
 import PatientAppointment from '../patient/PatientAppointment';
 import DoctorList from '../staff/DoctorList';

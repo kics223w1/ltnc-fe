@@ -7,7 +7,7 @@ import {
 import { useTheme } from './ThemeProvider';
 import { Button } from '/~/components/ui/button';
 import IconSVG from '../utils/icon-svg';
-import { ICON_SVG } from '/renderer/models/constants';
+import { ICON_SVG } from '../../../main/models/constantss';
 
 export function ModeToggle() {
   const { theme, setTheme } = useTheme();

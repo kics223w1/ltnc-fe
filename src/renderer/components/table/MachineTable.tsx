@@ -1,6 +1,8 @@
 import { DataGrid } from '@mui/x-data-grid';
 import { useTheme } from '../theme/ThemeProvider';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { useEffect } from 'react';
+import networkService from '../../../main/service/network-service';
 
 const columns: any = [
   { field: 'id', headerName: 'ID', width: 90 },
@@ -88,6 +90,8 @@ type Params = {};
 
 const MachineTable = () => {
   const { theme, setTheme } = useTheme();
+
+  useEffect(() => {}, []);
 
   const tableTheme = createTheme({
     palette: {

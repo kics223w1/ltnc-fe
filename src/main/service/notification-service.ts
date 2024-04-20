@@ -3,8 +3,8 @@ import {
   EVENTS_FROM_MAIN_PROCESS,
   MAIN_VIEW_TAB,
   NOTIFICATION_SERVICE,
-} from '../models/constant';
-import { WINDOWS } from '/renderer/models/constants';
+} from '../models/constants';
+import { WINDOWS } from '../models/constantss';
 
 class NotificationService {
   private mainWindow: BrowserWindow | undefined;

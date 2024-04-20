@@ -1,5 +1,4 @@
-import { MAIN_VIEW_TAB } from '../../../main/models/constant';
-import { ICON_SVG } from '../../models/constants';
+import { ICON_SVG, MAIN_VIEW_TAB } from '../../../main/models/constants';
 import IconSVG from '../utils/icon-svg';
 import ChildrenNode from './ChildrenNode';
 

@@ -1,118 +1,96 @@
 import { DataGrid } from '@mui/x-data-grid';
 import { useTheme } from '../theme/ThemeProvider';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { useEffect, useState } from 'react';
+import { DOCTOR_SERVICE } from '../../../main/models/constants';
+import Doctor from '../../../main/models/doctor';
+import { Button } from '../../../~/components/ui/button';
+import { ReloadIcon } from '@radix-ui/react-icons';
+import DoctorTableModel from '../../models/doctor-table-model';
 
-const columns: any = [
-  { field: 'id', headerName: 'ID', width: 90 },
-  {
-    field: 'name',
-    headerName: 'Full Name',
-    width: 150,
-  },
-  {
-    field: 'dob',
-    headerName: 'Date of Birth',
-    width: 150,
-  },
-  {
-    field: 'email',
-    headerName: 'Email',
-    width: 200,
-  },
-  {
-    field: 'phone',
-    headerName: 'Phone Number',
-    width: 200,
-  },
-  {
-    field: 'department',
-    headerName: 'Department',
-    width: 200,
-  },
-  {
-    field: 'degree',
-    headerName: 'Degree',
-    width: 200,
-  },
-];
+const model = new DoctorTableModel();
 
-const doctorRows = [
-  {
-    id: 1,
-    name: 'John Doe',
-    phone: '1234567890',
-    email: 'sample@gmail.com',
-    dob: '01/01/1990',
-    department: 'Cardiology',
-    degree: 'MBBS',
-  },
-  {
-    id: 2,
-    name: 'Jane Smith',
-    phone: '9876543210',
-    email: 'example@gmail.com',
-    dob: '01/01/1990',
-    department: 'Pediatrics',
-    degree: 'MD',
-  },
-  {
-    id: 3,
-    name: 'Michael Johnson',
-    phone: '5555555555',
-    email: 'michael@example.com',
-    dob: '01/01/1990',
-    department: 'Orthopedics',
-    degree: 'MD',
-  },
-  {
-    id: 4,
-    name: 'Emily Davis',
-    phone: '9999999999',
-    email: 'emily@example.com',
-    dob: '01/01/1990',
-    department: 'Dermatology',
-    degree: 'MD',
-  },
-  {
-    id: 5,
-    name: 'David Wilson',
-    phone: '1111111111',
-    email: 'david@example.com',
-    dob: '01/01/1990',
-    department: 'Ophthalmology',
-    degree: 'MD',
-  },
-];
+type Params = {
+  setSelectedDoctors: (doctor: Doctor[]) => void;
+};
 
-type Params = {};
-
-const DoctorTable = () => {
+const DoctorTable = ({ setSelectedDoctors }: Params) => {
   const { theme, setTheme } = useTheme();
-
   const tableTheme = createTheme({
     palette: {
       mode: theme === 'light' ? 'light' : 'dark',
     },
   });
 
+  const columns = model.getColumns();
+
+  const [doctors, setDoctors] = useState<Doctor[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [rows, setRows] = useState<any[]>([]);
+
+  useEffect(() => {
+    const setup = async () => {
+      handleReloadDoctors();
+    };
+
+    setup();
+  }, []);
+
+  useEffect(() => {
+    try {
+      const newRows = model.convertToRows(doctors);
+      setRows(newRows);
+    } catch (e) {
+      setRows([]);
+
+      console.error(e);
+    }
+  }, [doctors]);
+
+  const handleReloadDoctors = async () => {
+    setIsLoading(true);
+    const newDoctors = await window.electron.ipcRenderer.invoke(
+      DOCTOR_SERVICE.RELOAD_DOCTORS,
+      {}
+    );
+
+    setIsLoading(false);
+
+    setDoctors(newDoctors);
+  };
+
   return (
-    <div className="h-[500px] w-full">
-      <ThemeProvider theme={tableTheme}>
-        <DataGrid
-          checkboxSelection
-          rows={doctorRows}
-          columns={columns}
-          initialState={{
-            pagination: {
-              paginationModel: {
-                pageSize: 10,
+    <div className="flex flex-col gap-2">
+      <div className="flex items-center justify-end">
+        <Button variant={'outline'} size={'icon'} onClick={handleReloadDoctors}>
+          <ReloadIcon className={`${isLoading ? 'animate-spin' : ''}`} />
+        </Button>
+      </div>
+
+      <div className="h-[500px] w-full">
+        <ThemeProvider theme={tableTheme}>
+          <DataGrid
+            checkboxSelection
+            rows={rows}
+            columns={columns}
+            initialState={{
+              pagination: {
+                paginationModel: {
+                  pageSize: 10,
+                },
               },
-            },
-          }}
-          pageSizeOptions={[10]}
-          disableRowSelectionOnClick
-        />
-      </ThemeProvider>
+            }}
+            onRowSelectionModelChange={(params) => {
+              const newSelectedDoctors = doctors.flatMap((doc) =>
+                params.includes(doc.userId) ? [doc] : []
+              );
+              setSelectedDoctors(newSelectedDoctors);
+            }}
+            pageSizeOptions={[10]}
+            disableRowSelectionOnClick
+          />
+        </ThemeProvider>
+      </div>
     </div>
   );
 };

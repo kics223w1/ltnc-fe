@@ -1,4 +1,4 @@
-import { FONT_FAMILY, FONT_WEIGHT } from './constants';
+import { FONT_FAMILY, FONT_WEIGHT } from '../../main/models/constantss';
 
 const getSFProString = (fontWeight: FONT_WEIGHT) => {
   switch (fontWeight) {

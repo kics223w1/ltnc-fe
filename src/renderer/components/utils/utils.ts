@@ -1,4 +1,4 @@
-import { MAIN_VIEW_TAB } from '/main/models/constant';
+import { MAIN_VIEW_TAB } from '../../../main/models/constants';
 
 export const getTabTitle = (tab: MAIN_VIEW_TAB): string => {
   switch (tab) {
