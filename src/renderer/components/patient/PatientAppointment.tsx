@@ -73,7 +73,6 @@ type Params = {};
 
 const PatientAppointment = ({}: Params) => {
   const { theme, setTheme } = useTheme();
-
   const tableTheme = createTheme({
     palette: {
       mode: theme === 'light' ? 'light' : 'dark',
