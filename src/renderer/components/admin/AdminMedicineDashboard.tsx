@@ -1,11 +1,11 @@
 import { Button } from '../../../~/components/ui/button';
 import DoctorTable from '../table/DoctorTable';
-import MachineTable from '../table/MachineTable';
+import MedicineTable from '../table/MedicineTable';
 
-const AdminMachineDashboard = () => {
+const AdminMedicineDashboard = () => {
   return (
     <div className="flex flex-col gap-5 w-full h-full px-12 py-10 overflow-auto">
-      <MachineTable />
+      <MedicineTable />
       <div className="flex items-center justify-end gap-3">
         <Button variant={'outline'} size={'lg'}>
           Chỉnh sửa
@@ -18,4 +18,4 @@ const AdminMachineDashboard = () => {
   );
 };
 
-export default AdminMachineDashboard;
+export default AdminMedicineDashboard;

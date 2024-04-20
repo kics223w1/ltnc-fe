@@ -14,6 +14,7 @@ import AdminDoctorDashboard from '../admin/AdminDoctorDashboard';
 import OtherStaffList from '../staff/OtherStaffList';
 import AdminNurseDashboard from '../admin/AdminNurseDashboard';
 import AdminMachineDashboard from '../admin/AdminMachineDashboard';
+import AdminMedicineDashboard from '../admin/AdminMedicineDashboard';
 import PatientList from '../staff/PatientList';
 import ManagementExamination from '../staff/ManagementExamination';
 import MachineList from '../medicine-machine/MachineList';
@@ -78,6 +79,8 @@ const buildView = (tab: MAIN_VIEW_TAB) => {
       return <AdminNurseDashboard />;
     case MAIN_VIEW_TAB.ADMIN_MACHINE_DASHBOARD:
       return <AdminMachineDashboard />;
+    case MAIN_VIEW_TAB.ADMIN_MEDICINE_DASHBOARD:
+      return <AdminMedicineDashboard />;
     case MAIN_VIEW_TAB.MACHINE_LIST:
       return <MachineList />;
     case MAIN_VIEW_TAB.MEDICINE_LIST:
