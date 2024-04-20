@@ -46,18 +46,24 @@ const PatientBooking = () => {
   }, [selectedDoctors]);
 
   return (
-    <div className="w-full h-full flex flex-col gap-3 px-12 pt-10 pb-10 overflow-auto relative">
-      <div className="flex items-center gap-3 absolute">
-        <span className="text-base font-sfProSemiBold">Chọn khoa khám: </span>
-        <Button variant={'outline'}>Khoa Ngoại</Button>
-        <Button variant={'outline'}>Khoa Nội</Button>
+    <div className="w-full h-full flex flex-col gap-3 px-12 pt-10 pb-10 overflow-auto">
+      <div className="flex items-center gap-4 w-full">
+        <span className="text-base font-sfProSemiBold flex flex-shrink-0">
+          Chọn ngày khám
+        </span>
+        <DatePickerWithPresets css="w-full" />
       </div>
 
-      <DoctorTable setSelectedDoctors={setSelectedDoctors} />
+      <div className="relative">
+        <div className="flex items-center gap-3 absolute">
+          <span className="text-base font-sfProSemiBold">Chọn khoa khám: </span>
+          <Button variant={'outline'}>Khoa Ngoại</Button>
+          <Button variant={'outline'}>Khoa Nội</Button>
+        </div>
+        <DoctorTable setSelectedDoctors={setSelectedDoctors} />
+      </div>
 
       <div className="w-full h-px bg-border my-5">
-        <DatePickerWithPresets css="w-full mt-5" />
-
         {selectedDoctor !== undefined && (
           <div className="flex flex-col gap-5 mt-5 pb-10">
             {times.map((time) => {

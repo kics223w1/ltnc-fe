@@ -5,7 +5,7 @@ import {
   MAIN_VIEW_TAB,
 } from '../../../main/models/constants';
 import OtherStaffTable from '../table/OtherStaffTable';
-import PatientAppointment from '../patient/PatientAppointment';
+import PatientExamination from '../patient/PatientExamination';
 import DoctorList from '../staff/DoctorList';
 import PatientBooking from '../patient/PatientBooking';
 import PatientHistory from '../patient/PatientHistory';
@@ -48,6 +48,12 @@ const RightPanelMainView = () => {
 
 const buildView = (tab: MAIN_VIEW_TAB) => {
   switch (tab) {
+    // Patient
+    case MAIN_VIEW_TAB.PATIENT_APPOINTMENT:
+      return <PatientExamination />;
+    case MAIN_VIEW_TAB.PATIENT_BOOKING:
+      return <PatientBooking />;
+
     case MAIN_VIEW_TAB.DOCTOR_LIST:
       return <DoctorList />;
     case MAIN_VIEW_TAB.NURSE_INFORMATION:
@@ -56,10 +62,7 @@ const buildView = (tab: MAIN_VIEW_TAB) => {
       return <OtherStaffList />;
     case MAIN_VIEW_TAB.STAFF_MANAGEMENT:
       return <Management />;
-    case MAIN_VIEW_TAB.PATIENT_APPOINTMENT:
-      return <PatientAppointment />;
-    case MAIN_VIEW_TAB.PATIENT_BOOKING:
-      return <PatientBooking />;
+
     case MAIN_VIEW_TAB.PATIENT_HISTORY:
       return <PatientHistory />;
     case MAIN_VIEW_TAB.PATIENT_BILLING:

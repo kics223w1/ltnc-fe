@@ -3,29 +3,31 @@ import { MAIN_VIEW_TAB } from '../../../main/models/constants';
 export const getTabTitle = (tab: MAIN_VIEW_TAB): string => {
   switch (tab) {
     case MAIN_VIEW_TAB.DOCTOR_LIST:
-      return 'Doctor List';
+      return 'Danh sách bác sĩ';
     case MAIN_VIEW_TAB.NURSE_INFORMATION:
-      return 'Nurse List';
+      return 'Danh sách y tá';
     case MAIN_VIEW_TAB.OTHER_STAFFS_INFORMATION:
-      return 'Other Staff List';
+      return 'Danh sách nhân viên khác';
     case MAIN_VIEW_TAB.STAFF_MANAGEMENT:
-      return 'Management';
+      return 'Quản lý ca khám';
     case MAIN_VIEW_TAB.PATIENT_HISTORY:
-      return 'Patient History';
+      return 'Lịch sử khám bệnh';
     case MAIN_VIEW_TAB.PATIENT_APPOINTMENT:
-      return 'Patient Appointment';
+      return 'Lịch khám';
     case MAIN_VIEW_TAB.PATIENT_BILLING:
-      return 'Patient Billing';
+      return 'Thanh toán';
     case MAIN_VIEW_TAB.PATIENT_BOOKING:
-      return 'Patient Booking';
+      return 'Đặt lịch khám';
     case MAIN_VIEW_TAB.ADMIN_DOCTOR_DASHBOARD:
-      return 'Doctor Dashboard';
+      return 'Quản trị bác sĩ';
     case MAIN_VIEW_TAB.ADMIN_NURSE_DASHBOARD:
-      return 'Nurse Dashboard';
+      return 'Quản trị y tá';
     case MAIN_VIEW_TAB.ADMIN_OTHER_STAFF_DASHBOARD:
-      return 'Other Staff Dashboard';
+      return 'Quản trị nhân viên khác';
     case MAIN_VIEW_TAB.ADMIN_MACHINE_DASHBOARD:
-      return 'Machine Dashboard';
+      return 'Quản trị máy móc';
+    case MAIN_VIEW_TAB.PATIENT_LIST:
+      return 'Danh sách bệnh nhân';
     default:
       return '';
   }

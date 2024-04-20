@@ -17,8 +17,8 @@ type ThemeProviderState = {
 };
 
 const initialState: ThemeProviderState = {
-  color: 'orange',
-  theme: 'dark',
+  color: 'blue',
+  theme: 'light',
   setTheme: () => null,
   setColor: () => null,
 };
@@ -27,14 +27,12 @@ const ThemeProviderContext = createContext<ThemeProviderState>(initialState);
 
 export function ThemeProvider({
   children,
-  defaultTheme = 'dark',
+  defaultTheme = 'light',
   storageKey = 'vite-ui-theme',
   ...props
 }: ThemeProviderProps) {
-  const [theme, setTheme] = useState<Theme>(
-    () => (localStorage.getItem(storageKey) as Theme) || defaultTheme
-  );
-  const [color, setColor] = useState<string>('orange');
+  const [theme, setTheme] = useState<Theme>('light');
+  const [color, setColor] = useState<string>('blue');
 
   useEffect(() => {
     const root = window.document.documentElement;

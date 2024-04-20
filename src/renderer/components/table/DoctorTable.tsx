@@ -30,7 +30,12 @@ const DoctorTable = ({ setSelectedDoctors }: Params) => {
 
   useEffect(() => {
     const setup = async () => {
-      handleReloadDoctors();
+      const newDoctors: Doctor[] = await handleGetDoctors();
+      if (newDoctors.length === 0) {
+        handleReloadDoctors();
+        return;
+      }
+      setDoctors(newDoctors);
     };
 
     setup();
@@ -42,10 +47,16 @@ const DoctorTable = ({ setSelectedDoctors }: Params) => {
       setRows(newRows);
     } catch (e) {
       setRows([]);
-
       console.error(e);
     }
   }, [doctors]);
+
+  const handleGetDoctors = async () => {
+    return await window.electron.ipcRenderer.invoke(
+      DOCTOR_SERVICE.GET_DOCTORS,
+      {}
+    );
+  };
 
   const handleReloadDoctors = async () => {
     setIsLoading(true);

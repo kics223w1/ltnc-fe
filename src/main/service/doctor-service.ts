@@ -23,6 +23,10 @@ class DoctorService {
   }
 
   public listenEventsFromRendererProcess() {
+    ipcMain.handle(DOCTOR_SERVICE.GET_DOCTORS, (event, args) => {
+      return this.doctors;
+    });
+
     ipcMain.handle(DOCTOR_SERVICE.RELOAD_DOCTORS, async (event, args) => {
       await this.loadDoctors();
       return this.doctors;

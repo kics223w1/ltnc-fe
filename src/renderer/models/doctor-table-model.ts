@@ -30,17 +30,17 @@ class DoctorTableModel {
       },
       {
         field: 'userName',
-        headerName: 'Full Name',
+        headerName: 'Họ và tên',
         width: 150,
       },
       {
         field: 'role',
-        headerName: 'Role',
+        headerName: 'Chức vụ',
         width: 200,
       },
       {
         field: 'phone',
-        headerName: 'Phone Number',
+        headerName: 'Số điện thoại',
         width: 200,
       },
       {
@@ -50,7 +50,7 @@ class DoctorTableModel {
       },
       {
         field: 'dateOfBirth',
-        headerName: 'Date Of Birth',
+        headerName: 'Ngày sinh',
         width: 200,
       },
     ];

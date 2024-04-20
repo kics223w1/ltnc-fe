@@ -3,6 +3,10 @@ import { HttpProxyAgent } from 'http-proxy-agent';
 import { HttpsProxyAgent } from 'https-proxy-agent';
 import Doctor from '../models/doctor';
 import Examination from '../models/examination';
+import Patient from '../models/patient';
+
+const host = '192.168.0.100';
+const port = 9090;
 
 class NetworkService {
   private instance: any;
@@ -11,11 +15,11 @@ class NetworkService {
     this.instance = axios.create({
       baseURL: 'https://helped-alpaca-obliging.ngrok-free.app',
       proxy: {
-        host: '192.168.0.101',
-        port: 9090,
+        host: host,
+        port: port,
       },
-      httpAgent: new HttpProxyAgent(`http://192.168.0.101:9090}`),
-      httpsAgent: new HttpsProxyAgent(`https://192.168.0.101:9090`),
+      httpAgent: new HttpProxyAgent(`http://${host}:${port}}`),
+      httpsAgent: new HttpsProxyAgent(`https://${host}:${port}`),
     });
   }
 
@@ -34,6 +38,16 @@ class NetworkService {
       const response = await this.instance.get('/doctors');
       const obj: { doctors: Doctor[] } = response.data;
       return obj.doctors;
+    } catch (e) {
+      return [];
+    }
+  }
+
+  public async getPatients(): Promise<Patient[]> {
+    try {
+      const response = await this.instance.get('/patients');
+      const obj: { patients: Patient[] } = response.data;
+      return obj.patients;
     } catch (e) {
       return [];
     }
