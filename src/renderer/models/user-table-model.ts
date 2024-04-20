@@ -15,6 +15,7 @@ class UserTableModel {
       id: user.userId,
       usedId: user.userId,
       userName: user.userName,
+      isMale: user.isMale ? 'Nam' : 'Nữ',
       role: user.role,
       phone: user.phone,
       email: user.email,
@@ -33,6 +34,11 @@ class UserTableModel {
         field: 'userName',
         headerName: 'Họ và tên',
         width: 150,
+      },
+      {
+        field: 'isMale',
+        headerName: 'Giới tính',
+        width: 100,
       },
       {
         field: 'role',

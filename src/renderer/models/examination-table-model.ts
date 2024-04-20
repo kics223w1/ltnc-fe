@@ -33,7 +33,7 @@ class ExaminationTableModel {
       {
         field: 'disease',
         headerName: 'Bệnh',
-        width: 150,
+        width: 400,
       },
       {
         field: 'level',

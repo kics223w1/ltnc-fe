@@ -5,6 +5,7 @@ class User {
   public readonly userName: string;
   public readonly password: string;
   public readonly isActive?: boolean;
+  public readonly isMale: boolean;
   public readonly dateOfBirth: Date;
   public readonly phone: string;
   public readonly email: string;
@@ -20,6 +21,7 @@ class User {
     userName: string,
     password: string,
     isActive: boolean | undefined,
+    isMale: boolean,
     dateOfBirth: Date,
     phone: string,
     email: string,
@@ -34,6 +36,7 @@ class User {
     this.userName = userName;
     this.password = password;
     this.isActive = isActive;
+    this.isMale = isMale;
     this.dateOfBirth = dateOfBirth;
     this.phone = phone;
     this.email = email;

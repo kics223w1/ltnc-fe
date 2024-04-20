@@ -17,6 +17,7 @@ import notificationService from './service/notification-service';
 import { listenEventsFromRendererProcess } from '.';
 import machineService from './service/machine-service';
 import userService from './service/user-service';
+import managementService from './service/management-service';
 
 let mainWindow: BrowserWindow | null = null;
 
@@ -107,6 +108,7 @@ const createWindow = async () => {
       await Promise.all([
         userService.loadDataAtLaunch(),
         machineService.loadDataAtLaunch(),
+        managementService.loadDataAtLaunch(),
       ]);
     }
   });

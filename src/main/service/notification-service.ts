@@ -4,7 +4,6 @@ import {
   MAIN_VIEW_TAB,
   NOTIFICATION_SERVICE,
 } from '../models/constants';
-import { WINDOWS } from '../models/constantss';
 
 class NotificationService {
   private mainWindow: BrowserWindow | undefined;
@@ -28,25 +27,6 @@ class NotificationService {
   }
 
   public listenEventsFromRendererProcess() {
-    ipcMain.on(
-      NOTIFICATION_SERVICE.ON_SHOW_DIALOG,
-      (
-        event,
-        args: {
-          windowID: WINDOWS;
-        }
-      ) => {
-        console.log(
-          '✅ NotificationService: listenEventsFromRendererProcess: ON_SHOW_DIALOG'
-        );
-
-        this.sendNotificationToMainWindows(
-          EVENTS_FROM_MAIN_PROCESS.ON_SHOW_DIALOG,
-          args.windowID
-        );
-      }
-    );
-
     ipcMain.on(
       EVENTS_FROM_MAIN_PROCESS.ON_UPDATE_MAIN_VIEW,
       (

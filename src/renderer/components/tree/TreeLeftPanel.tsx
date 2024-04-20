@@ -53,7 +53,7 @@ const TreeLeftPanel = () => {
           MAIN_VIEW_TAB.DOCTOR_LIST,
           MAIN_VIEW_TAB.NURSE_LIST,
           MAIN_VIEW_TAB.PATIENT_LIST,
-          MAIN_VIEW_TAB.STAFF_MANAGEMENT,
+          MAIN_VIEW_TAB.MANAGEMENT_EXAMINATION,
         ]}
         title={'Nhân viên'}
         setCurrentTab={handleSetCurrentTab}
@@ -64,7 +64,6 @@ const TreeLeftPanel = () => {
         tabs={[
           MAIN_VIEW_TAB.ADMIN_DOCTOR_DASHBOARD,
           MAIN_VIEW_TAB.ADMIN_NURSE_DASHBOARD,
-          MAIN_VIEW_TAB.ADMIN_OTHER_STAFF_DASHBOARD,
           MAIN_VIEW_TAB.ADMIN_MACHINE_DASHBOARD,
         ]}
         title={'Quản trị viên'}

@@ -7,8 +7,9 @@ import { ToastAction } from '../../../~/components/ui/toast';
 import { Dialog, DialogTrigger } from '../../../~/components/ui/dialog';
 import DialogExaminationContent from '../dialog/ExaminationContent';
 import { MANAGEMENT_SERVICE } from '../../../main/models/constants';
+import DetailExamination from '../dialog/DetailExamination';
 
-export default function Management() {
+export default function ManagementExamination() {
   const [selectedExaminations, setSelectedExaminations] = useState<
     Examination[]
   >([]);
@@ -21,14 +22,25 @@ export default function Management() {
   const handleOnClickEdit = () => {
     if (selectedExaminations.length === 0) {
       toast({
-        title: 'Chưa có cuộc khám được chọn',
-        description: 'Vui lòng chọn một cuộc khám',
+        variant: 'destructive',
+        title: 'Chưa có ca khám được chọn',
+        description: 'Vui lòng chọn một ca khám để chỉnh sửa',
         action: <ToastAction altText="OK">OK</ToastAction>,
       });
       return;
     }
+  };
 
-    console.log(selectedExaminations);
+  const handleOnClickDetails = () => {
+    if (selectedExaminations.length === 0) {
+      toast({
+        variant: 'destructive',
+        title: 'Chưa có ca khám được chọn',
+        description: 'Vui lòng chọn một ca khám để xem chi tiết',
+        action: <ToastAction altText="OK">OK</ToastAction>,
+      });
+      return;
+    }
   };
 
   const handleLoadExaminations = async () => {
@@ -47,9 +59,28 @@ export default function Management() {
         setSelectedExaminations={setSelectedExaminations}
       />
 
-      <div className="flex items-center justify-end gap-2 w-full mt-5">
+      <div className="flex items-center justify-between gap-2 w-full mt-5">
         <Dialog>
-          <DialogTrigger asChild disabled={selectedExaminations.length === 0}>
+          <DialogTrigger disabled={selectedExaminations.length === 0}>
+            <Button
+              onClick={handleOnClickDetails}
+              variant={'default'}
+              size={'lg'}
+            >
+              Xem chi tiết
+            </Button>
+          </DialogTrigger>
+          {selectedExaminations.length > 0 && (
+            <DetailExamination
+              examination={
+                selectedExaminations[selectedExaminations.length - 1]
+              }
+            />
+          )}
+        </Dialog>
+
+        <Dialog>
+          <DialogTrigger disabled={selectedExaminations.length === 0}>
             <Button onClick={handleOnClickEdit} variant={'default'} size={'lg'}>
               Chỉnh sửa
             </Button>

@@ -6,7 +6,7 @@ import Doctor from '../../../main/models/doctor';
 import { Button } from '../../../~/components/ui/button';
 import { ReloadIcon } from '@radix-ui/react-icons';
 import { USER_SERVICE } from '../../../main/models/constants';
-import UserTableModel from '../../models/doctor-table-model';
+import UserTableModel from '../../models/user-table-model';
 
 const model = new UserTableModel();
 

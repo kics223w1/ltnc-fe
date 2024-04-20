@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { Button } from '../../../~/components/ui/button';
 import { ReloadIcon } from '@radix-ui/react-icons';
 import { USER_SERVICE } from '../../../main/models/constants';
-import UserTableModel from '../../models/doctor-table-model';
+import UserTableModel from '../../models/user-table-model';
 import Nurse from '../../../main/models/nurse';
 
 const model = new UserTableModel();

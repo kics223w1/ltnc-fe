@@ -4,7 +4,6 @@ import {
   EVENTS_FROM_MAIN_PROCESS,
   MAIN_VIEW_TAB,
 } from '../../../main/models/constants';
-import OtherStaffTable from '../table/OtherStaffTable';
 import PatientExamination from '../patient/PatientExamination';
 import DoctorList from '../staff/DoctorList';
 import PatientBooking from '../patient/PatientBooking';
@@ -14,10 +13,9 @@ import NurseList from '../staff/NurseList';
 import AdminDoctorDashboard from '../admin/AdminDoctorDashboard';
 import OtherStaffList from '../staff/OtherStaffList';
 import AdminNurseDashboard from '../admin/AdminNurseDashboard';
-import AdminOtherStaffDashboard from '../admin/AdminOtherStaffDashboard';
 import AdminMachineDashboard from '../admin/AdminMachineDashboard';
-import Management from '../staff/Management';
 import PatientList from '../staff/PatientList';
+import ManagementExamination from '../staff/ManagementExamination';
 
 const RightPanelMainView = () => {
   const [currentTab, setCurrentTab] = useState(MAIN_VIEW_TAB.DOCTOR_LIST);
@@ -62,10 +60,11 @@ const buildView = (tab: MAIN_VIEW_TAB) => {
       return <NurseList />;
     case MAIN_VIEW_TAB.PATIENT_LIST:
       return <PatientList />;
+
     case MAIN_VIEW_TAB.OTHER_STAFFS_INFORMATION:
       return <OtherStaffList />;
-    case MAIN_VIEW_TAB.STAFF_MANAGEMENT:
-      return <Management />;
+    case MAIN_VIEW_TAB.MANAGEMENT_EXAMINATION:
+      return <ManagementExamination />;
 
     case MAIN_VIEW_TAB.PATIENT_HISTORY:
       return <PatientHistory />;
@@ -75,8 +74,6 @@ const buildView = (tab: MAIN_VIEW_TAB) => {
       return <AdminDoctorDashboard />;
     case MAIN_VIEW_TAB.ADMIN_NURSE_DASHBOARD:
       return <AdminNurseDashboard />;
-    case MAIN_VIEW_TAB.ADMIN_OTHER_STAFF_DASHBOARD:
-      return <AdminOtherStaffDashboard />;
     case MAIN_VIEW_TAB.ADMIN_MACHINE_DASHBOARD:
       return <AdminMachineDashboard />;
     default:

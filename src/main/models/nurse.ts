@@ -10,6 +10,8 @@ class Nurse extends User {
     userName: string,
     password: string,
     isActive: boolean | undefined,
+    isMale: boolean,
+
     dateOfBirth: Date,
     phone: string,
     email: string,
@@ -24,6 +26,7 @@ class Nurse extends User {
       userName,
       password,
       isActive,
+      isMale,
       dateOfBirth,
       phone,
       email,

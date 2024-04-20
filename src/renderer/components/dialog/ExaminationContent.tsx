@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import Examination from '../../../main/models/examination';
 import { Button } from '../../../~/components/ui/button';
 import { Input } from '../../../~/components/ui/input';
@@ -10,22 +11,37 @@ import {
   SelectValue,
 } from '../../../~/components/ui/select';
 import {
-  Dialog,
   DialogClose,
   DialogContent,
   DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from '/~/components/ui/dialog';
 import { Textarea } from '~/components/ui/textarea';
+import Medicine from '../../../main/models/medicine';
+import { MANAGEMENT_SERVICE } from '../../../main/models/constants';
 
 type Params = {
   examination: Examination | undefined;
 };
 
 const DialogExaminationContent = ({ examination }: Params) => {
+  const [medicines, setMedicines] = useState<Medicine[]>([]);
+
+  useEffect(() => {
+    const setup = async () => {
+      const newMedicines: Medicine[] = await window.electron.ipcRenderer.invoke(
+        MANAGEMENT_SERVICE.GET_MEDICINES,
+        {}
+      );
+
+      setMedicines(newMedicines);
+    };
+
+    setup();
+  }, []);
+
   if (!examination) {
     return <></>;
   }
@@ -63,9 +79,16 @@ const DialogExaminationContent = ({ examination }: Params) => {
                 <SelectValue placeholder="Thuốc" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="light">Thuốc</SelectItem>
-                <SelectItem value="dark">Thuốc</SelectItem>
-                <SelectItem value="system">Thuốc</SelectItem>
+                {medicines.map((medicine, index) => {
+                  return (
+                    <SelectItem
+                      value={medicine.name}
+                      key={`${medicine.name}_${index}`}
+                    >
+                      {medicine.name}
+                    </SelectItem>
+                  );
+                })}
               </SelectContent>
             </Select>
           </div>
