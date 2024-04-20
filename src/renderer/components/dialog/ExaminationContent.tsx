@@ -3,6 +3,13 @@ import { Button } from '../../../~/components/ui/button';
 import { Input } from '../../../~/components/ui/input';
 import { Label } from '../../../~/components/ui/label';
 import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '../../../~/components/ui/select';
+import {
   Dialog,
   DialogClose,
   DialogContent,
@@ -50,6 +57,20 @@ const DialogExaminationContent = ({ examination }: Params) => {
           </div>
 
           <div className="grid grid-cols-4 items-center gap-4">
+            <Label className="text-right">Thuốc</Label>
+            <Select>
+              <SelectTrigger className="col-span-3">
+                <SelectValue placeholder="Thuốc" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="light">Thuốc</SelectItem>
+                <SelectItem value="dark">Thuốc</SelectItem>
+                <SelectItem value="system">Thuốc</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+
+          <div className="grid grid-cols-4 items-center gap-4">
             <Label className="text-right">Lời dặn</Label>
             <Textarea
               className="col-span-3"
@@ -67,7 +88,16 @@ const DialogExaminationContent = ({ examination }: Params) => {
 
           <div className="grid grid-cols-4 items-center gap-4">
             <Label className="text-right">Bác sĩ</Label>
-            <Input className="col-span-3" />
+            <Select>
+              <SelectTrigger className="col-span-3">
+                <SelectValue placeholder="Bác sĩ" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="light">Bác sĩ</SelectItem>
+                <SelectItem value="dark">Bác sĩ</SelectItem>
+                <SelectItem value="system">Bác sĩ</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
 
           <div className="grid grid-cols-4 items-center gap-4">
