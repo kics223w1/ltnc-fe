@@ -1,17 +1,43 @@
+import { useState } from 'react';
 import { Button } from '../../../~/components/ui/button';
 import NurseTable from '../table/NurseTable';
+import Nurse from '../../../main/models/nurse';
+import { Dialog, DialogTrigger } from '../../../~/components/ui/dialog';
+import DialogAddNurseContent from '../dialog/AddNurseContent';
+import DialogEditNurseContent from '../dialog/EditNurseContent';
 
 const AdminNurseDashboard = () => {
+  const [selectedNurses, setSelectedNurses] = useState<Nurse[]>([]);
+
   return (
     <div className="flex flex-col gap-5 w-full h-full px-12 py-10 overflow-auto">
-      <NurseTable />
+      <NurseTable setSelectedNurses={setSelectedNurses} />
       <div className="flex items-center justify-end gap-3">
-        <Button variant={'outline'} size={'lg'}>
-          Edit
-        </Button>
-        <Button variant={'default'} size={'lg'}>
-          New
-        </Button>
+        <Dialog>
+          <DialogTrigger>
+            <Button variant={'outline'} size={'lg'}>
+              Thêm mới
+            </Button>
+          </DialogTrigger>
+          <DialogAddNurseContent />
+        </Dialog>
+
+        <Dialog>
+          <DialogTrigger disabled={selectedNurses.length === 0}>
+            <Button
+              variant={'default'}
+              size={'lg'}
+              disabled={selectedNurses.length === 0}
+            >
+              Chỉnh sửa
+            </Button>
+          </DialogTrigger>
+          {selectedNurses.length > 0 && (
+            <DialogEditNurseContent
+              nurse={selectedNurses[selectedNurses.length - 1]}
+            />
+          )}
+        </Dialog>
       </div>
     </div>
   );

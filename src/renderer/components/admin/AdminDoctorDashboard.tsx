@@ -26,7 +26,11 @@ const AdminDoctorDashboard = () => {
 
         <Dialog>
           <DialogTrigger disabled={selectedDoctors.length === 0}>
-            <Button variant={'default'} size={'lg'}>
+            <Button
+              variant={'default'}
+              size={'lg'}
+              disabled={selectedDoctors.length === 0}
+            >
               Chỉnh sửa
             </Button>
           </DialogTrigger>
