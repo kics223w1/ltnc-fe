@@ -1,9 +1,5 @@
 import { BrowserWindow, ipcMain } from 'electron';
-import {
-  EVENTS_FROM_MAIN_PROCESS,
-  MAIN_VIEW_TAB,
-  NOTIFICATION_SERVICE,
-} from '../models/constants';
+import { EVENTS_FROM_MAIN_PROCESS, MAIN_VIEW_TAB } from '../models/constants';
 
 class NotificationService {
   private mainWindow: BrowserWindow | undefined;
