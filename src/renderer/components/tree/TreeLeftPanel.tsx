@@ -41,11 +41,9 @@ const TreeLeftPanel = () => {
       <ParentNode
         tabs={[
           MAIN_VIEW_TAB.PATIENT_APPOINTMENT,
-          MAIN_VIEW_TAB.PATIENT_HISTORY,
-          MAIN_VIEW_TAB.PATIENT_BILLING,
           MAIN_VIEW_TAB.PATIENT_BOOKING,
         ]}
-        title={'Patient'}
+        title={'Bệnh nhân'}
         setCurrentTab={handleSetCurrentTab}
         currentTab={currentTab}
       ></ParentNode>
@@ -54,10 +52,10 @@ const TreeLeftPanel = () => {
         tabs={[
           MAIN_VIEW_TAB.DOCTOR_LIST,
           MAIN_VIEW_TAB.NURSE_INFORMATION,
-          MAIN_VIEW_TAB.OTHER_STAFFS_INFORMATION,
+          MAIN_VIEW_TAB.PATIENT_LIST,
           MAIN_VIEW_TAB.STAFF_MANAGEMENT,
         ]}
-        title={'Staff'}
+        title={'Nhân viên'}
         setCurrentTab={handleSetCurrentTab}
         currentTab={currentTab}
       ></ParentNode>
@@ -69,7 +67,7 @@ const TreeLeftPanel = () => {
           MAIN_VIEW_TAB.ADMIN_OTHER_STAFF_DASHBOARD,
           MAIN_VIEW_TAB.ADMIN_MACHINE_DASHBOARD,
         ]}
-        title={'Admin'}
+        title={'Quản trị viên'}
         setCurrentTab={handleSetCurrentTab}
         currentTab={currentTab}
       ></ParentNode>

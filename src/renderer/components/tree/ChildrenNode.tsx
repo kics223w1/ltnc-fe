@@ -1,7 +1,6 @@
 import IconSVG from '../utils/icon-svg';
 import { getTabTitle } from '../utils/utils';
-import { MAIN_VIEW_TAB } from '../../../main/models/constants';
-import { ICON_SVG } from '../../../main/models/constantss';
+import { ICON_SVG, MAIN_VIEW_TAB } from '../../../main/models/constants';
 
 type Params = {
   icon: ICON_SVG;

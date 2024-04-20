@@ -4,17 +4,14 @@ import ExaminationTable from '../table/ExaminationTable';
 import { Button } from '../../../~/components/ui/button';
 import { useToast } from '~/components/ui/use-toast';
 import { ToastAction } from '../../../~/components/ui/toast';
-import {
-  Dialog,
-  DialogClose,
-  DialogTrigger,
-} from '../../../~/components/ui/dialog';
+import { Dialog, DialogTrigger } from '../../../~/components/ui/dialog';
 import DialogExaminationContent from '../dialog/ExaminationContent';
 
 export default function Management() {
   const [selectedExamination, setSelectedExamination] = useState<
     Examination | undefined
   >(undefined);
+
   const { toast } = useToast();
 
   useEffect(() => {}, []);
@@ -34,7 +31,7 @@ export default function Management() {
 
   return (
     <div className="flex flex-col w-full h-full px-12 pt-10">
-      <ExaminationTable setSelectedExamination={setSelectedExamination} />
+      {/* <ExaminationTable setSelectedExamination={setSelectedExamination} /> */}
 
       <div className="flex items-center justify-end gap-2 w-full mt-5">
         <Dialog>

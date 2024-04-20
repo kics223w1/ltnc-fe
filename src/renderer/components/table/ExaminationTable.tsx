@@ -2,7 +2,6 @@ import { DataGrid } from '@mui/x-data-grid';
 import { useTheme } from '../theme/ThemeProvider';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useEffect, useState } from 'react';
-import { MANAGEMENT_SERVICE } from '../../../main/models/constants';
 import { Button } from '../../../~/components/ui/button';
 import { ReloadIcon } from '@radix-ui/react-icons';
 import ExaminationTableModel from '../../models/examination-table-model';
@@ -11,10 +10,16 @@ import Examination from '../../../main/models/examination';
 const model = new ExaminationTableModel();
 
 type Params = {
-  setSelectedExamination: (examination: Examination | undefined) => void;
+  examinations: Examination[];
+  handleLoadExaminations: () => void;
+  setSelectedExaminations: (examinations: Examination[]) => void;
 };
 
-const ExaminationTable = ({ setSelectedExamination }: Params) => {
+const ExaminationTable = ({
+  examinations,
+  handleLoadExaminations,
+  setSelectedExaminations,
+}: Params) => {
   const { theme, setTheme } = useTheme();
   const tableTheme = createTheme({
     palette: {
@@ -23,7 +28,6 @@ const ExaminationTable = ({ setSelectedExamination }: Params) => {
   });
   const columns = model.getColumns();
 
-  const [examinations, setExaminations] = useState<Examination[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [rows, setRows] = useState<any[]>([]);
 
@@ -48,14 +52,9 @@ const ExaminationTable = ({ setSelectedExamination }: Params) => {
   const handleReloadExaminations = async () => {
     setIsLoading(true);
 
-    const newExaminations = await window.electron.ipcRenderer.invoke(
-      MANAGEMENT_SERVICE.GET_EXAMINATIONS,
-      {}
-    );
+    await handleLoadExaminations();
 
     setIsLoading(false);
-
-    setExaminations(newExaminations);
   };
 
   return (
@@ -85,8 +84,10 @@ const ExaminationTable = ({ setSelectedExamination }: Params) => {
             }}
             onRowSelectionModelChange={(params) => {
               const lastId = params.length > 0 ? params[params.length - 1] : -1;
-              const newSelected = examinations.find((ex) => ex.id === lastId);
-              setSelectedExamination(newSelected);
+              const newSelected = examinations.flatMap((ex) =>
+                ex.id === lastId ? [ex] : []
+              );
+              setSelectedExaminations(newSelected);
             }}
             pageSizeOptions={[10]}
             disableRowSelectionOnClick

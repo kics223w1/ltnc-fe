@@ -9,7 +9,7 @@ const HeaderRightPanel = () => {
       <Dialog>
         <DialogTrigger asChild>
           <Button variant={'outline'} size={'sm'} className="px-5 mr-1">
-            Sign Up
+            Đăng ký
           </Button>
         </DialogTrigger>
         <DialogSignUpContent />
@@ -18,7 +18,7 @@ const HeaderRightPanel = () => {
       <Dialog>
         <DialogTrigger asChild>
           <Button variant={'default'} size={'sm'} className="px-5 mr-1">
-            Sign In
+            Đăng nhập
           </Button>
         </DialogTrigger>
         <DialogSignInContent />
