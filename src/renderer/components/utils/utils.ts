@@ -4,7 +4,7 @@ export const getTabTitle = (tab: MAIN_VIEW_TAB): string => {
   switch (tab) {
     case MAIN_VIEW_TAB.DOCTOR_LIST:
       return 'Danh sách bác sĩ';
-    case MAIN_VIEW_TAB.NURSE_INFORMATION:
+    case MAIN_VIEW_TAB.NURSE_LIST:
       return 'Danh sách y tá';
     case MAIN_VIEW_TAB.OTHER_STAFFS_INFORMATION:
       return 'Danh sách nhân viên khác';
