@@ -31,6 +31,9 @@ module.exports = {
     },
     extend: {
       colors: {
+        colorCloseButton: '#FF5F57',
+        colorMinimizeButton: '#FEBC2C',
+        colorFullScreenButton: '#28C840',
         hoverBackground: '#EDEDE8',
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',

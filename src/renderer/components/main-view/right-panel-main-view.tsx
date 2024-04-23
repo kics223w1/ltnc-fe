@@ -40,7 +40,12 @@ const RightPanelMainView = () => {
     <div className="w-full h-full flex flex-col">
       <HeaderRightPanel />
       <div className="w-full h-[calc(100%-96px)]">{buildView(currentTab)}</div>
-      <div className="flex flex-shrink-0 w-full h-12 border-t border-border"></div>
+      <div className="flex flex-shrink-0 items-center w-full h-12 pl-12 border-t border-border">
+        <span className="text-sm text-muted-foreground">
+          © 2024 Đại học Bách Khoa Thành Phố Hồ Chí Minh - BTL Lập trình nâng
+          cao
+        </span>
+      </div>
     </div>
   );
 };
