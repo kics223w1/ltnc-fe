@@ -49,48 +49,99 @@ const PatientBooking = () => {
 
   return (
     <div className="w-full h-full flex flex-col gap-3 px-12 pt-10 pb-10 overflow-auto">
-      <div className="flex items-center gap-20 w-full">
-        <span className="text-base font-sfProSemiBold flex flex-shrink-0">
-          Chọn ngày khám
-        </span>
-        <DatePickerWithPresets css="w-full" />
-      </div>
-
-      <div className="relative">
-        <div className="flex items-center gap-3 absolute">
-          <span className="text-base font-sfProSemiBold">
-            Chọn khoa khám và bác sĩ:{' '}
-          </span>
-          <Button
-            variant={isInternal ? 'outline' : 'default'}
-            onClick={() => {
-              setIsInternal(false);
-            }}
-          >
-            Khoa Ngoại
-          </Button>
-          <Button
-            variant={isInternal ? 'default' : 'outline'}
-            onClick={() => {
-              setIsInternal(true);
-            }}
-          >
-            Khoa Nội
-          </Button>
-        </div>
-        <DoctorTable setSelectedDoctors={setSelectedDoctors} />
-      </div>
-
-      <div className="w-full h-px bg-border my-5">
-        {selectedDoctor !== undefined && (
-          <div className="flex flex-col gap-5 mt-5 pb-10">
-            {times.map((time) => {
-              return (
-                <BookingBox doctorName={selectedDoctor.userName} time={time} />
-              );
-            })}
+      <div className="container mx-auto max-w-lg p-6 border rounded-lg shadow-md">
+        <h2 className="text-2xl font-semibold mb-6">Đặt lịch khám</h2>
+        <form>
+          <div className="mb-4">
+            <label
+              htmlFor="email"
+              className="block text-gray-700 text-sm font-bold mb-2"
+            >
+              Họ và tên
+            </label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500"
+              placeholder="Nhập họ tên của bạn"
+              required
+            />
           </div>
-        )}
+          <div className="mb-4">
+            <label
+              htmlFor="phone"
+              className="block text-gray-700 text-sm font-bold mb-2"
+            >
+              Số điện thoại
+            </label>
+            <input
+              type="tel"
+              id="phone"
+              name="phone"
+              className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500"
+              placeholder="Nhập số điện thoại của bạn"
+              required
+            />
+          </div>
+          <div className="mb-4">
+            <label
+              htmlFor="appointment-time"
+              className="block text-gray-700 text-sm font-bold mb-2"
+            >
+              Thời gian khám
+            </label>
+            <input
+              type="datetime-local"
+              id="appointment-time"
+              name="appointment-time"
+              className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500"
+              required
+            />
+          </div>
+          <div className="mb-4">
+            <label
+              htmlFor="symptom"
+              className="block text-gray-700 text-sm font-bold mb-2"
+            >
+              Triệu chứng
+            </label>
+            <textarea
+              id="symptom"
+              name="symptom"
+              rows={4}
+              className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500"
+              placeholder="Describe your symptom"
+              required
+            />
+          </div>
+          <div className="mb-4">
+            <label
+              htmlFor="department"
+              className="block text-gray-700 text-sm font-bold mb-2"
+            >
+              Khoa khám
+            </label>
+            <select
+              id="department"
+              name="department"
+              className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500"
+              required
+            >
+              <option value="" disabled selected>
+                Chọn khoa khám
+              </option>
+              <option value="Internal">Khoa nội</option>
+              <option value="External">Khoa ngoại</option>
+            </select>
+          </div>
+          <button
+            type="submit"
+            className="w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition duration-300"
+          >
+            Đặt lịch khám
+          </button>
+        </form>
       </div>
     </div>
   );
