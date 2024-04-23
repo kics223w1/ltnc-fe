@@ -3,6 +3,7 @@ import Doctor from '../../../main/models/doctor';
 import DoctorBookingList from './DoctorBookingList';
 import { USER_SERVICE } from '../../../main/models/constants';
 import { useToast } from '../../../~/components/ui/use-toast';
+import { Button } from '../../../~/components/ui/button';
 
 const PatientBooking = () => {
   const [showDoctors, setShowDoctors] = useState(false);
@@ -10,7 +11,8 @@ const PatientBooking = () => {
 
   const [fullName, setFullName] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
-  const [appointmentTime, setAppointmentTime] = useState('');
+  const [startTime, setStartTime] = useState('');
+  const [endTime, setEndTime] = useState('');
   const [symptom, setSymptom] = useState('');
   const [isInternal, setIsInternal] = useState<boolean>(false);
 
@@ -30,12 +32,13 @@ const PatientBooking = () => {
 
   const handleSubmit = (event: any) => {
     event.preventDefault();
+    const errorMessage = getAppointMentError(startTime, endTime);
 
-    if (isAppointmentTimeBehindNow(appointmentTime)) {
+    if (errorMessage) {
       toast({
         variant: 'destructive',
         title: 'Thời gian khám không hợp lệ',
-        description: 'Vui lòng chọn thời gian khám sau thời gian hiện tại',
+        description: errorMessage,
       });
       return;
     }
@@ -43,23 +46,40 @@ const PatientBooking = () => {
     setShowDoctors(true);
   };
 
-  const isAppointmentTimeBehindNow = (appointmentTime: any) => {
-    // Convert appointmentTime string to a Date object
-    const appointmentDate = new Date(appointmentTime);
+  const getAppointMentError = (
+    startTime: string,
+    endTime: string
+  ): string | undefined => {
+    // Convert start and end time strings to Date objects
+    const startDate = new Date(startTime);
+    const endDate = new Date(endTime);
 
     // Get the current time
     const currentTime = new Date();
 
-    // Compare appointmentTime with currentTime
-    if (appointmentDate < currentTime) {
-      return true; // appointmentTime is behind currentTime
-    } else {
-      return false; // appointmentTime is not behind currentTime
+    if (startDate >= endDate) {
+      return 'Thời gian bắt đầu khám không được nhỏ hơn thời gian kết thúc khám';
     }
+
+    if (startDate < currentTime) {
+      return 'Thời gian bắt đầu khám không được nhỏ hơn thời gian hiện tại';
+    }
+
+    return undefined;
+  };
+
+  const handleStartTimeChange = (e: any) => {
+    const selectedStartTime = e.target.value;
+    setStartTime(selectedStartTime);
+  };
+
+  const handleEndTimeChange = (e: any) => {
+    const selectedEndTime = e.target.value;
+    setEndTime(selectedEndTime);
   };
 
   return (
-    <div className="w-full h-full flex flex-col gap-3 px-12 pt-10 pb-10 overflow-auto">
+    <div className="w-full h-full flex flex-col gap-3 px-12 pt-5 pb-10 overflow-auto">
       {showDoctors ? (
         <DoctorBookingList
           handleRefresh={handleReloadDoctors}
@@ -69,10 +89,10 @@ const PatientBooking = () => {
           doctors={doctors}
         />
       ) : (
-        <div className="container mx-auto max-w-lg p-6 border rounded-lg shadow-md">
-          <h2 className="text-2xl font-semibold mb-6">Đặt lịch khám</h2>
+        <div className="container mx-auto max-w-lg px-6 pt-4 pb-4 border rounded-lg shadow-md">
+          <h2 className="text-2xl font-semibold mb-2">Đặt lịch khám</h2>
           <form action="#" onSubmit={handleSubmit}>
-            <div className="mb-4">
+            <div className="mb-3">
               <label
                 htmlFor="fullname"
                 className="block text-gray-700 text-sm font-bold mb-2"
@@ -90,7 +110,7 @@ const PatientBooking = () => {
                 value={fullName}
               />
             </div>
-            <div className="mb-4">
+            <div className="mb-3">
               <label
                 htmlFor="phone"
                 className="block text-gray-700 text-sm font-bold mb-2"
@@ -108,42 +128,56 @@ const PatientBooking = () => {
                 value={phoneNumber}
               />
             </div>
-            <div className="mb-4">
+            <div className="mb-3">
               <label
-                htmlFor="appointment-time"
+                htmlFor="start-time"
                 className="block text-gray-700 text-sm font-bold mb-2"
               >
-                Thời gian khám
+                Thời gian bắt đầu
               </label>
               <input
                 type="datetime-local"
-                id="appointment-time"
-                name="appointment-time"
+                id="start-time"
+                name="start-time"
                 className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500"
                 required
-                onChange={(e) => setAppointmentTime(e.target.value)}
-                value={appointmentTime}
+                onChange={handleStartTimeChange}
+                value={startTime}
               />
             </div>
-            <div className="mb-4">
+            <div className="mb-3">
               <label
-                htmlFor="symptom"
+                htmlFor="end-time"
                 className="block text-gray-700 text-sm font-bold mb-2"
               >
-                Triệu chứng
+                Thời gian kết thúc
               </label>
-              <textarea
-                id="symptom"
-                name="symptom"
-                rows={4}
+              <input
+                type="datetime-local"
+                id="end-time"
+                name="end-time"
                 className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500"
-                placeholder="Describe your symptom"
                 required
-                onChange={(e) => setSymptom(e.target.value)}
-                value={symptom}
+                onChange={handleEndTimeChange}
+                value={endTime}
               />
             </div>
-            <div className="mb-4">
+            <div className="mb-3">
+              <label className="block text-gray-700 text-sm font-bold mb-2">
+                Triệu chứng
+              </label>
+              <div className=" grid grid-cols-4 gap-2">
+                <Button variant={'outline'}>Sốt</Button>
+                <Button variant={'outline'}>Ho</Button>
+                <Button variant={'outline'}>Đau bụng</Button>
+                <Button variant={'outline'}>Đau đầu</Button>
+                <Button variant={'outline'}>Đau răng</Button>
+                <Button variant={'outline'}>Đau mắt</Button>
+                <Button variant={'outline'}>Đau chân</Button>
+                <Button>Khác</Button>
+              </div>
+            </div>
+            <div className="mb-3">
               <label
                 htmlFor="department"
                 className="block text-gray-700 text-sm font-bold mb-2"

@@ -1,3 +1,4 @@
+import loginService from './service/login-service';
 import managementService from './service/management-service';
 import notificationService from './service/notification-service';
 import patientService from './service/patient-service';
@@ -8,4 +9,5 @@ export const listenEventsFromRendererProcess = () => {
   notificationService.listenEventsFromRendererProcess();
   managementService.listenEventsFromRendererProcess();
   patientService.listenEventsFromRendererProcess();
+  loginService.listenEventsFromRendererProcess();
 };

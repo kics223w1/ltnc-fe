@@ -2,45 +2,50 @@ import { Button } from '../../../~/components/ui/button';
 import { Input } from '../../../~/components/ui/input';
 import { Label } from '../../../~/components/ui/label';
 import {
-  Dialog,
   DialogClose,
   DialogContent,
   DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from '/~/components/ui/dialog';
 
 const DialogSignInContent = () => {
   return (
     <>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-[450px]">
         <DialogHeader>
-          <DialogTitle>Sign In</DialogTitle>
+          <DialogTitle>Đăng nhập</DialogTitle>
           <DialogDescription>
-            Sign In to the system to access all features
+            Đăng nhập để sử dụng các tính năng của hệ thống
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="name" className="text-right">
-              Username
+              Tài khoản
             </Label>
-            <Input className="col-span-3" />
+            <Input
+              placeholder="Nhập tài khoản của bạn"
+              className="col-span-3"
+            />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="username" className="text-right">
-              Password
+              Mật khẩu
             </Label>
-            <Input type="password" className="col-span-3" />
+            <Input
+              placeholder="Nhập mật khẩu của bạn"
+              type="password"
+              className="col-span-3"
+            />
           </div>
         </div>
         <DialogFooter className="flex items-center justify-between w-full">
           <DialogClose className="w-full flex items-start pl-5">
-            <Button variant={'outline'}>Cancel</Button>
+            <Button variant={'outline'}>Huỷ bỏ</Button>
           </DialogClose>
-          <Button type="submit">Sign In</Button>
+          <Button type="submit">Đăng nhập</Button>
         </DialogFooter>
       </DialogContent>
     </>
