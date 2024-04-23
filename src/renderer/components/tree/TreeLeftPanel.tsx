@@ -6,9 +6,7 @@ import { useEffect, useState } from 'react';
 import ParentNode from './ParentNode';
 
 const TreeLeftPanel = () => {
-  const [currentTab, setCurrentTab] = useState(
-    MAIN_VIEW_TAB.PATIENT_APPOINTMENT
-  );
+  const [currentTab, setCurrentTab] = useState(MAIN_VIEW_TAB.PATIENT_BOOKING);
 
   useEffect(() => {
     const ipcListener1 = window.electron.ipcRenderer.on(
@@ -40,8 +38,8 @@ const TreeLeftPanel = () => {
     <div className="w-full h-full flex flex-col px-2">
       <ParentNode
         tabs={[
-          MAIN_VIEW_TAB.PATIENT_APPOINTMENT,
           MAIN_VIEW_TAB.PATIENT_BOOKING,
+          MAIN_VIEW_TAB.PATIENT_APPOINTMENT,
         ]}
         title={'Bệnh nhân'}
         setCurrentTab={handleSetCurrentTab}

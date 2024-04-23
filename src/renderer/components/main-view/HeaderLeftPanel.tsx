@@ -4,6 +4,14 @@ import {
 } from '../../../main/models/constants';
 import IconSVG from '../utils/icon-svg';
 
+const styleDrag: any = {
+  WebkitAppRegion: 'drag',
+};
+
+const styleNoDrag: any = {
+  WebkitAppRegion: 'no-drag',
+};
+
 export default function HeaderLeftPanel() {
   const handleCloseApp = () => {
     window.electron.ipcRenderer.sendMessage(
@@ -27,8 +35,11 @@ export default function HeaderLeftPanel() {
   };
 
   return (
-    <div className="flex flex-shrink-0 w-full h-12 pl-4 border-b border-border">
-      <div className="flex items-center gap-1.5 group">
+    <div
+      className="flex flex-shrink-0 w-full h-12 pl-4 border-b border-border"
+      style={styleDrag}
+    >
+      <div className="flex items-center gap-1.5 group" style={styleNoDrag}>
         <div
           className="flex items-center justify-center w-3.5 h-3.5 rounded-full bg-colorCloseButton"
           onClick={handleCloseApp}

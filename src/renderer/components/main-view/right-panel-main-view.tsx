@@ -18,7 +18,7 @@ import PatientList from '../staff/PatientList';
 import ManagementExamination from '../staff/ManagementExamination';
 
 const RightPanelMainView = () => {
-  const [currentTab, setCurrentTab] = useState(MAIN_VIEW_TAB.DOCTOR_LIST);
+  const [currentTab, setCurrentTab] = useState(MAIN_VIEW_TAB.PATIENT_BOOKING);
 
   useEffect(() => {
     const ipcListener1 = window.electron.ipcRenderer.on(
