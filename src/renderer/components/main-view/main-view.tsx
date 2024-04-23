@@ -5,16 +5,20 @@ import {
   ResizablePanelGroup,
 } from '~/components/ui/resizable';
 import RightPanelMainView from './right-panel-main-view';
+import { useEffect, useState } from 'react';
+import { EVENTS_FROM_MAIN_PROCESS, ROLE } from '../../../main/models/constants';
 
 const MainView = () => {
+  const [userRole, setUserRole] = useState<ROLE | undefined>(undefined);
+
   return (
     <ResizablePanelGroup direction="horizontal" className="w-full h-full">
       <ResizablePanel defaultSize={20}>
-        <LeftPanelMainView />
+        <LeftPanelMainView userRole={userRole} />
       </ResizablePanel>
       <ResizableHandle />
       <ResizablePanel defaultSize={80} className="w-full h-full">
-        <RightPanelMainView />
+        <RightPanelMainView userRole={userRole} setUserRole={setUserRole} />
       </ResizablePanel>
     </ResizablePanelGroup>
   );

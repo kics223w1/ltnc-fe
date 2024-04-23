@@ -1,97 +1,214 @@
 import { useEffect, useState } from 'react';
-import { Button } from '../../../~/components/ui/button';
-import { Input } from '../../../~/components/ui/input';
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '../../../~/components/ui/select';
-import DatePickerWithPresets from '../date-picker/DatePickerWithPresets';
-import DoctorTable from '../table/DoctorTable';
-import BookingBox from './BookingBox';
 import Doctor from '../../../main/models/doctor';
-import Examination from '../../../main/models/examination';
-
-const times = [
-  '7 AM - 8 AM',
-  '8 AM - 9 AM',
-  '9 AM - 10 AM',
-  '10 AM - 11 AM',
-  '11 AM - 12 PM',
-  '12 PM - 1 PM',
-  '1 PM - 2 PM',
-  '2 PM - 3 PM',
-  '3 PM - 4 PM',
-  '4 PM - 5 PM',
-];
+import DoctorBookingList from './DoctorBookingList';
+import { USER_SERVICE } from '../../../main/models/constants';
+import { useToast } from '../../../~/components/ui/use-toast';
+import { Button } from '../../../~/components/ui/button';
 
 const PatientBooking = () => {
-  const [selectedDoctors, setSelectedDoctors] = useState<Doctor[]>([]);
+  const [showDoctors, setShowDoctors] = useState(false);
+  const [doctors, setDoctors] = useState<Doctor[]>([]);
 
-  const [examinations, setExaminations] = useState<Examination[]>([]);
-  const [selectedDoctor, setSelectedDoctor] = useState<Doctor | undefined>(
-    undefined
-  );
+  const [fullName, setFullName] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [startTime, setStartTime] = useState('');
+  const [endTime, setEndTime] = useState('');
+  const [symptom, setSymptom] = useState('');
+  const [isInternal, setIsInternal] = useState<boolean>(false);
 
-  const [isInternal, setIsInternal] = useState<boolean>(true);
+  const { toast } = useToast();
 
   useEffect(() => {
-    if (selectedDoctors.length === 0) {
-      setSelectedDoctor(undefined);
+    handleReloadDoctors();
+  }, []);
+
+  const handleReloadDoctors = async () => {
+    const newDoctors: Doctor[] = await window.electron.ipcRenderer.invoke(
+      USER_SERVICE.RELOAD_DOCTORS,
+      {}
+    );
+    setDoctors(newDoctors);
+  };
+
+  const handleSubmit = (event: any) => {
+    event.preventDefault();
+    const errorMessage = getAppointMentError(startTime, endTime);
+
+    if (errorMessage) {
+      toast({
+        variant: 'destructive',
+        title: 'Thời gian khám không hợp lệ',
+        description: errorMessage,
+      });
       return;
     }
 
-    setSelectedDoctor(selectedDoctors[selectedDoctors.length - 1]);
-  }, [selectedDoctors]);
+    setShowDoctors(true);
+  };
+
+  const getAppointMentError = (
+    startTime: string,
+    endTime: string
+  ): string | undefined => {
+    // Convert start and end time strings to Date objects
+    const startDate = new Date(startTime);
+    const endDate = new Date(endTime);
+
+    // Get the current time
+    const currentTime = new Date();
+
+    if (startDate >= endDate) {
+      return 'Thời gian bắt đầu khám không được nhỏ hơn thời gian kết thúc khám';
+    }
+
+    if (startDate < currentTime) {
+      return 'Thời gian bắt đầu khám không được nhỏ hơn thời gian hiện tại';
+    }
+
+    return undefined;
+  };
+
+  const handleStartTimeChange = (e: any) => {
+    const selectedStartTime = e.target.value;
+    setStartTime(selectedStartTime);
+  };
+
+  const handleEndTimeChange = (e: any) => {
+    const selectedEndTime = e.target.value;
+    setEndTime(selectedEndTime);
+  };
 
   return (
-    <div className="w-full h-full flex flex-col gap-3 px-12 pt-10 pb-10 overflow-auto">
-      <div className="flex items-center gap-20 w-full">
-        <span className="text-base font-sfProSemiBold flex flex-shrink-0">
-          Chọn ngày khám
-        </span>
-        <DatePickerWithPresets css="w-full" />
-      </div>
-
-      <div className="relative">
-        <div className="flex items-center gap-3 absolute">
-          <span className="text-base font-sfProSemiBold">
-            Chọn khoa khám và bác sĩ:{' '}
-          </span>
-          <Button
-            variant={isInternal ? 'outline' : 'default'}
-            onClick={() => {
-              setIsInternal(false);
-            }}
-          >
-            Khoa Ngoại
-          </Button>
-          <Button
-            variant={isInternal ? 'default' : 'outline'}
-            onClick={() => {
-              setIsInternal(true);
-            }}
-          >
-            Khoa Nội
-          </Button>
+    <div className="w-full h-full flex flex-col gap-3 px-12 pt-5 pb-10 overflow-auto">
+      {showDoctors ? (
+        <DoctorBookingList
+          handleRefresh={handleReloadDoctors}
+          handleReturn={() => {
+            setShowDoctors(false);
+          }}
+          doctors={doctors}
+        />
+      ) : (
+        <div className="container mx-auto max-w-lg px-6 pt-4 pb-4 border rounded-lg shadow-md">
+          <h2 className="text-2xl font-semibold mb-2">Đặt lịch khám</h2>
+          <form action="#" onSubmit={handleSubmit}>
+            <div className="mb-3">
+              <label
+                htmlFor="fullname"
+                className="block text-gray-700 text-sm font-bold mb-2"
+              >
+                Họ và tên
+              </label>
+              <input
+                type="text"
+                id="fullname"
+                name="fullname"
+                className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500"
+                placeholder="Nhập họ tên của bạn"
+                required
+                onChange={(e) => setFullName(e.target.value)}
+                value={fullName}
+              />
+            </div>
+            <div className="mb-3">
+              <label
+                htmlFor="phone"
+                className="block text-gray-700 text-sm font-bold mb-2"
+              >
+                Số điện thoại
+              </label>
+              <input
+                type="tel"
+                id="phone"
+                name="phone"
+                className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500"
+                placeholder="Nhập số điện thoại của bạn"
+                required
+                onChange={(e) => setPhoneNumber(e.target.value)}
+                value={phoneNumber}
+              />
+            </div>
+            <div className="mb-3">
+              <label
+                htmlFor="start-time"
+                className="block text-gray-700 text-sm font-bold mb-2"
+              >
+                Thời gian bắt đầu
+              </label>
+              <input
+                type="datetime-local"
+                id="start-time"
+                name="start-time"
+                className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500"
+                required
+                onChange={handleStartTimeChange}
+                value={startTime}
+              />
+            </div>
+            <div className="mb-3">
+              <label
+                htmlFor="end-time"
+                className="block text-gray-700 text-sm font-bold mb-2"
+              >
+                Thời gian kết thúc
+              </label>
+              <input
+                type="datetime-local"
+                id="end-time"
+                name="end-time"
+                className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500"
+                required
+                onChange={handleEndTimeChange}
+                value={endTime}
+              />
+            </div>
+            <div className="mb-3">
+              <label className="block text-gray-700 text-sm font-bold mb-2">
+                Triệu chứng
+              </label>
+              <div className=" grid grid-cols-4 gap-2">
+                <Button variant={'outline'}>Sốt</Button>
+                <Button variant={'outline'}>Ho</Button>
+                <Button variant={'outline'}>Đau bụng</Button>
+                <Button variant={'outline'}>Đau đầu</Button>
+                <Button variant={'outline'}>Đau răng</Button>
+                <Button variant={'outline'}>Đau mắt</Button>
+                <Button variant={'outline'}>Đau chân</Button>
+                <Button>Khác</Button>
+              </div>
+            </div>
+            <div className="mb-3">
+              <label
+                htmlFor="department"
+                className="block text-gray-700 text-sm font-bold mb-2"
+              >
+                Khoa khám
+              </label>
+              <select
+                id="department"
+                name="department"
+                className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500"
+                required
+                onChange={(e) => setIsInternal(e.target.value === 'Internal')}
+                value={isInternal ? 'Internal' : 'External'}
+              >
+                <option value="" disabled selected>
+                  Chọn khoa khám
+                </option>
+                <option value="Internal">Khoa nội</option>
+                <option value="External">Khoa ngoại</option>
+              </select>
+            </div>
+            <button
+              type="submit"
+              onSubmit={handleSubmit}
+              className="w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition duration-300"
+            >
+              Đặt lịch khám
+            </button>
+          </form>
         </div>
-        <DoctorTable setSelectedDoctors={setSelectedDoctors} />
-      </div>
-
-      <div className="w-full h-px bg-border my-5">
-        {selectedDoctor !== undefined && (
-          <div className="flex flex-col gap-5 mt-5 pb-10">
-            {times.map((time) => {
-              return (
-                <BookingBox doctorName={selectedDoctor.userName} time={time} />
-              );
-            })}
-          </div>
-        )}
-      </div>
+      )}
     </div>
   );
 };

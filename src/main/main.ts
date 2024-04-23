@@ -9,9 +9,16 @@
  * `./src/main.js` using webpack. This gives us some performance wins.
  */
 import path from 'path';
-import { app, BrowserWindow, shell, screen, nativeTheme } from 'electron';
+import {
+  app,
+  BrowserWindow,
+  shell,
+  screen,
+  nativeTheme,
+  ipcMain,
+} from 'electron';
 import { getAssetPath } from './models/app-directory';
-import { OS_PLATFORM } from './models/constants';
+import { EVENTS_FROM_MAIN_PROCESS, OS_PLATFORM } from './models/constants';
 import { getOSPlatform, resolveHtmlPath } from './utils';
 import notificationService from './service/notification-service';
 import { listenEventsFromRendererProcess } from '.';
@@ -36,6 +43,22 @@ const isDebug =
 if (isDebug) {
   require('electron-debug')();
 }
+
+ipcMain.on(EVENTS_FROM_MAIN_PROCESS.ON_CLOSE_APP, (event, arg) => {
+  app.quit();
+});
+
+ipcMain.on(EVENTS_FROM_MAIN_PROCESS.ON_TOGGLE_FULL_SCREEN, (event, arg) => {
+  if (mainWindow) {
+    mainWindow.setFullScreen(!mainWindow.isFullScreen());
+  }
+});
+
+ipcMain.on(EVENTS_FROM_MAIN_PROCESS.ON_MINIMIZE_APP, (event, arg) => {
+  if (mainWindow) {
+    mainWindow.minimize();
+  }
+});
 
 const installExtensions = async () => {
   const installer = require('electron-devtools-installer');
