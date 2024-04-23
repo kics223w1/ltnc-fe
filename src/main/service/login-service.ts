@@ -6,6 +6,26 @@ import {
 } from '../models/constants';
 import notificationService from './notification-service';
 
+const adminAccount = {
+  account: 'admin',
+  password: 'admin',
+};
+
+const doctorAccount = {
+  account: 'doctor',
+  password: 'doctor',
+};
+
+const nurseAccount = {
+  account: 'nurse',
+  password: 'nurse',
+};
+
+const patientAccount = {
+  account: 'patient',
+  password: 'patient',
+};
+
 class LoginService {
   private userRole: ROLE | undefined;
 
@@ -24,14 +44,44 @@ class LoginService {
 
   private async login(account: string, password: string) {
     // Call API to login
+    if (
+      account === adminAccount.account &&
+      password === adminAccount.password
+    ) {
+      this.setUserRole(ROLE.ADMIN);
+      return;
+    }
+
+    if (
+      account === doctorAccount.account &&
+      password === doctorAccount.password
+    ) {
+      this.setUserRole(ROLE.DOCTOR);
+      return;
+    }
+
+    if (
+      account === nurseAccount.account &&
+      password === nurseAccount.password
+    ) {
+      this.setUserRole(ROLE.NURSE);
+      return;
+    }
+
+    if (
+      account === patientAccount.account &&
+      password === patientAccount.password
+    ) {
+      this.setUserRole(ROLE.PATIENT);
+      return;
+    }
+
+    this.setUserRole(undefined);
   }
 
   private async logout() {
     // Call API to login
-  }
-
-  private notifyRenderer(isLoggedIn: boolean) {
-    // Notify to renderer process
+    this.setUserRole(undefined);
   }
 
   public listenEventsFromRendererProcess() {

@@ -1,3 +1,5 @@
+import { useState } from 'react';
+import { LOGIN_SERVICE } from '../../../main/models/constants';
 import { Button } from '../../../~/components/ui/button';
 import { Input } from '../../../~/components/ui/input';
 import { Label } from '../../../~/components/ui/label';
@@ -11,6 +13,16 @@ import {
 } from '/~/components/ui/dialog';
 
 const DialogSignInContent = () => {
+  const [account, setAccount] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+
+  const handleLogin = () => {
+    window.electron.ipcRenderer.sendMessage(LOGIN_SERVICE.LOGIN, {
+      account,
+      password,
+    });
+  };
+
   return (
     <>
       <DialogContent className="sm:max-w-[450px]">
@@ -26,6 +38,7 @@ const DialogSignInContent = () => {
               Tài khoản
             </Label>
             <Input
+              onChange={(e) => setAccount(e.target.value)}
               placeholder="Nhập tài khoản của bạn"
               className="col-span-3"
             />
@@ -35,6 +48,7 @@ const DialogSignInContent = () => {
               Mật khẩu
             </Label>
             <Input
+              onChange={(e) => setPassword(e.target.value)}
               placeholder="Nhập mật khẩu của bạn"
               type="password"
               className="col-span-3"
@@ -45,7 +59,9 @@ const DialogSignInContent = () => {
           <DialogClose className="w-full flex items-start pl-5">
             <Button variant={'outline'}>Huỷ bỏ</Button>
           </DialogClose>
-          <Button type="submit">Đăng nhập</Button>
+          <Button onClick={handleLogin} type="submit">
+            Đăng nhập
+          </Button>
         </DialogFooter>
       </DialogContent>
     </>

@@ -3,6 +3,7 @@ import HeaderRightPanel from '../header/HeaderRightPanel';
 import {
   EVENTS_FROM_MAIN_PROCESS,
   MAIN_VIEW_TAB,
+  ROLE,
 } from '../../../main/models/constants';
 import PatientExamination from '../patient/PatientExamination';
 import DoctorList from '../staff/DoctorList';
@@ -17,7 +18,12 @@ import AdminMachineDashboard from '../admin/AdminMachineDashboard';
 import PatientList from '../staff/PatientList';
 import ManagementExamination from '../staff/ManagementExamination';
 
-const RightPanelMainView = () => {
+type TreeLeftPanelProps = {
+  userRole: ROLE | undefined;
+  setUserRole: (role: ROLE | undefined) => void;
+};
+
+const RightPanelMainView = ({ userRole, setUserRole }: TreeLeftPanelProps) => {
   const [currentTab, setCurrentTab] = useState(MAIN_VIEW_TAB.PATIENT_BOOKING);
 
   useEffect(() => {
@@ -38,7 +44,7 @@ const RightPanelMainView = () => {
 
   return (
     <div className="w-full h-full flex flex-col">
-      <HeaderRightPanel />
+      <HeaderRightPanel userRole={userRole} setUserRole={setUserRole} />
       <div className="w-full h-[calc(100%-96px)]">{buildView(currentTab)}</div>
       <div className="flex flex-shrink-0 items-center w-full h-12 pl-12 border-t border-border">
         <span className="text-sm text-muted-foreground">

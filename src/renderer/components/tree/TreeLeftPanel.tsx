@@ -1,11 +1,16 @@
 import {
   EVENTS_FROM_MAIN_PROCESS,
   MAIN_VIEW_TAB,
+  ROLE,
 } from '../../../main/models/constants';
 import { useEffect, useState } from 'react';
 import ParentNode from './ParentNode';
 
-const TreeLeftPanel = () => {
+type TreeLeftPanelProps = {
+  userRole: ROLE | undefined;
+};
+
+const TreeLeftPanel = ({ userRole }: TreeLeftPanelProps) => {
   const [currentTab, setCurrentTab] = useState(MAIN_VIEW_TAB.PATIENT_BOOKING);
 
   useEffect(() => {
@@ -47,27 +52,33 @@ const TreeLeftPanel = () => {
       ></ParentNode>
 
       <ParentNode
-        tabs={[
-          MAIN_VIEW_TAB.DOCTOR_LIST,
-          MAIN_VIEW_TAB.NURSE_LIST,
-          MAIN_VIEW_TAB.PATIENT_LIST,
-          MAIN_VIEW_TAB.MANAGEMENT_EXAMINATION,
-        ]}
+        tabs={
+          userRole && userRole !== ROLE.PATIENT
+            ? [
+                MAIN_VIEW_TAB.DOCTOR_LIST,
+                MAIN_VIEW_TAB.NURSE_LIST,
+                MAIN_VIEW_TAB.PATIENT_LIST,
+                MAIN_VIEW_TAB.MANAGEMENT_EXAMINATION,
+              ]
+            : [MAIN_VIEW_TAB.DOCTOR_LIST, MAIN_VIEW_TAB.NURSE_LIST]
+        }
         title={'Nhân viên'}
         setCurrentTab={handleSetCurrentTab}
         currentTab={currentTab}
       ></ParentNode>
 
-      <ParentNode
-        tabs={[
-          MAIN_VIEW_TAB.ADMIN_DOCTOR_DASHBOARD,
-          MAIN_VIEW_TAB.ADMIN_NURSE_DASHBOARD,
-          MAIN_VIEW_TAB.ADMIN_MACHINE_DASHBOARD,
-        ]}
-        title={'Quản trị viên'}
-        setCurrentTab={handleSetCurrentTab}
-        currentTab={currentTab}
-      ></ParentNode>
+      {userRole === ROLE.ADMIN && (
+        <ParentNode
+          tabs={[
+            MAIN_VIEW_TAB.ADMIN_DOCTOR_DASHBOARD,
+            MAIN_VIEW_TAB.ADMIN_NURSE_DASHBOARD,
+            MAIN_VIEW_TAB.ADMIN_MACHINE_DASHBOARD,
+          ]}
+          title={'Quản trị viên'}
+          setCurrentTab={handleSetCurrentTab}
+          currentTab={currentTab}
+        ></ParentNode>
+      )}
     </div>
   );
 };

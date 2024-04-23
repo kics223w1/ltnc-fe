@@ -1,9 +1,12 @@
 import { Button } from '~/components/ui/button';
 import { Dialog, DialogTrigger } from '/~/components/ui/dialog';
 import DialogSignInContent from '../dialog/SignInContent';
-import DialogSignUpContent from '../dialog/SignUpContent';
-import IconSVG from '../utils/icon-svg';
-import { ICON_SVG } from '../../../main/models/constants';
+import {
+  EVENTS_FROM_MAIN_PROCESS,
+  LOGIN_SERVICE,
+  ROLE,
+} from '../../../main/models/constants';
+import { useEffect, useState } from 'react';
 
 const styleDrag: any = {
   WebkitAppRegion: 'drag',
@@ -13,25 +16,51 @@ const styleNoDrag: any = {
   WebkitAppRegion: 'no-drag',
 };
 
-const HeaderRightPanel = () => {
+type HeaderRightPanelProps = {
+  userRole: ROLE | undefined;
+  setUserRole: (role: ROLE | undefined) => void;
+};
+
+const HeaderRightPanel = ({ userRole, setUserRole }: HeaderRightPanelProps) => {
+  useEffect(() => {
+    const ipcListener = window.electron.ipcRenderer.on(
+      EVENTS_FROM_MAIN_PROCESS.ON_UPDATE_USER_ROLE,
+      (obj: { role: ROLE | undefined }) => {
+        setUserRole(obj.role);
+      }
+    );
+
+    return () => {
+      if (ipcListener) {
+        ipcListener();
+      }
+    };
+  }, []);
+
+  const handleLogout = () => {
+    setUserRole(undefined);
+    window.electron.ipcRenderer.sendMessage(LOGIN_SERVICE.LOGOUT, {});
+  };
+
   return (
     <div
       className="flex flex-shrink-0 items-center justify-between w-full h-12 border-b border-border pl-12 pt-1 gap-2"
       style={styleDrag}
     >
-      <Dialog>
-        <DialogTrigger asChild>
-          <Button
-            style={styleNoDrag}
-            variant={'default'}
-            size={'sm'}
-            className="px-5 mr-1"
-          >
-            Đăng nhập
-          </Button>
-        </DialogTrigger>
-        <DialogSignInContent />
-      </Dialog>
+      {userRole ? (
+        <>
+          <Button onClick={handleLogout}>Đăng xuất</Button>
+        </>
+      ) : (
+        <Dialog>
+          <DialogTrigger asChild>
+            <Button style={styleNoDrag} variant={'default'} size={'sm'}>
+              Đăng nhập
+            </Button>
+          </DialogTrigger>
+          <DialogSignInContent />
+        </Dialog>
+      )}
     </div>
   );
 };
