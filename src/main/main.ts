@@ -25,6 +25,7 @@ import { listenEventsFromRendererProcess } from '.';
 import machineService from './service/machine-service';
 import userService from './service/user-service';
 import managementService from './service/management-service';
+import loginService from './service/login-service';
 
 let mainWindow: BrowserWindow | null = null;
 
@@ -132,6 +133,7 @@ const createWindow = async () => {
         userService.loadDataAtLaunch(),
         machineService.loadDataAtLaunch(),
         managementService.loadDataAtLaunch(),
+        loginService.loadLogicAtLaunch(),
       ]);
     }
   });

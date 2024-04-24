@@ -1,10 +1,12 @@
 import { ipcMain } from 'electron';
 import {
+  APP_CONFIG_KEY,
   EVENTS_FROM_MAIN_PROCESS,
   LOGIN_SERVICE,
   ROLE,
 } from '../models/constants';
 import notificationService from './notification-service';
+import appConfigurationService from './app-configuration-service';
 
 const adminAccount = {
   account: 'admin',
@@ -42,13 +44,14 @@ class LoginService {
     );
   }
 
-  private async login(account: string, password: string) {
+  private async login(account: string, password: string, rememberMe: boolean) {
     // Call API to login
     if (
       account === adminAccount.account &&
       password === adminAccount.password
     ) {
       this.setUserRole(ROLE.ADMIN);
+      this.saveUserObject(account, password, rememberMe);
       return;
     }
 
@@ -57,6 +60,7 @@ class LoginService {
       password === doctorAccount.password
     ) {
       this.setUserRole(ROLE.DOCTOR);
+      this.saveUserObject(account, password, rememberMe);
       return;
     }
 
@@ -65,6 +69,7 @@ class LoginService {
       password === nurseAccount.password
     ) {
       this.setUserRole(ROLE.NURSE);
+      this.saveUserObject(account, password, rememberMe);
       return;
     }
 
@@ -73,18 +78,80 @@ class LoginService {
       password === patientAccount.password
     ) {
       this.setUserRole(ROLE.PATIENT);
+      this.saveUserObject(account, password, rememberMe);
       return;
     }
 
+    // Update comments...
+
     this.setUserRole(undefined);
+    this.saveUserObject(account, password, false);
+  }
+
+  public saveUserObject(
+    account: string,
+    password: string,
+    rememberMe: boolean
+  ) {
+    if (!rememberMe) {
+      appConfigurationService.removeConfig(
+        APP_CONFIG_KEY.START_TIME_REMEMBER_ME
+      );
+      appConfigurationService.removeConfig(APP_CONFIG_KEY.USER_OBJECT);
+      return;
+    }
+
+    appConfigurationService.setConfig(
+      APP_CONFIG_KEY.START_TIME_REMEMBER_ME,
+      new Date().getTime()
+    );
+
+    const encodedAccount = Buffer.from(account).toString('base64');
+    const encodedPassword = Buffer.from(password).toString('base64');
+    appConfigurationService.setConfig(
+      APP_CONFIG_KEY.USER_OBJECT,
+      `${encodedAccount}__${encodedPassword}`
+    );
+  }
+
+  public loadLogicAtLaunch() {
+    const userObject = appConfigurationService.getConfig(
+      APP_CONFIG_KEY.USER_OBJECT
+    );
+    const startTimeRememberMe = appConfigurationService.getConfig(
+      APP_CONFIG_KEY.START_TIME_REMEMBER_ME
+    );
+    if (!userObject) {
+      return;
+    }
+
+    const [encodedAccount, encodedPassword] = userObject.split('__');
+    const account = Buffer.from(encodedAccount, 'base64').toString('utf-8');
+    const password = Buffer.from(encodedPassword, 'base64').toString('utf-8');
+
+    // Update comments...
+    if (
+      startTimeRememberMe &&
+      new Date().getTime() - startTimeRememberMe >= 31 * 24 * 60 * 60 * 1000
+    ) {
+      this.saveUserObject(account, password, false);
+      return;
+    }
+
+    this.login(account, password, true);
   }
 
   private async logout() {
     // Call API to login
-    this.setUserRole(undefined);
+    this.userRole = undefined;
+    this.saveUserObject('', '', false);
   }
 
   public listenEventsFromRendererProcess() {
+    ipcMain.handle(LOGIN_SERVICE.GET_USER_ROLE, async (event, args: {}) => {
+      return this.userRole;
+    });
+
     ipcMain.on(
       LOGIN_SERVICE.LOGIN,
       (
@@ -92,9 +159,10 @@ class LoginService {
         args: {
           account: string;
           password: string;
+          rememberMe: boolean;
         }
       ) => {
-        this.login(args.account, args.password);
+        this.login(args.account, args.password, args.rememberMe);
       }
     );
 
