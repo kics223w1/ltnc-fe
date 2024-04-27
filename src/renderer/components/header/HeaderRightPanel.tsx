@@ -22,21 +22,6 @@ type HeaderRightPanelProps = {
 };
 
 const HeaderRightPanel = ({ userRole, setUserRole }: HeaderRightPanelProps) => {
-  useEffect(() => {
-    const ipcListener = window.electron.ipcRenderer.on(
-      EVENTS_FROM_MAIN_PROCESS.ON_UPDATE_USER_ROLE,
-      (obj: { role: ROLE | undefined }) => {
-        setUserRole(obj.role);
-      }
-    );
-
-    return () => {
-      if (ipcListener) {
-        ipcListener();
-      }
-    };
-  }, []);
-
   const handleLogout = () => {
     setUserRole(undefined);
     window.electron.ipcRenderer.sendMessage(LOGIN_SERVICE.LOGOUT, {});

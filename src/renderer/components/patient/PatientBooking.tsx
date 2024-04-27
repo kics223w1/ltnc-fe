@@ -1,11 +1,18 @@
 import { useEffect, useState } from 'react';
 import Doctor from '../../../main/models/doctor';
 import DoctorBookingList from './DoctorBookingList';
-import { USER_SERVICE } from '../../../main/models/constants';
+import { ICON_SVG, USER_SERVICE } from '../../../main/models/constants';
 import { useToast } from '../../../~/components/ui/use-toast';
 import { Button } from '../../../~/components/ui/button';
+import IconSVG from '../utils/icon-svg';
+import { Dialog, DialogTrigger } from '../../../~/components/ui/dialog';
+import DialogSignInContent from '../dialog/SignInContent';
 
-const PatientBooking = () => {
+type Props = {
+  isHomepage: boolean;
+};
+
+const PatientBooking = ({ isHomepage }: Props) => {
   const [showDoctors, setShowDoctors] = useState(false);
   const [doctors, setDoctors] = useState<Doctor[]>([]);
 
@@ -13,8 +20,9 @@ const PatientBooking = () => {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [startTime, setStartTime] = useState('');
   const [endTime, setEndTime] = useState('');
-  const [symptom, setSymptom] = useState('');
   const [isInternal, setIsInternal] = useState<boolean>(false);
+
+  const [symptoms, setSymptoms] = useState<string[]>(['Sốt']);
 
   const { toast } = useToast();
 
@@ -40,6 +48,23 @@ const PatientBooking = () => {
         title: 'Thời gian khám không hợp lệ',
         description: errorMessage,
       });
+      return;
+    }
+
+    if (isHomepage) {
+      setFullName('');
+      setPhoneNumber('');
+      setStartTime('');
+      setEndTime('');
+      setIsInternal(false);
+      setSymptoms(['Sốt']);
+
+      toast({
+        variant: 'default',
+        title: 'Đặt lịch thành công',
+        description: 'Vui lòng kiểm tra email xác nhận từ bác sĩ',
+      });
+
       return;
     }
 
@@ -78,8 +103,16 @@ const PatientBooking = () => {
     setEndTime(selectedEndTime);
   };
 
+  const handleOnClickSymptoms = (symptom: string) => {
+    if (symptoms.includes(symptom)) {
+      setSymptoms(symptoms.filter((s) => s !== symptom));
+    } else {
+      setSymptoms([...symptoms, symptom]);
+    }
+  };
+
   return (
-    <div className="w-full h-full flex flex-col gap-3 px-12 pt-5 pb-10 overflow-auto">
+    <div className="w-full h-full flex flex-col items-center gap-3 px-12 pt-5 pb-10 overflow-auto">
       {showDoctors ? (
         <DoctorBookingList
           handleRefresh={handleReloadDoctors}
@@ -89,7 +122,7 @@ const PatientBooking = () => {
           doctors={doctors}
         />
       ) : (
-        <div className="container mx-auto max-w-lg px-6 pt-4 pb-4 border rounded-lg shadow-md">
+        <div className="container mx-auto max-w-lg px-6 pt-4 pb-4 border rounded-lg shadow-md bg-white">
           <h2 className="text-2xl font-semibold mb-2">Đặt lịch khám</h2>
           <form action="#" onSubmit={handleSubmit}>
             <div className="mb-3">
@@ -167,14 +200,84 @@ const PatientBooking = () => {
                 Triệu chứng
               </label>
               <div className=" grid grid-cols-4 gap-2">
-                <Button variant={'outline'}>Sốt</Button>
-                <Button variant={'outline'}>Ho</Button>
-                <Button variant={'outline'}>Đau bụng</Button>
-                <Button variant={'outline'}>Đau đầu</Button>
-                <Button variant={'outline'}>Đau răng</Button>
-                <Button variant={'outline'}>Đau mắt</Button>
-                <Button variant={'outline'}>Đau chân</Button>
-                <Button>Khác</Button>
+                <Button
+                  type="button"
+                  variant={symptoms.includes('Sốt') ? 'default' : 'outline'}
+                  onClick={() => {
+                    handleOnClickSymptoms('Sốt');
+                  }}
+                >
+                  Sốt
+                </Button>
+                <Button
+                  type="button"
+                  variant={symptoms.includes('Ho') ? 'default' : 'outline'}
+                  onClick={() => {
+                    handleOnClickSymptoms('Ho');
+                  }}
+                >
+                  Ho
+                </Button>
+                <Button
+                  type="button"
+                  variant={
+                    symptoms.includes('Đau bụng') ? 'default' : 'outline'
+                  }
+                  onClick={() => {
+                    handleOnClickSymptoms('Đau bụng');
+                  }}
+                >
+                  Đau bụng
+                </Button>
+                <Button
+                  type="button"
+                  variant={symptoms.includes('Đau đầu') ? 'default' : 'outline'}
+                  onClick={() => {
+                    handleOnClickSymptoms('Đau đầu');
+                  }}
+                >
+                  Đau đầu
+                </Button>
+                <Button
+                  type="button"
+                  variant={
+                    symptoms.includes('Đau răng') ? 'default' : 'outline'
+                  }
+                  onClick={() => {
+                    handleOnClickSymptoms('Đau răng');
+                  }}
+                >
+                  Đau răng
+                </Button>
+                <Button
+                  type="button"
+                  variant={symptoms.includes('Đau mắt') ? 'default' : 'outline'}
+                  onClick={() => {
+                    handleOnClickSymptoms('Đau mắt');
+                  }}
+                >
+                  Đau mắt
+                </Button>
+                <Button
+                  type="button"
+                  variant={
+                    symptoms.includes('Đau chân') ? 'default' : 'outline'
+                  }
+                  onClick={() => {
+                    handleOnClickSymptoms('Đau chân');
+                  }}
+                >
+                  Đau chân
+                </Button>
+                <Button
+                  type="button"
+                  variant={symptoms.includes('Khác') ? 'default' : 'outline'}
+                  onClick={() => {
+                    handleOnClickSymptoms('Khác');
+                  }}
+                >
+                  Khác
+                </Button>
               </div>
             </div>
             <div className="mb-3">
@@ -207,6 +310,17 @@ const PatientBooking = () => {
               Đặt lịch khám
             </button>
           </form>
+
+          {isHomepage && (
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button variant={'outline'} className="w-full mt-4" size={'lg'}>
+                  Đăng nhập vào hệ thống
+                </Button>
+              </DialogTrigger>
+              <DialogSignInContent />
+            </Dialog>
+          )}
         </div>
       )}
     </div>

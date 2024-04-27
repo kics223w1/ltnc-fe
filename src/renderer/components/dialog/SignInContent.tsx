@@ -11,15 +11,18 @@ import {
   DialogHeader,
   DialogTitle,
 } from '/~/components/ui/dialog';
+import { Checkbox } from '/~/components/ui/checkbox';
 
 const DialogSignInContent = () => {
   const [account, setAccount] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+  const [rememberMe, setRememberMe] = useState<boolean>(true);
 
   const handleLogin = () => {
     window.electron.ipcRenderer.sendMessage(LOGIN_SERVICE.LOGIN, {
       account,
       password,
+      rememberMe: rememberMe,
     });
   };
 
@@ -53,6 +56,20 @@ const DialogSignInContent = () => {
               type="password"
               className="col-span-3"
             />
+          </div>
+
+          <div
+            className="grid grid-cols-4 items-center gap-4 cursor-pointer"
+            onClick={() => {
+              setRememberMe(!rememberMe);
+            }}
+          >
+            <div className="flex items-end justify-end">
+              <Checkbox checked={rememberMe} onChange={() => {}}></Checkbox>
+            </div>
+            <span className="col-span-3 text-muted-foreground">
+              Ghi nhớ tài khoản trong 1 tháng
+            </span>
           </div>
         </div>
         <DialogFooter className="flex items-center justify-between w-full">

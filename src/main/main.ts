@@ -25,6 +25,7 @@ import { listenEventsFromRendererProcess } from '.';
 import machineService from './service/machine-service';
 import userService from './service/user-service';
 import managementService from './service/management-service';
+import loginService from './service/login-service';
 
 let mainWindow: BrowserWindow | null = null;
 
@@ -99,8 +100,6 @@ const createWindow = async () => {
     height: screenHeight - 50,
     minWidth: 800,
     minHeight: 600,
-    icon: appIcon,
-    frame: false,
     autoHideMenuBar: true,
     webPreferences: {
       preload: app.isPackaged
@@ -132,6 +131,7 @@ const createWindow = async () => {
         userService.loadDataAtLaunch(),
         machineService.loadDataAtLaunch(),
         managementService.loadDataAtLaunch(),
+        loginService.loadLogicAtLaunch(),
       ]);
     }
   });
