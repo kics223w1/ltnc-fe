@@ -100,8 +100,6 @@ const createWindow = async () => {
     height: screenHeight - 50,
     minWidth: 800,
     minHeight: 600,
-    icon: appIcon,
-    frame: false,
     autoHideMenuBar: true,
     webPreferences: {
       preload: app.isPackaged

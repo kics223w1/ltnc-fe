@@ -8,20 +8,12 @@ import RightPanelMainView from './right-panel-main-view';
 import { useEffect, useState } from 'react';
 import { LOGIN_SERVICE, ROLE } from '../../../main/models/constants';
 
-const MainView = () => {
-  const [userRole, setUserRole] = useState<ROLE | undefined>(undefined);
+type Props = {
+  userRole: ROLE | undefined;
+  setUserRole: (role: ROLE | undefined) => void;
+};
 
-  useEffect(() => {
-    const setup = async () => {
-      const newUserRole = await window.electron.ipcRenderer.invoke(
-        LOGIN_SERVICE.GET_USER_ROLE,
-        {}
-      );
-      setUserRole(newUserRole);
-    };
-    setup();
-  }, []);
-
+const MainView = ({ userRole, setUserRole }: Props) => {
   return (
     <ResizablePanelGroup direction="horizontal" className="w-full h-full">
       <ResizablePanel defaultSize={20}>
