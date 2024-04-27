@@ -19,3 +19,27 @@ npm i
 npm i
 npm run build
 ```
+
+### Account
+
+```ts
+const adminAccount = {
+  account: 'admin',
+  password: 'admin',
+};
+
+const doctorAccount = {
+  account: 'doctor',
+  password: 'doctor',
+};
+
+const nurseAccount = {
+  account: 'nurse',
+  password: 'nurse',
+};
+
+const patientAccount = {
+  account: 'patient',
+  password: 'patient',
+};
+```
