@@ -8,7 +8,7 @@ import ExaminationTable from '../table/ExaminationTable';
 import { useState } from 'react';
 import Examination from '../../../main/models/examination';
 import { Dialog, DialogTrigger } from '../../../~/components/ui/dialog';
-import DetailExamination from '../dialog/DetailExamination';
+import ExaminationInformation from '../dialog/ExaminationInformation';
 
 type Params = {};
 
@@ -55,7 +55,7 @@ const PatientExamination = ({}: Params) => {
             </Button>
           </DialogTrigger>
           {examinations.length > 0 && (
-            <DetailExamination
+            <ExaminationInformation
               examination={examinations[examinations.length - 1]}
             />
           )}
