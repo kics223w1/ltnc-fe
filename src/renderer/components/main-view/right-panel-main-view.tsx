@@ -62,7 +62,7 @@ const buildView = (tab: MAIN_VIEW_TAB) => {
     case MAIN_VIEW_TAB.PATIENT_APPOINTMENT:
       return <PatientExamination />;
     case MAIN_VIEW_TAB.PATIENT_BOOKING:
-      return <PatientBooking isHomepage={false} />;
+      return <PatientBooking />;
 
     // Staff
     case MAIN_VIEW_TAB.DOCTOR_LIST:

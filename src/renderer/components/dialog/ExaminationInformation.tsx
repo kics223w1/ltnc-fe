@@ -6,7 +6,6 @@ import {
   DialogTitle,
 } from '/~/components/ui/dialog';
 import { Button } from '../../../~/components/ui/button';
-import Doctor from '../../../main/models/doctor';
 import Examination from '../../../main/models/examination';
 
 type Params = {
