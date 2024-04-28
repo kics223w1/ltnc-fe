@@ -6,7 +6,7 @@ import Examination from '../models/examination';
 import Patient from '../models/patient';
 import Medicine from '../models/medicine';
 
-const host = '192.168.0.100';
+const host = '192.168.1.104';
 const port = 9090;
 
 class NetworkService {

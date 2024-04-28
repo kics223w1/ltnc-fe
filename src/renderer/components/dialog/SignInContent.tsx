@@ -76,7 +76,11 @@ const DialogSignInContent = () => {
           <DialogClose className="w-full flex items-start pl-5">
             <Button variant={'outline'}>Huỷ bỏ</Button>
           </DialogClose>
-          <Button onClick={handleLogin} type="submit">
+          <Button
+            disabled={!account || !password}
+            onClick={handleLogin}
+            type="submit"
+          >
             Đăng nhập
           </Button>
         </DialogFooter>

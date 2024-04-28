@@ -1,14 +1,5 @@
 {
-  "name": "proxyman",
-  "productName": "Proxyman",
-  "version": "2.9.0",
-  "description": "Proxyman: A modern web debugging proxy for Windows",
   "license": "MIT",
-  "author": {
-    "name": "Proxyman LLC",
-    "email": "nghia@proxyman.io",
-    "url": "https://proxyman.io"
-  },
   "main": "./dist/main/main.js",
   "scripts": {
     "electron-rebuild": "node -r ts-node/register ../../.erb/scripts/electron-rebuild.js",
