@@ -1,18 +1,13 @@
 import { useEffect, useState } from 'react';
 import Doctor from '../../../main/models/doctor';
 import DoctorBookingList from './DoctorBookingList';
-import { ICON_SVG, USER_SERVICE } from '../../../main/models/constants';
+import { USER_SERVICE } from '../../../main/models/constants';
 import { useToast } from '../../../~/components/ui/use-toast';
 import { Button } from '../../../~/components/ui/button';
-import IconSVG from '../utils/icon-svg';
-import { Dialog, DialogTrigger } from '../../../~/components/ui/dialog';
-import DialogSignInContent from '../dialog/SignInContent';
 
-type Props = {
-  isHomepage: boolean;
-};
+type Props = {};
 
-const PatientBooking = ({ isHomepage }: Props) => {
+const PatientBooking = ({}: Props) => {
   const [showDoctors, setShowDoctors] = useState(false);
   const [doctors, setDoctors] = useState<Doctor[]>([]);
 
@@ -51,20 +46,12 @@ const PatientBooking = ({ isHomepage }: Props) => {
       return;
     }
 
-    if (isHomepage) {
-      setFullName('');
-      setPhoneNumber('');
-      setStartTime('');
-      setEndTime('');
-      setIsInternal(false);
-      setSymptoms(['Sốt']);
-
+    if (symptoms.length === 0) {
       toast({
-        variant: 'default',
-        title: 'Đặt lịch thành công',
-        description: 'Vui lòng kiểm tra email xác nhận từ bác sĩ',
+        variant: 'destructive',
+        title: 'Chưa chọn triệu chứng',
+        description: 'Vui lòng chọn ít nhất một triệu chứng',
       });
-
       return;
     }
 
@@ -310,17 +297,6 @@ const PatientBooking = ({ isHomepage }: Props) => {
               Đặt lịch khám
             </button>
           </form>
-
-          {isHomepage && (
-            <Dialog>
-              <DialogTrigger asChild>
-                <Button variant={'outline'} className="w-full mt-4" size={'lg'}>
-                  Đăng nhập vào hệ thống
-                </Button>
-              </DialogTrigger>
-              <DialogSignInContent />
-            </Dialog>
-          )}
         </div>
       )}
     </div>

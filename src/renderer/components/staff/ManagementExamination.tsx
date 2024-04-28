@@ -7,7 +7,7 @@ import { ToastAction } from '../../../~/components/ui/toast';
 import { Dialog, DialogTrigger } from '../../../~/components/ui/dialog';
 import DialogExaminationContent from '../dialog/ExaminationContent';
 import { MANAGEMENT_SERVICE } from '../../../main/models/constants';
-import DetailExamination from '../dialog/DetailExamination';
+import ExaminationInformation from '../dialog/ExaminationInformation';
 
 export default function ManagementExamination() {
   const [selectedExaminations, setSelectedExaminations] = useState<
@@ -71,7 +71,7 @@ export default function ManagementExamination() {
             </Button>
           </DialogTrigger>
           {selectedExaminations.length > 0 && (
-            <DetailExamination
+            <ExaminationInformation
               examination={
                 selectedExaminations[selectedExaminations.length - 1]
               }
