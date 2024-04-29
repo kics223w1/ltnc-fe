@@ -1,0 +1,90 @@
+{
+    "machines": [
+      {
+        "id": 2,
+        "name": "BrokenMachine",
+        "vendor": "Broken Company",
+        "status": "Broken",
+        "description": "Can't use"
+      },
+      {
+        "id": 3,
+        "name": "BrokenMachine2",
+        "vendor": "Broken Company 2",
+        "status": "Broken",
+        "description": "Can't use"
+      },
+      {
+        "id": 4,
+        "name": "Working Machine",
+        "vendor": "SC",
+        "status": "Free",
+        "description": "rate"
+      },
+      {
+        "id": 5,
+        "name": "Máy chụp X quang",
+        "vendor": "VN",
+        "status": "In_Maintenence",
+        "description": "Máy chụp X-quang phát ra các chùm tia X có bức xạ cao, các tia X này xuyên qua các mô mềm và thành phần dịch trong cơ thể dễ dàng, từ đó tạo hình ảnh, các bác sĩ sẽ dựa vào hình ảnh này để chẩn đoán bệnh."
+      }
+    ],
+    "medicine": [
+      {
+        "medicine_id": "T1",
+        "name": "Vitamin E",
+        "remaining": 350,
+        "cost_out": 450,
+        "unit": "ml",
+        "description": "Vitamin E là một thành phần quan trọng giúp duy trì hoạt động bình thường của các cơ quan trong cơ thể là một chất chống oxy hóa giúp làm chậm các quá trình gây tổn thương tế bào.",
+        "ingredients": [
+          "Tocopherol",
+          "Tocotrienol"
+        ],
+        "createdAt": "2024-04-21T02:25:31.749Z",
+        "updatedAt": "2024-04-23T04:39:56.000Z"
+      },
+      {
+        "medicine_id": "T2",
+        "name": "Vitamin A",
+        "remaining": 735,
+        "cost_out": 300,
+        "unit": "ml",
+        "description": "Vitamin A cần thiết cho sức khỏe của mắt, tăng cường thị lực, chức năng miễn dịch, tăng trưởng tế bào, hỗ trợ sinh sản và phát triển của thai nhi.",
+        "ingredients": [
+          "retinol",
+          "retinal",
+          "retinyl ester"
+        ],
+        "createdAt": "2024-04-21T02:27:07.717Z",
+        "updatedAt": "2024-04-23T04:57:53.000Z"
+      },
+      {
+        "medicine_id": "T3",
+        "name": "Vitamin B3",
+        "remaining": 500,
+        "cost_out": 350,
+        "unit": "ml",
+        "description": "Vitamin B3 (Vitamin PP) có tác dụng giảm cholesteron trong máu, ngăn ngừa xơ vữa động mạch, giúp quá trình tuần hoàn máu trong cơ thể hoạt động tốt hơn.",
+        "ingredients": [
+          "Niacinamide",
+          "Niacin"
+        ],
+        "createdAt": "2024-04-21T02:29:06.129Z",
+        "updatedAt": "2024-04-23T04:57:53.000Z"
+      },
+      {
+        "medicine_id": "T4",
+        "name": "Vitamin B12",
+        "remaining": 350,
+        "cost_out": 350,
+        "unit": "ml",
+        "description": "Giúp hình thành tế bào hồng cầu và phòng chống thiếu máu. Vitamin B12 đóng một vai trò quan trọng trong việc giúp cơ thể sản xuất các tế bào hồng cầu.",
+        "ingredients": [
+          "C63H90O14PCo"
+        ],
+        "createdAt": "2024-04-21T02:48:02.659Z",
+        "updatedAt": "2024-04-21T02:52:50.000Z"
+      }
+    ]
+  }

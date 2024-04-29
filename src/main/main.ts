@@ -23,6 +23,7 @@ import { getOSPlatform, resolveHtmlPath } from './utils';
 import notificationService from './service/notification-service';
 import { listenEventsFromRendererProcess } from '.';
 import machineService from './service/machine-service';
+import medicineService from './service/medicine-service';
 import userService from './service/user-service';
 import managementService from './service/management-service';
 import loginService from './service/login-service';
@@ -130,6 +131,7 @@ const createWindow = async () => {
       await Promise.all([
         userService.loadDataAtLaunch(),
         machineService.loadDataAtLaunch(),
+        medicineService.loadDataAtLaunch(),
         managementService.loadDataAtLaunch(),
         loginService.loadLogicAtLaunch(),
       ]);

@@ -2,19 +2,19 @@ import { DataGrid } from '@mui/x-data-grid';
 import { useTheme } from '../theme/ThemeProvider';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useEffect, useState } from 'react';
-import Machine from '/main/models/machine';
+import Medicine from '/main/models/medicine';
 import { Button } from '../../../~/components/ui/button';
 import { ReloadIcon } from '@radix-ui/react-icons';
-import { MACHINE_SERVICE } from '/main/models/constants';
-import MachineTableModel from '../../models/machine-table-model';
+import { MEDICINE_SERVICE } from '/main/models/constants';
+import MedicineTableModel from '/renderer/models/medicine-table-model';
 
-const model = new MachineTableModel();
+const model = new MedicineTableModel();
 
 type Params = {
-  setSelectedMachines: (machines: Machine[]) => void;
+  setSelectedMedicines: (medicines: Medicine[]) => void;
 };
 
-const MachineTable = ({ setSelectedMachines }: Params) => {
+const MedicineTable = ({ setSelectedMedicines }: Params) => {
   const { theme, setTheme } = useTheme();
   const tableTheme = createTheme({
     palette: {
@@ -24,18 +24,18 @@ const MachineTable = ({ setSelectedMachines }: Params) => {
 
   const columns = model.getColumns();
 
-  const [machines, setMachines] = useState<Machine[]>([]);
+  const [medicines, setMedicines] = useState<Medicine[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [rows, setRows] = useState<any[]>([]);
 
   useEffect(() => {
     const setup = async () => {
-      const newMachines: Machine[] = await handleGetMachines();
-      if (newMachines.length === 0) {
-        handleReloadMachines();
+      const newMedicines: Medicine[] = await handleGetMedicines();
+      if (newMedicines.length === 0) {
+        handleReloadMedicines();
         return;
       }
-      setMachines(newMachines);
+      setMedicines(newMedicines);
     };
 
     setup();
@@ -43,31 +43,31 @@ const MachineTable = ({ setSelectedMachines }: Params) => {
 
   useEffect(() => {
     try {
-      const newRows = model.convertToRows(machines);
+      const newRows = model.convertToRows(medicines);
       setRows(newRows);
     } catch (e) {
       setRows([]);
       console.error(e);
     }
-  }, [machines]);
+  }, [medicines]);
 
-  const handleGetMachines = async () => {
+  const handleGetMedicines = async () => {
     return await window.electron.ipcRenderer.invoke(
-      MACHINE_SERVICE.GET_MACHINES,
+      MEDICINE_SERVICE.GET_MEDICINES_1,
       {}
     );
   };
 
-  const handleReloadMachines = async () => {
+  const handleReloadMedicines = async () => {
     setIsLoading(true);
-    const newMachines = await window.electron.ipcRenderer.invoke(
-      MACHINE_SERVICE.RELOAD_MACHINES,
+    const newMedicines = await window.electron.ipcRenderer.invoke(
+      MEDICINE_SERVICE.RELOAD_MEDICINES,
       {}
     );
 
     setIsLoading(false);
 
-    setMachines(newMachines);
+    setMedicines(newMedicines);
   };
 
   return (
@@ -76,7 +76,7 @@ const MachineTable = ({ setSelectedMachines }: Params) => {
         <Button
           variant={'outline'}
           size={'icon'}
-          onClick={handleReloadMachines}
+          onClick={handleReloadMedicines}
         >
           <ReloadIcon className={`${isLoading ? 'animate-spin' : ''}`} />
         </Button>
@@ -96,10 +96,10 @@ const MachineTable = ({ setSelectedMachines }: Params) => {
               },
             }}
             onRowSelectionModelChange={(params) => {
-              const newSelectedMachines = machines.flatMap((mac) =>
-                params.includes(mac.id) ? [mac] : []
+              const newSelectedMedicines = medicines.flatMap((med) =>
+                params.includes(med.medicine_id) ? [med] : []
               );
-              setSelectedMachines(newSelectedMachines);
+              setSelectedMedicines(newSelectedMedicines);
             }}
             pageSizeOptions={[10]}
             disableRowSelectionOnClick
@@ -110,4 +110,4 @@ const MachineTable = ({ setSelectedMachines }: Params) => {
   );
 };
 
-export default MachineTable;
+export default MedicineTable;

@@ -5,8 +5,9 @@ import Doctor from '../models/doctor';
 import Examination from '../models/examination';
 import Patient from '../models/patient';
 import Medicine from '../models/medicine';
+import Machine from '../models/machine';
 
-const host = '192.168.0.100';
+const host = '192.168.50.214';
 const port = 9090;
 
 class NetworkService {
@@ -14,7 +15,7 @@ class NetworkService {
 
   constructor() {
     this.instance = axios.create({
-      baseURL: 'https://helped-alpaca-obliging.ngrok-free.app',
+      baseURL: 'http://localhost:3001/',
       proxy: {
         host: host,
         port: port,
@@ -62,14 +63,16 @@ class NetworkService {
 
   public async getMedicines(): Promise<Medicine[]> {
     try {
-      const response = await this.instance.get('/medicine');
+      const response = await this.instance.get('/medicine', {
+        redirect: 'follow' 
+      });
       return response.data ? response.data : [];
     } catch (e) {
       return [];
     }
   }
 
-  public async getMachines() {
+  public async getMachines(): Promise<Machine[]> {
     try {
       const obj = await this.instance.get('/machines');
       return obj.data;
