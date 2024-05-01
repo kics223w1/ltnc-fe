@@ -11,10 +11,16 @@ import MedicineTableModel from '/renderer/models/medicine-table-model';
 const model = new MedicineTableModel();
 
 type Params = {
+  medicines: Medicine[];
+  handleLoadMedicines: () => void;
   setSelectedMedicines: (medicines: Medicine[]) => void;
 };
 
-const MedicineTable = ({ setSelectedMedicines }: Params) => {
+const MedicineTable = ({
+  medicines,
+  handleLoadMedicines,
+  setSelectedMedicines,
+}: Params) => {
   const { theme, setTheme } = useTheme();
   const tableTheme = createTheme({
     palette: {
@@ -24,20 +30,13 @@ const MedicineTable = ({ setSelectedMedicines }: Params) => {
 
   const columns = model.getColumns();
 
-  const [medicines, setMedicines] = useState<Medicine[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [rows, setRows] = useState<any[]>([]);
 
   useEffect(() => {
     const setup = async () => {
-      const newMedicines: Medicine[] = await handleGetMedicines();
-      if (newMedicines.length === 0) {
-        handleReloadMedicines();
-        return;
-      }
-      setMedicines(newMedicines);
+      handleReloadMedicines();
     };
-
     setup();
   }, []);
 
@@ -51,23 +50,10 @@ const MedicineTable = ({ setSelectedMedicines }: Params) => {
     }
   }, [medicines]);
 
-  const handleGetMedicines = async () => {
-    return await window.electron.ipcRenderer.invoke(
-      MEDICINE_SERVICE.GET_MEDICINES_1,
-      {}
-    );
-  };
-
   const handleReloadMedicines = async () => {
     setIsLoading(true);
-    const newMedicines = await window.electron.ipcRenderer.invoke(
-      MEDICINE_SERVICE.RELOAD_MEDICINES,
-      {}
-    );
-
+    handleLoadMedicines();
     setIsLoading(false);
-
-    setMedicines(newMedicines);
   };
 
   return (

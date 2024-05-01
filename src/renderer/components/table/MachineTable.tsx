@@ -11,10 +11,16 @@ import MachineTableModel from '../../models/machine-table-model';
 const model = new MachineTableModel();
 
 type Params = {
+  machines: Machine[];
+  handleLoadMachines: () => void;
   setSelectedMachines: (machines: Machine[]) => void;
 };
 
-const MachineTable = ({ setSelectedMachines }: Params) => {
+const MachineTable = ({
+  setSelectedMachines,
+  machines,
+  handleLoadMachines,
+}: Params) => {
   const { theme, setTheme } = useTheme();
   const tableTheme = createTheme({
     palette: {
@@ -24,18 +30,25 @@ const MachineTable = ({ setSelectedMachines }: Params) => {
 
   const columns = model.getColumns();
 
-  const [machines, setMachines] = useState<Machine[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [rows, setRows] = useState<any[]>([]);
 
+  // useEffect(() => {
+  //   const setup = async () => {
+  //     const newMachines: Machine[] = await handleGetMachines();
+  //     if (newMachines.length === 0) {
+  //       handleReloadMachines();
+  //       return;
+  //     }
+  //     setMachines(newMachines);
+  //   };
+
+  //   setup();
+  // }, []);
+
   useEffect(() => {
     const setup = async () => {
-      const newMachines: Machine[] = await handleGetMachines();
-      if (newMachines.length === 0) {
-        handleReloadMachines();
-        return;
-      }
-      setMachines(newMachines);
+      handleReloadMachines();
     };
 
     setup();
@@ -51,23 +64,12 @@ const MachineTable = ({ setSelectedMachines }: Params) => {
     }
   }, [machines]);
 
-  const handleGetMachines = async () => {
-    return await window.electron.ipcRenderer.invoke(
-      MACHINE_SERVICE.GET_MACHINES,
-      {}
-    );
-  };
-
   const handleReloadMachines = async () => {
     setIsLoading(true);
-    const newMachines = await window.electron.ipcRenderer.invoke(
-      MACHINE_SERVICE.RELOAD_MACHINES,
-      {}
-    );
+
+    await handleLoadMachines();
 
     setIsLoading(false);
-
-    setMachines(newMachines);
   };
 
   return (

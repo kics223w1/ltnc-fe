@@ -10,7 +10,7 @@ class MedicineService {
     this.medicines = [];
   }
 
-  private async loadMedicines() {
+  public async loadMedicines() {
     const medicines = await networkService.getMedicines();
     this.medicines = medicines;
   }

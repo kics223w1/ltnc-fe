@@ -15,7 +15,7 @@ class MachineTableModel {
       machineId: machines.id,
       machineName: machines.name,
       Vendor: machines.vendor,
-      Status: machines.status ? 'success' : 'broken',
+      Status: machines.status,
       Description: machines.description,
     };
   }
@@ -25,7 +25,7 @@ class MachineTableModel {
       {
         field: 'machineId',
         headerName: 'ID',
-        width: 150,
+        width: 100,
       },
       {
         field: 'machineName',
@@ -35,7 +35,7 @@ class MachineTableModel {
       {
         field: 'Vendor',
         headerName: 'Nhà cung cấp',
-        width: 100,
+        width: 200,
       },
       {
         field: 'Status',

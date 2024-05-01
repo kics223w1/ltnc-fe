@@ -63,9 +63,7 @@ class NetworkService {
 
   public async getMedicines(): Promise<Medicine[]> {
     try {
-      const response = await this.instance.get('/medicine', {
-        redirect: 'follow' 
-      });
+      const response = await this.instance.get('/medicine');
       return response.data ? response.data : [];
     } catch (e) {
       return [];

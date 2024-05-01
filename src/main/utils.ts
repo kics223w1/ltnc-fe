@@ -4,7 +4,7 @@ import { OS_PLATFORM } from './models/constants';
 export let resolveHtmlPath: (htmlFileName: string) => string;
 
 if (process.env.NODE_ENV === 'development') {
-  const port = process.env.PORT || 3006;
+  const port = process.env.PORT || 3007;
   resolveHtmlPath = (htmlFileName: string) => {
     const url = new URL(`http://localhost:${port}`);
     url.pathname = htmlFileName;
