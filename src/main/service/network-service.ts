@@ -5,6 +5,7 @@ import Doctor from '../models/doctor';
 import Examination from '../models/examination';
 import Patient from '../models/patient';
 import Medicine from '../models/medicine';
+import User from '../models/user';
 
 const host = '192.168.0.100';
 const port = 9090;

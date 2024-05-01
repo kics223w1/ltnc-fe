@@ -8,32 +8,32 @@ import { useEffect, useState } from 'react';
 import {
   EVENTS_FROM_MAIN_PROCESS,
   LOGIN_SERVICE,
-  ROLE,
 } from '../main/models/constants';
 import HomePageView from './components/main-view/HomePageView';
+import User from '../main/models/user';
 
 // Bug blue outline, Ref: https://github.com/palantir/blueprint/issues/2691
 FocusStyleManager.onlyShowFocusOnTabs();
 
 const MainApp = () => {
-  const [userRole, setUserRole] = useState<ROLE | undefined>(undefined);
+  const [user, setUser] = useState<User | undefined>(undefined);
 
   useEffect(() => {
     const setup = async () => {
-      const newUserRole = await window.electron.ipcRenderer.invoke(
-        LOGIN_SERVICE.GET_USER_ROLE,
+      const newUser = await window.electron.ipcRenderer.invoke(
+        LOGIN_SERVICE.GET_USER,
         {}
       );
-      setUserRole(newUserRole);
+      setUser(newUser);
     };
     setup();
   }, []);
 
   useEffect(() => {
     const ipcListener = window.electron.ipcRenderer.on(
-      EVENTS_FROM_MAIN_PROCESS.ON_UPDATE_USER_ROLE,
-      (obj: { role: ROLE | undefined }) => {
-        setUserRole(obj.role);
+      EVENTS_FROM_MAIN_PROCESS.ON_UPDATE_USER,
+      (obj: { user: User | undefined }) => {
+        setUser(obj.user);
       }
     );
 
@@ -44,12 +44,14 @@ const MainApp = () => {
     };
   }, []);
 
+  console.log('User: ', user);
+
   return (
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
       <div className="flex flex-col h-screen w-screen overflow-hidden">
-        {userRole ? (
+        {user ? (
           <>
-            <MainView userRole={userRole} setUserRole={setUserRole} />
+            <MainView user={user} setUser={setUser} />
           </>
         ) : (
           <>

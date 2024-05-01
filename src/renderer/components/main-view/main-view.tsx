@@ -5,23 +5,22 @@ import {
   ResizablePanelGroup,
 } from '~/components/ui/resizable';
 import RightPanelMainView from './right-panel-main-view';
-import { useEffect, useState } from 'react';
-import { LOGIN_SERVICE, ROLE } from '../../../main/models/constants';
+import User from '../../../main/models/user';
 
 type Props = {
-  userRole: ROLE | undefined;
-  setUserRole: (role: ROLE | undefined) => void;
+  user: User | undefined;
+  setUser: (user: User | undefined) => void;
 };
 
-const MainView = ({ userRole, setUserRole }: Props) => {
+const MainView = ({ user, setUser }: Props) => {
   return (
     <ResizablePanelGroup direction="horizontal" className="w-full h-full">
       <ResizablePanel defaultSize={20}>
-        <LeftPanelMainView userRole={userRole} />
+        <LeftPanelMainView user={user} />
       </ResizablePanel>
       <ResizableHandle />
       <ResizablePanel defaultSize={80} className="w-full h-full">
-        <RightPanelMainView userRole={userRole} setUserRole={setUserRole} />
+        <RightPanelMainView user={user} setUser={setUser} />
       </ResizablePanel>
     </ResizablePanelGroup>
   );
