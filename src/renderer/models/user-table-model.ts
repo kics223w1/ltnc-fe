@@ -5,14 +5,14 @@ class UserTableModel {
   constructor() {}
 
   public convertToRows(users: User[]) {
-    return users.flatMap((user) => {
-      return [this.convertToRow(user)];
+    return users.flatMap((user, index) => {
+      return [this.convertToRow(user, index)];
     });
   }
 
-  public convertToRow(user: User) {
+  public convertToRow(user: User, index: number) {
     return {
-      id: user.userId,
+      id: index,
       usedId: user.userId,
       userName: user.userName,
       isMale: user.isMale ? 'Nam' : 'Nữ',

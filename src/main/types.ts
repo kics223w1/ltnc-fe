@@ -1,6 +1,6 @@
 import User from './models/user';
 
-export type SignUpErrorMessage = {
+export type UserResponseErrorMessage = {
   message: string[];
   error: string;
   statusCode: number;
