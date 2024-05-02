@@ -11,6 +11,7 @@ import {
 import { Button } from '/~/components/ui/button';
 import { Label } from '../../../~/components/ui/label';
 import Medicine from '../../../main/models/medicine';
+import MedicineHistoryTable from '../table/MedicineHistoryTable';
 
 type Props = {
   medicineId: string;
@@ -97,61 +98,5 @@ export const MedicineDetails: React.FC<Props> = ({
         </DialogFooter>
       </DialogContent>
     </>
-  );
-};
-
-export const MedicineLog: React.FC<Props> = ({ medicineId, medicineInfor }) => {
-  const [logData, setLogData] = useState<any[]>([]);
-
-  useEffect(() => {
-    const handleFetchLog = async () => {
-      try {
-        const response = await fetch(
-          `https://helped-alpaca-obliging.ngrok-free.app/medicine/log/${medicineId}`
-        );
-        if (response.ok) {
-          const data = await response.json();
-          console.log(data);
-          setLogData(data);
-        } else {
-          console.error('Failed to fetch log data');
-        }
-      } catch (error) {
-        console.error('Error:', error);
-      }
-    };
-    handleFetchLog();
-  }, [medicineId]);
-
-  return (
-    <DialogContent className="sm:max-w-[425px]">
-      <DialogHeader>
-        <DialogTitle>Lịch sử thuốc: {medicineInfor.medicine_id}</DialogTitle>
-      </DialogHeader>
-      <div className="grid gap-4 py-4">
-        <div className="grid grid-cols-1 items-center gap-4">
-          <Label className="text-left"></Label>
-          {logData.map((log, index) => (
-            <div key={index}>
-              <p>ID: {log.medicine_id}</p>
-              <p>Export Date: {log.export_date}</p>
-              <p>Cost Out: {log.cost_out}</p>
-              <p>Previous Remaining: {log.prev_remaining}</p>
-              <p>Current Remaining: {log.curr_remaining}</p>
-              <p>Description: {log.description}</p>
-              {/* <p>batchMedicine: {log.batchMedicine}</p> */}
-            </div>
-          ))}
-        </div>
-      </div>
-      <DialogFooter className="flex items-center justify-between w-full">
-        <DialogClose className="w-full flex items-start pl-5">
-          <Button variant={'outline'}>Huỷ bỏ</Button>
-        </DialogClose>
-        <DialogClose>
-          <Button type="submit">Hoàn tất</Button>
-        </DialogClose>
-      </DialogFooter>
-    </DialogContent>
   );
 };

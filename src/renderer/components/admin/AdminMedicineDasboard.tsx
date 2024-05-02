@@ -6,15 +6,13 @@ import MedicineTable from '../table/MedicineTable';
 import { MEDICINE_SERVICE } from '/main/models/constants';
 import DialogAddMedicineContent from '../dialog/AddMedicineContent';
 import DialogEditMedicineContent from '../dialog/EditMedicineContent';
-import { MedicineDetails, MedicineLog } from '../dialog/MedicineContent';
+import { MedicineDetails } from '../dialog/MedicineContent';
+import MedicineHistoryTable from '../table/MedicineHistoryTable';
 
 const AdminMedicineDashboard = () => {
   const [selectedMedicines, setSelectedMedicines] = useState<Medicine[]>([]);
   const [medicines, setMedicines] = useState<Medicine[]>([]);
   const [isAddFormOpen, setIsAddFormOpen] = useState(false);
-  const [selectedMedicine, setSelectedMedicine] = useState<Medicine | null>(
-    null
-  );
 
   useEffect(() => {
     handleLoadMedicines();
@@ -34,33 +32,6 @@ const AdminMedicineDashboard = () => {
     handleLoadMedicines();
   };
 
-  const handleSaveMedicine = async (updatedMedicine: Medicine) => {
-    try {
-      const response = await fetch(
-        `http://localhost:3001/medicine/${updatedMedicine.medicine_id}`,
-        {
-          method: 'PATCH',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(updatedMedicine),
-        }
-      );
-      if (response.ok) {
-        handleLoadMedicines(); // Reload medicines after update
-      } else {
-        console.log('error');
-      }
-    } catch (error) {
-      console.error('Error:', error);
-      // Show error toast or any feedback to the user
-    }
-  };
-
-  const handleViewDetails = () => {
-    setSelectedMedicine(selectedMedicines[selectedMedicines.length - 1]);
-  };
-
   return (
     <div className="flex flex-col gap-5 w-full h-full px-12 py-10 overflow-auto">
       <MedicineTable
@@ -76,27 +47,6 @@ const AdminMedicineDashboard = () => {
               variant={'outline'}
               size={'lg'}
               disabled={selectedMedicines.length !== 1}
-              onClick={handleViewDetails}
-            >
-              Log
-            </Button>
-          </DialogTrigger>
-          {selectedMedicines.length > 0 && (
-            <MedicineLog
-              medicineId={
-                selectedMedicines[selectedMedicines.length - 1].medicine_id
-              }
-              medicineInfor={selectedMedicines[selectedMedicines.length - 1]}
-            />
-          )}
-        </Dialog>
-        <Dialog>
-          <DialogTrigger disabled={selectedMedicines.length !== 1}>
-            <Button
-              variant={'outline'}
-              size={'lg'}
-              disabled={selectedMedicines.length !== 1}
-              onClick={handleViewDetails}
             >
               Xem chi tiết
             </Button>
@@ -118,7 +68,7 @@ const AdminMedicineDashboard = () => {
               size={'lg'}
               disabled={selectedMedicines.length === 0}
             >
-              Chỉnh sửa giá
+              Cập nhật giá
             </Button>
           </DialogTrigger>
           {selectedMedicines.length > 0 && (
@@ -147,6 +97,21 @@ const AdminMedicineDashboard = () => {
           />
         </Dialog>
       </div>
+
+      <h1>
+        {selectedMedicines.length > 0
+          ? `Lịch sử thuốc ${
+              selectedMedicines[selectedMedicines.length - 1].name
+            }`
+          : 'Chọn thuốc để xem lịch sử'}
+      </h1>
+      <MedicineHistoryTable
+        idMedicine={
+          selectedMedicines.length > 0
+            ? selectedMedicines[selectedMedicines.length - 1].medicine_id
+            : undefined
+        }
+      />
     </div>
   );
 };

@@ -3,6 +3,8 @@ import { MEDICINE_SERVICE } from '../models/constants';
 import Medicine from '../models/medicine';
 import networkService from './network-service';
 import axios from 'axios';
+import MedicineHistory from '../models/medicine-history';
+import loginService from './login-service';
 
 class MedicineService {
   private medicines: Medicine[];
@@ -29,6 +31,7 @@ class MedicineService {
       const response = await this.instance.patch(`/medicine/cost/${id}`, body, {
         headers: {
           'Content-Type': 'application/json',
+          Authorization: `Bearer ${loginService.getAccessToken()}`,
         },
       });
       console.log('Response:', response);
@@ -36,6 +39,21 @@ class MedicineService {
     } catch (e) {
       console.error('Error:', e);
       return 'Cập nhật không thành công';
+    }
+  }
+
+  private async getMedicineLog(id: string): Promise<MedicineHistory[]> {
+    try {
+      const response = await this.instance.get(`/medicine/log/${id}`, {
+        headers: {
+          Authorization: `Bearer ${loginService.getAccessToken()}`,
+        },
+      });
+      console.log('Response:', response);
+      return response.data;
+    } catch (e) {
+      console.error('Error:', e);
+      return [];
     }
   }
 
@@ -70,15 +88,9 @@ class MedicineService {
       return this.medicines;
     });
 
-    ipcMain.on(
-      MEDICINE_SERVICE.EDIT_MEDICINES,
-      (
-        event,
-        args: {
-          medicine: Medicine;
-        }
-      ) => {}
-    );
+    ipcMain.handle(MEDICINE_SERVICE.GET_MEDICINE_LOG, async (event, args) => {
+      return await this.getMedicineLog(args.id);
+    });
   }
 }
 

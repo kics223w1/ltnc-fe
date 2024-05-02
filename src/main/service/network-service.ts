@@ -68,7 +68,12 @@ class NetworkService {
 
   public async getMedicines(): Promise<Medicine[]> {
     try {
-      const response = await this.instance.get('/medicine');
+      const accessToken = loginService.getAccessToken();
+      const config = accessToken
+        ? { headers: { Authorization: `Bearer ${accessToken}` } }
+        : {};
+
+      const response = await this.instance.get('/medicine', config);
       return response.data ? response.data : [];
     } catch (e) {
       return [];
