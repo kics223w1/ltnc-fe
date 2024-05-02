@@ -34,8 +34,12 @@ const MedicineHistoryTable = ({ idMedicine }: Params) => {
           }
         );
 
-      const newRows = model.convertToRows(medicineHistory);
-      setRows(newRows);
+      try {
+        const newRows = model.convertToRows(medicineHistory);
+        setRows(newRows);
+      } catch (e) {
+        setRows([]);
+      }
     };
 
     if (idMedicine) {

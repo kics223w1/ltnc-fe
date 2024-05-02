@@ -11,7 +11,6 @@ import {
 import { Button } from '/~/components/ui/button';
 import { Label } from '../../../~/components/ui/label';
 import Medicine from '../../../main/models/medicine';
-import MedicineHistoryTable from '../table/MedicineHistoryTable';
 
 type Props = {
   medicineId: string;

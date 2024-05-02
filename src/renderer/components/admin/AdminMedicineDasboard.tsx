@@ -39,7 +39,6 @@ const AdminMedicineDashboard = () => {
         handleLoadMedicines={handleLoadMedicines}
         setSelectedMedicines={setSelectedMedicines}
       />
-      {/* {showAddForm && <AddMedicineForm onClose={() => setShowAddForm(false)} />} */}
       <div className="flex items-center justify-end gap-3">
         <Dialog>
           <DialogTrigger disabled={selectedMedicines.length !== 1}>

@@ -49,8 +49,7 @@ class MedicineService {
           Authorization: `Bearer ${loginService.getAccessToken()}`,
         },
       });
-      console.log('Response:', response);
-      return response.data;
+      return response.data ? response.data : [];
     } catch (e) {
       console.error('Error:', e);
       return [];
