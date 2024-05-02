@@ -92,8 +92,8 @@ const DoctorTable = ({ setSelectedDoctors }: Params) => {
               },
             }}
             onRowSelectionModelChange={(params) => {
-              const newSelectedDoctors = doctors.flatMap((doc) =>
-                params.includes(doc.userId) ? [doc] : []
+              const newSelectedDoctors = doctors.flatMap((doc, index) =>
+                params.includes(index) ? [doc] : []
               );
               setSelectedDoctors(newSelectedDoctors);
             }}

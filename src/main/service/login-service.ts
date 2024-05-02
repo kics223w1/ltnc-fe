@@ -8,17 +8,29 @@ import {
 import notificationService from './notification-service';
 import appConfigurationService from './app-configuration-service';
 import axios from 'axios';
-import { SignInResponse, SignUpErrorMessage } from '../types';
+import { SignInResponse, UserResponseErrorMessage } from '../types';
 import User from '../models/user';
 
 class LoginService {
   private user: User | undefined;
   private instance: any;
 
+  private access_token: string;
+
   constructor() {
     this.instance = axios.create({
       baseURL: 'https://helped-alpaca-obliging.ngrok-free.app',
     });
+
+    this.access_token = '';
+  }
+
+  private setAccessToken(access_token: string) {
+    this.access_token = access_token;
+  }
+
+  public getAccessToken() {
+    return this.access_token;
   }
 
   private setUser(user: User | undefined) {
@@ -42,6 +54,7 @@ class LoginService {
 
       this.setUser(obj.user);
       this.saveUserObject(email, password, rememberMe);
+      this.setAccessToken(obj.tokens.access_token);
 
       return 'Success!';
     } catch (e: any) {
@@ -65,7 +78,7 @@ class LoginService {
       });
       return 'Success!';
     } catch (e: any) {
-      const obj: SignUpErrorMessage | undefined = e.response
+      const obj: UserResponseErrorMessage | undefined = e.response
         ? e.response.data
         : undefined;
       if (obj) {

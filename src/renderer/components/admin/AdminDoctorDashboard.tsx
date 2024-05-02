@@ -9,8 +9,6 @@ import DialogEditDoctorContent from '../dialog/EditDoctorContent';
 const AdminDoctorDashboard = () => {
   const [selectedDoctors, setSelectedDoctors] = useState<Doctor[]>([]);
 
-  const handleEdit = () => {};
-
   return (
     <div className="flex flex-col gap-5 w-full h-full px-12 py-10 overflow-auto">
       <DoctorTable setSelectedDoctors={setSelectedDoctors} />

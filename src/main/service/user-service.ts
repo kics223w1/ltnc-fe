@@ -3,29 +3,45 @@ import Doctor from '../models/doctor';
 import networkService from './network-service';
 import Nurse from '../models/nurse';
 import Patient from '../models/patient';
-import { USER_SERVICE } from '../models/constants';
+import { ROLE, USER_SERVICE } from '../models/constants';
+import axios from 'axios';
+import { UserResponseErrorMessage } from '../types';
+import loginService from './login-service';
 
 class UserService {
   private doctors: Doctor[];
   private nurse: Nurse[];
   private patients: Patient[];
 
+  private instance: any;
+
   constructor() {
     this.doctors = [];
     this.nurse = [];
     this.patients = [];
+
+    this.instance = axios.create({
+      baseURL: 'https://helped-alpaca-obliging.ngrok-free.app',
+    });
   }
 
   private async loadDoctors() {
-    this.doctors = await networkService.getDoctors();
+    const users = await networkService.getUsers();
+    this.doctors = users.filter(
+      (user) => user.role === ROLE.DOCTOR
+    ) as Doctor[];
   }
 
   private async loadNurses() {
-    this.nurse = await networkService.getNurses();
+    const users = await networkService.getUsers();
+    this.nurse = users.filter((user) => user.role === ROLE.NURSE) as Nurse[];
   }
 
   private async loadPatients() {
-    this.patients = await networkService.getPatients();
+    const users = await networkService.getUsers();
+    this.patients = users.filter(
+      (user) => user.role === ROLE.PATIENT
+    ) as Patient[];
   }
 
   public async loadDataAtLaunch() {
@@ -37,6 +53,42 @@ class UserService {
       ]);
     } catch (e) {
       console.log('Error: ', e);
+    }
+  }
+
+  public async addUser(
+    email: string,
+    user_name: string,
+    password: string,
+    role: ROLE
+  ) {
+    try {
+      await this.instance.post(
+        '/users',
+        {
+          email,
+          user_name,
+          password,
+          role,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${loginService.getAccessToken()}`,
+          },
+        }
+      );
+
+      await this.loadDoctors();
+
+      return 'Success!';
+    } catch (e: any) {
+      const obj: UserResponseErrorMessage | undefined = e.response
+        ? e.response.data
+        : undefined;
+      if (obj) {
+        return obj.message.length > 0 ? obj.message[0] : 'Unknown error';
+      }
+      return 'Unknown error';
     }
   }
 
@@ -67,6 +119,44 @@ class UserService {
       await this.loadPatients();
       return this.patients;
     });
+
+    ipcMain.handle(
+      USER_SERVICE.ADD_DOCTOR,
+      async (
+        event,
+        args: {
+          email: string;
+          user_name: string;
+          password: string;
+        }
+      ) => {
+        return await this.addUser(
+          args.email,
+          args.user_name,
+          args.password,
+          ROLE.DOCTOR
+        );
+      }
+    );
+
+    ipcMain.handle(
+      USER_SERVICE.ADD_NURSE,
+      async (
+        event,
+        args: {
+          email: string;
+          user_name: string;
+          password: string;
+        }
+      ) => {
+        return await this.addUser(
+          args.email,
+          args.user_name,
+          args.password,
+          ROLE.NURSE
+        );
+      }
+    );
   }
 }
 
