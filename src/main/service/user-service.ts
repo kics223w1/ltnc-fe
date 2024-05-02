@@ -56,7 +56,12 @@ class UserService {
     }
   }
 
-  public async addDoctor(email: string, user_name: string, password: string) {
+  public async addUser(
+    email: string,
+    user_name: string,
+    password: string,
+    role: ROLE
+  ) {
     try {
       await this.instance.post(
         '/users',
@@ -64,7 +69,7 @@ class UserService {
           email,
           user_name,
           password,
-          role: ROLE.DOCTOR,
+          role,
         },
         {
           headers: {
@@ -125,7 +130,31 @@ class UserService {
           password: string;
         }
       ) => {
-        return await this.addDoctor(args.email, args.user_name, args.password);
+        return await this.addUser(
+          args.email,
+          args.user_name,
+          args.password,
+          ROLE.DOCTOR
+        );
+      }
+    );
+
+    ipcMain.handle(
+      USER_SERVICE.ADD_NURSE,
+      async (
+        event,
+        args: {
+          email: string;
+          user_name: string;
+          password: string;
+        }
+      ) => {
+        return await this.addUser(
+          args.email,
+          args.user_name,
+          args.password,
+          ROLE.NURSE
+        );
       }
     );
   }
