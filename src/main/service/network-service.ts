@@ -5,6 +5,7 @@ import Patient from '../models/patient';
 import Medicine from '../models/medicine';
 import User from '../models/user';
 import loginService from './login-service';
+import Machine from '../models/machine';
 
 class NetworkService {
   private instance: any;
@@ -67,14 +68,19 @@ class NetworkService {
 
   public async getMedicines(): Promise<Medicine[]> {
     try {
-      const response = await this.instance.get('/medicine');
+      const accessToken = loginService.getAccessToken();
+      const config = accessToken
+        ? { headers: { Authorization: `Bearer ${accessToken}` } }
+        : {};
+
+      const response = await this.instance.get('/medicine', config);
       return response.data ? response.data : [];
     } catch (e) {
       return [];
     }
   }
 
-  public async getMachines() {
+  public async getMachines(): Promise<Machine[]> {
     try {
       const obj = await this.instance.get('/machines');
       return obj.data;

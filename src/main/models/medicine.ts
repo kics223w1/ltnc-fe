@@ -4,6 +4,12 @@ class Medicine {
   public readonly name: string;
   public readonly unit: string;
   public readonly description: string;
+  public readonly cost_out: number;
+  public readonly ingredients: string;
+  public readonly availableMedicines: Array<{
+    id: string;
+    remaining: number;
+  }>;
 
   public readonly createdAt: Date;
   public readonly updatedAt: Date;
@@ -14,6 +20,12 @@ class Medicine {
     name: string,
     unit: string,
     description: string,
+    cost_out: number,
+    ingredients: string,
+    availableMedicines: Array<{
+      id: string;
+      remaining: number;
+    }>,
     createdAt: Date,
     updatedAt: Date
   ) {
@@ -22,6 +34,9 @@ class Medicine {
     this.name = name;
     this.unit = unit;
     this.description = description;
+    this.cost_out = cost_out;
+    this.ingredients = ingredients;
+    this.availableMedicines = availableMedicines;
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
   }

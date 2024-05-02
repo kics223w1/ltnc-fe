@@ -2,24 +2,24 @@ import { DataGrid } from '@mui/x-data-grid';
 import { useTheme } from '../theme/ThemeProvider';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useEffect, useState } from 'react';
-import Machine from '/main/models/machine';
+import Medicine from '/main/models/medicine';
 import { Button } from '../../../~/components/ui/button';
 import { ReloadIcon } from '@radix-ui/react-icons';
-import { MACHINE_SERVICE } from '/main/models/constants';
-import MachineTableModel from '../../models/machine-table-model';
+import { MEDICINE_SERVICE } from '/main/models/constants';
+import MedicineTableModel from '/renderer/models/medicine-table-model';
 
-const model = new MachineTableModel();
+const model = new MedicineTableModel();
 
 type Params = {
-  machines: Machine[];
-  handleLoadMachines: () => void;
-  setSelectedMachines: (machines: Machine[]) => void;
+  medicines: Medicine[];
+  handleLoadMedicines: () => void;
+  setSelectedMedicines: (medicines: Medicine[]) => void;
 };
 
-const MachineTable = ({
-  setSelectedMachines,
-  machines,
-  handleLoadMachines,
+const MedicineTable = ({
+  medicines,
+  handleLoadMedicines,
+  setSelectedMedicines,
 }: Params) => {
   const { theme, setTheme } = useTheme();
   const tableTheme = createTheme({
@@ -33,42 +33,26 @@ const MachineTable = ({
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [rows, setRows] = useState<any[]>([]);
 
-  // useEffect(() => {
-  //   const setup = async () => {
-  //     const newMachines: Machine[] = await handleGetMachines();
-  //     if (newMachines.length === 0) {
-  //       handleReloadMachines();
-  //       return;
-  //     }
-  //     setMachines(newMachines);
-  //   };
-
-  //   setup();
-  // }, []);
-
   useEffect(() => {
     const setup = async () => {
-      handleReloadMachines();
+      handleReloadMedicines();
     };
-
     setup();
   }, []);
 
   useEffect(() => {
     try {
-      const newRows = model.convertToRows(machines);
+      const newRows = model.convertToRows(medicines);
       setRows(newRows);
     } catch (e) {
       setRows([]);
       console.error(e);
     }
-  }, [machines]);
+  }, [medicines]);
 
-  const handleReloadMachines = async () => {
+  const handleReloadMedicines = async () => {
     setIsLoading(true);
-
-    await handleLoadMachines();
-
+    await handleLoadMedicines();
     setIsLoading(false);
   };
 
@@ -78,7 +62,7 @@ const MachineTable = ({
         <Button
           variant={'outline'}
           size={'icon'}
-          onClick={handleReloadMachines}
+          onClick={handleReloadMedicines}
         >
           <ReloadIcon className={`${isLoading ? 'animate-spin' : ''}`} />
         </Button>
@@ -98,10 +82,10 @@ const MachineTable = ({
               },
             }}
             onRowSelectionModelChange={(params) => {
-              const newSelectedMachines = machines.flatMap((mac) =>
-                params.includes(mac.id) ? [mac] : []
+              const newSelectedMedicines = medicines.flatMap((med) =>
+                params.includes(med.medicine_id) ? [med] : []
               );
-              setSelectedMachines(newSelectedMachines);
+              setSelectedMedicines(newSelectedMedicines);
             }}
             pageSizeOptions={[10]}
             disableRowSelectionOnClick
@@ -112,4 +96,4 @@ const MachineTable = ({
   );
 };
 
-export default MachineTable;
+export default MedicineTable;

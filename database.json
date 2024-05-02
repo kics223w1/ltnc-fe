@@ -1,0 +1,180 @@
+{
+  "machines": [
+    {
+      "description": "Can't use",
+      "id": 2,
+      "name": "BrokenMachine",
+      "vendor": "Broken Company",
+      "status": "Broken"
+    },
+    {
+      "description": "Can't use",
+      "id": 3,
+      "name": "BrokenMachine2",
+      "vendor": "Broken Company 2",
+      "status": "Broken"
+    },
+    {
+      "description": "rate",
+      "id": 4,
+      "name": "Working Machine",
+      "vendor": "SC",
+      "status": "Free"
+    },
+    {
+      "description": "Máy chụp X-quang phát ra các chùm tia X có bức xạ cao, các tia X này xuyên qua các mô mềm và thành phần dịch trong cơ thể dễ dàng, từ đó tạo hình ảnh, các bác sĩ sẽ dựa vào hình ảnh này để chẩn đoán bệnh.",
+      "id": 5,
+      "name": "Máy chụp X quang",
+      "vendor": "VN",
+      "status": "In_Maintenence"
+    },
+    {
+      "description": "",
+      "id": 8,
+      "name": "Defibrilator",
+      "vendor": "US",
+      "status": "Free"
+    },
+    {
+      "description": "string",
+      "id": 10,
+      "name": "string",
+      "vendor": "string",
+      "status": "Free"
+    },
+    {
+      "id": "6",
+      "name": "",
+      "vendor": "",
+      "status": "",
+      "description": ""
+    }
+  ],
+  "medicine": [
+    {
+      "medicine_id": "T1",
+      "name": "Vitamin E",
+      "remaining": 350,
+      "cost_out": 450,
+      "unit": "ml",
+      "description": "Vitamin E là một thành phần quan trọng giúp duy trì hoạt động bình thường của các cơ quan trong cơ thể là một chất chống oxy hóa giúp làm chậm các quá trình gây tổn thương tế bào.",
+      "ingredients": [
+        "Tocopherol",
+        "Tocotrienol"
+      ],
+      "createdAt": "2024-04-21T02:25:31.749Z",
+      "updatedAt": "2024-04-23T04:39:56.000Z",
+      "id": "4a64"
+    },
+    {
+      "medicine_id": "T2",
+      "name": "Vitamin A",
+      "remaining": 735,
+      "cost_out": 300,
+      "unit": "ml",
+      "description": "Vitamin A cần thiết cho sức khỏe của mắt, tăng cường thị lực, chức năng miễn dịch, tăng trưởng tế bào, hỗ trợ sinh sản và phát triển của thai nhi.",
+      "ingredients": [
+        "retinol",
+        "retinal",
+        "retinyl ester"
+      ],
+      "createdAt": "2024-04-21T02:27:07.717Z",
+      "updatedAt": "2024-04-23T04:57:53.000Z",
+      "id": "6de5"
+    },
+    {
+      "medicine_id": "T3",
+      "name": "Vitamin B3",
+      "remaining": 500,
+      "cost_out": 350,
+      "unit": "ml",
+      "description": "Vitamin B3 (Vitamin PP) có tác dụng giảm cholesteron trong máu, ngăn ngừa xơ vữa động mạch, giúp quá trình tuần hoàn máu trong cơ thể hoạt động tốt hơn.",
+      "ingredients": [
+        "Niacinamide",
+        "Niacin"
+      ],
+      "createdAt": "2024-04-21T02:29:06.129Z",
+      "updatedAt": "2024-04-23T04:57:53.000Z",
+      "id": "51a6"
+    },
+    {
+      "medicine_id": "T4",
+      "name": "Vitamin B12",
+      "remaining": 350,
+      "cost_out": 350,
+      "unit": "ml",
+      "description": "Giúp hình thành tế bào hồng cầu và phòng chống thiếu máu. Vitamin B12 đóng một vai trò quan trọng trong việc giúp cơ thể sản xuất các tế bào hồng cầu.",
+      "ingredients": [
+        "C63H90O14PCo"
+      ],
+      "createdAt": "2024-04-21T02:48:02.659Z",
+      "updatedAt": "2024-04-21T02:52:50.000Z",
+      "id": "e26b"
+    },
+    {
+      "id": "0807",
+      "medicine_id": "T5",
+      "remaining": 0,
+      "name": "t1",
+      "unit": "t1",
+      "description": "t1",
+      "cost_out": "t1",
+      "ingredients": "t1",
+      "createdAt": "2024-05-01T14:52:20.002Z",
+      "updatedAt": "2024-05-01T14:52:20.002Z"
+    }
+  ],
+  "log": [
+    {
+      "id": 1,
+      "medicine_id": "T2",
+      "export_date": "2024-04-21T02:56:18.000Z",
+      "cost_out": 300,
+      "prev_remaining": 150,
+      "curr_remaining": 100,
+      "description": "From medicine batch b6c55f26-664d-475c-91f2-7e42ebbb10bf take 50 medicine T2",
+      "batchMedicine": {
+        "id": "b6c55f26-664d-475c-91f2-7e42ebbb10bf",
+        "medicine_id": "T2",
+        "quantity": 150,
+        "cost_in": 220,
+        "expire": "2024-06-20T00:00:00.000Z",
+        "vendor": "VN"
+      }
+    },
+    {
+      "id": 2,
+      "medicine_id": "T2",
+      "export_date": "2024-04-21T02:56:30.000Z",
+      "cost_out": 300,
+      "prev_remaining": 100,
+      "curr_remaining": 0,
+      "description": "From medicine batch b6c55f26-664d-475c-91f2-7e42ebbb10bf take all (100) medicine T2",
+      "batchMedicine": {
+        "id": "b6c55f26-664d-475c-91f2-7e42ebbb10bf",
+        "medicine_id": "T2",
+        "quantity": 150,
+        "cost_in": 220,
+        "expire": "2024-06-20T00:00:00.000Z",
+        "vendor": "VN"
+      }
+    },
+    {
+      "id": 3,
+      "medicine_id": "T2",
+      "export_date": "2024-04-21T02:56:51.000Z",
+      "cost_out": 300,
+      "prev_remaining": 150,
+      "curr_remaining": 135,
+      "description": "From medicine batch 20fce770-b7e1-4fe8-b2b4-6c55aa66308d take 15 medicine T2",
+      "batchMedicine": {
+        "id": "20fce770-b7e1-4fe8-b2b4-6c55aa66308d",
+        "medicine_id": "T2",
+        "quantity": 150,
+        "cost_in": 250,
+        "expire": "2024-06-20T00:00:00.000Z",
+        "vendor": "JAPAN"
+      }
+    }
+  ]
+}
