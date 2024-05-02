@@ -54,7 +54,7 @@ const DialogEditDoctorContent = ({ doctor }: DialogEditDoctorContentProps) => {
             <input
               className="col-span-3 h-8 border border-border rounded px-2"
               type="date"
-              defaultValue={doctor.dateOfBirth.toString()}
+              defaultValue={doctor.dateOfBirth?.toString()}
             />
           </div>
 

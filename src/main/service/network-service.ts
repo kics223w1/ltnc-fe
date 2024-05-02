@@ -1,27 +1,18 @@
 import axios from 'axios';
-import { HttpProxyAgent } from 'http-proxy-agent';
-import { HttpsProxyAgent } from 'https-proxy-agent';
 import Doctor from '../models/doctor';
 import Examination from '../models/examination';
 import Patient from '../models/patient';
 import Medicine from '../models/medicine';
+import User from '../models/user';
+import loginService from './login-service';
 import Machine from '../models/machine';
-
-const host = '192.168.50.214';
-const port = 9090;
 
 class NetworkService {
   private instance: any;
 
   constructor() {
     this.instance = axios.create({
-      baseURL: 'http://localhost:3001/',
-      proxy: {
-        host: host,
-        port: port,
-      },
-      httpAgent: new HttpProxyAgent(`http://${host}:${port}}`),
-      httpsAgent: new HttpsProxyAgent(`https://${host}:${port}`),
+      baseURL: 'https://helped-alpaca-obliging.ngrok-free.app',
     });
   }
 
@@ -55,6 +46,20 @@ class NetworkService {
   public async getNurses(): Promise<Doctor[]> {
     try {
       const response = await this.instance.get('/users/nurse');
+      return response.data ? response.data : [];
+    } catch (e) {
+      return [];
+    }
+  }
+
+  public async getUsers(): Promise<User[]> {
+    try {
+      const accessToken = loginService.getAccessToken();
+      const config = accessToken
+        ? { headers: { Authorization: `Bearer ${accessToken}` } }
+        : {};
+
+      const response = await this.instance.get('/users', config);
       return response.data ? response.data : [];
     } catch (e) {
       return [];

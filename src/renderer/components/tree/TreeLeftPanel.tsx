@@ -5,13 +5,15 @@ import {
 } from '../../../main/models/constants';
 import { useEffect, useState } from 'react';
 import ParentNode from './ParentNode';
+import User from '../../../main/models/user';
 
 type TreeLeftPanelProps = {
-  userRole: ROLE | undefined;
+  user: User | undefined;
 };
 
-const TreeLeftPanel = ({ userRole }: TreeLeftPanelProps) => {
+const TreeLeftPanel = ({ user }: TreeLeftPanelProps) => {
   const [currentTab, setCurrentTab] = useState(MAIN_VIEW_TAB.PATIENT_BOOKING);
+  const userRole = user?.role;
 
   useEffect(() => {
     const ipcListener1 = window.electron.ipcRenderer.on(

@@ -1,4 +1,5 @@
-import Medicine from "/main/models/medicine";
+import Medicine from '/main/models/medicine';
+import moment from 'moment';
 
 class MedicineTableModel {
   constructor() {}
@@ -18,8 +19,8 @@ class MedicineTableModel {
       unit: medicines.unit,
       cost_out: medicines.cost_out,
       ingredients: medicines.ingredients,
-      createdAt: medicines.createdAt,
-      updatedAt: medicines.updatedAt,
+      createdAt: moment(medicines.createdAt).format('DD/MM/YYYY HH:mm:ss'),
+      updatedAt: moment(medicines.updatedAt).format('DD/MM/YYYY HH:mm:ss'),
       description: medicines.description,
     };
   }
@@ -42,6 +43,11 @@ class MedicineTableModel {
         width: 100,
       },
       {
+        field: 'cost_out',
+        headerName: 'Giá bán (VND)',
+        width: 300,
+      },
+      {
         field: 'remaining',
         headerName: 'Số lượng còn lại',
         width: 200,
@@ -49,17 +55,17 @@ class MedicineTableModel {
       {
         field: 'description',
         headerName: 'Mô tả',
-        width: 200,
+        width: 300,
       },
       {
         field: 'createdAt',
         headerName: 'Ngày khởi tạo',
-        width: 150,
+        width: 300,
       },
       {
         field: 'updatedAt',
         headerName: 'Ngày cập nhật',
-        width: 150,
+        width: 300,
       },
     ];
   }

@@ -1,12 +1,8 @@
 import { Button } from '~/components/ui/button';
 import { Dialog, DialogTrigger } from '/~/components/ui/dialog';
 import DialogSignInContent from '../dialog/SignInContent';
-import {
-  EVENTS_FROM_MAIN_PROCESS,
-  LOGIN_SERVICE,
-  ROLE,
-} from '../../../main/models/constants';
-import { useEffect, useState } from 'react';
+import { LOGIN_SERVICE } from '../../../main/models/constants';
+import User from '../../../main/models/user';
 
 const styleDrag: any = {
   WebkitAppRegion: 'drag',
@@ -17,13 +13,13 @@ const styleNoDrag: any = {
 };
 
 type HeaderRightPanelProps = {
-  userRole: ROLE | undefined;
-  setUserRole: (role: ROLE | undefined) => void;
+  user: User | undefined;
+  setUser: (user: User | undefined) => void;
 };
 
-const HeaderRightPanel = ({ userRole, setUserRole }: HeaderRightPanelProps) => {
+const HeaderRightPanel = ({ user, setUser }: HeaderRightPanelProps) => {
   const handleLogout = () => {
-    setUserRole(undefined);
+    setUser(undefined);
     window.electron.ipcRenderer.sendMessage(LOGIN_SERVICE.LOGOUT, {});
   };
 
@@ -32,7 +28,7 @@ const HeaderRightPanel = ({ userRole, setUserRole }: HeaderRightPanelProps) => {
       className="flex flex-shrink-0 items-center justify-between w-full h-12 border-b border-border pl-12 pt-1 gap-2"
       style={styleDrag}
     >
-      {userRole ? (
+      {user ? (
         <>
           <Button onClick={handleLogout}>Đăng xuất</Button>
         </>

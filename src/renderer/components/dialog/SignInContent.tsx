@@ -14,16 +14,27 @@ import {
 import { Checkbox } from '/~/components/ui/checkbox';
 
 const DialogSignInContent = () => {
-  const [account, setAccount] = useState<string>('');
+  const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [rememberMe, setRememberMe] = useState<boolean>(true);
 
-  const handleLogin = () => {
-    window.electron.ipcRenderer.sendMessage(LOGIN_SERVICE.LOGIN, {
-      account,
-      password,
-      rememberMe: rememberMe,
-    });
+  const [errorMessage, setErrorMessage] = useState<string>('');
+
+  const handleLogin = async () => {
+    const response = await window.electron.ipcRenderer.invoke(
+      LOGIN_SERVICE.SIGN_IN,
+      {
+        email,
+        password,
+        rememberMe: rememberMe,
+      }
+    );
+
+    if (response !== 'Success!') {
+      setErrorMessage('Đăng nhập thất bại!');
+      return;
+    }
+    setErrorMessage('');
   };
 
   return (
@@ -41,7 +52,7 @@ const DialogSignInContent = () => {
               Tài khoản
             </Label>
             <Input
-              onChange={(e) => setAccount(e.target.value)}
+              onChange={(e) => setEmail(e.target.value)}
               placeholder="Nhập tài khoản của bạn"
               className="col-span-3"
             />
@@ -71,13 +82,23 @@ const DialogSignInContent = () => {
               Ghi nhớ tài khoản trong 1 tháng
             </span>
           </div>
+
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label htmlFor="" className="text-right"></Label>
+            {errorMessage && (
+              <span className="text-red-400 text-sm col-span-3">
+                {errorMessage}
+              </span>
+            )}
+          </div>
         </div>
+
         <DialogFooter className="flex items-center justify-between w-full">
           <DialogClose className="w-full flex items-start pl-5">
             <Button variant={'outline'}>Huỷ bỏ</Button>
           </DialogClose>
           <Button
-            disabled={!account || !password}
+            disabled={!email || !password}
             onClick={handleLogin}
             type="submit"
           >

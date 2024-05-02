@@ -52,7 +52,7 @@ const MedicineTable = ({
 
   const handleReloadMedicines = async () => {
     setIsLoading(true);
-    handleLoadMedicines();
+    await handleLoadMedicines();
     setIsLoading(false);
   };
 

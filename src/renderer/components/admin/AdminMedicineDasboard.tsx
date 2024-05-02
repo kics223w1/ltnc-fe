@@ -1,12 +1,9 @@
 import { Button } from '../../../~/components/ui/button';
 import { useState, useEffect } from 'react';
 import { Dialog, DialogTrigger } from '../../../~/components/ui/dialog';
-import { useToast } from '~/components/ui/use-toast';
-import { ToastAction } from '../../../~/components/ui/toast';
-
 import Medicine from '/main/models/medicine';
 import MedicineTable from '../table/MedicineTable';
-import { MEDICINE_SERVICE, MANAGEMENT_SERVICE } from '/main/models/constants';
+import { MEDICINE_SERVICE } from '/main/models/constants';
 import DialogAddMedicineContent from '../dialog/AddMedicineContent';
 import DialogEditMedicineContent from '../dialog/EditMedicineContent';
 import { MedicineDetails, MedicineLog } from '../dialog/MedicineContent';
@@ -15,34 +12,21 @@ const AdminMedicineDashboard = () => {
   const [selectedMedicines, setSelectedMedicines] = useState<Medicine[]>([]);
   const [medicines, setMedicines] = useState<Medicine[]>([]);
   const [isAddFormOpen, setIsAddFormOpen] = useState(false);
-  // const [showMedicineDetails, setShowMedicineDetails] = useState(false); // State to control MedicineDetails visibility
   const [selectedMedicine, setSelectedMedicine] = useState<Medicine | null>(
     null
-  ); // State to store selected medicine
-
-  // const toggleAddForm = () => setShowAddForm(!showAddForm);
-  const params = {
-    id: '',
-  };
+  );
 
   useEffect(() => {
     handleLoadMedicines();
   }, []);
 
   const handleLoadMedicines = async () => {
-    try {
-      const response = await fetch(
-        `http://localhost:3001/medicine/${params.id}`
-      );
-      if (response.ok) {
-        const data = await response.json();
-        setMedicines(data);
-      } else {
-        console.error('Failed');
-      }
-    } catch (error) {
-      console.error('Error:', error);
-    }
+    const newMedicines = await window.electron.ipcRenderer.invoke(
+      MEDICINE_SERVICE.RELOAD_MEDICINES,
+      {}
+    );
+
+    setMedicines(newMedicines);
   };
 
   const handleAddMedicine = () => {
@@ -133,15 +117,14 @@ const AdminMedicineDashboard = () => {
               variant={'outline'}
               size={'lg'}
               disabled={selectedMedicines.length === 0}
-              // onClick={handleOnClickEdit}
             >
-              Chỉnh sửa
+              Chỉnh sửa giá
             </Button>
           </DialogTrigger>
           {selectedMedicines.length > 0 && (
             <DialogEditMedicineContent
               medicine={selectedMedicines[selectedMedicines.length - 1]}
-              onSave={handleSaveMedicine}
+              handleLoadMedicines={handleLoadMedicines}
               onClose={() => setSelectedMedicines([])}
             />
           )}
