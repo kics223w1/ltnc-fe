@@ -1,42 +1,38 @@
 import { useEffect, useState } from 'react';
 import Doctor from '../../../main/models/doctor';
 import DoctorBookingList from './DoctorBookingList';
-import { USER_SERVICE } from '../../../main/models/constants';
+import {
+  APPOINTMENT_SERVICE,
+  USER_SERVICE,
+} from '../../../main/models/constants';
 import { useToast } from '../../../~/components/ui/use-toast';
 import { Button } from '../../../~/components/ui/button';
+import moment from 'moment';
 
 type Props = {};
 
 const PatientBooking = ({}: Props) => {
-  const [showDoctors, setShowDoctors] = useState(false);
   const [doctors, setDoctors] = useState<Doctor[]>([]);
 
   const [fullName, setFullName] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
-  const [startTime, setStartTime] = useState('');
-  const [endTime, setEndTime] = useState('');
+
+  const [bookingDate, setBookingDate] = useState('');
+
+  const [startAppointment, setStartAppointment] = useState<number>(1);
+  const [endAppointment, setEndAppointment] = useState(2);
+
   const [isInternal, setIsInternal] = useState<boolean>(false);
 
   const [symptoms, setSymptoms] = useState<string[]>(['Sốt']);
 
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
   const { toast } = useToast();
 
-  useEffect(() => {
-    handleReloadDoctors();
-  }, []);
-
-  const handleReloadDoctors = async () => {
-    const newDoctors: Doctor[] = await window.electron.ipcRenderer.invoke(
-      USER_SERVICE.RELOAD_DOCTORS,
-      {}
-    );
-    setDoctors(newDoctors);
-  };
-
-  const handleSubmit = (event: any) => {
+  const handleSubmit = async (event: any) => {
     event.preventDefault();
-    const errorMessage = getAppointMentError(startTime, endTime);
-
+    const errorMessage = getAppointMentError();
     if (errorMessage) {
       toast({
         variant: 'destructive',
@@ -55,39 +51,43 @@ const PatientBooking = ({}: Props) => {
       return;
     }
 
-    setShowDoctors(true);
+    const bookingDateTime = new Date(bookingDate);
+
+    console.log('check: ', moment(bookingDateTime).format('DD/MM/YYYY'));
+
+    setIsLoading(true);
+    const newDoctors: Doctor[] = await window.electron.ipcRenderer.invoke(
+      APPOINTMENT_SERVICE.GET_FREE_DOCTORS,
+      {
+        date: moment(bookingDateTime).format('DD/MM/YYYY'),
+        min_appointment_number: startAppointment,
+        max_appointment_number: endAppointment,
+      }
+    );
+
+    setIsLoading(false);
+
+    console.log(newDoctors);
+
+    setDoctors(newDoctors);
   };
 
-  const getAppointMentError = (
-    startTime: string,
-    endTime: string
-  ): string | undefined => {
+  const getAppointMentError = (): string | undefined => {
     // Convert start and end time strings to Date objects
-    const startDate = new Date(startTime);
-    const endDate = new Date(endTime);
+    const bookingDateTime = new Date(bookingDate);
 
     // Get the current time
     const currentTime = new Date();
 
-    if (startDate >= endDate) {
-      return 'Thời gian bắt đầu khám không được nhỏ hơn thời gian kết thúc khám';
+    if (bookingDateTime < currentTime) {
+      return 'Ngày khám không được nhỏ hơn thời gian hiện tại';
     }
 
-    if (startDate < currentTime) {
-      return 'Thời gian bắt đầu khám không được nhỏ hơn thời gian hiện tại';
+    if (startAppointment > endAppointment) {
+      return 'Thời gian bắt đầu không được lớn hơn thời gian kết thúc';
     }
 
     return undefined;
-  };
-
-  const handleStartTimeChange = (e: any) => {
-    const selectedStartTime = e.target.value;
-    setStartTime(selectedStartTime);
-  };
-
-  const handleEndTimeChange = (e: any) => {
-    const selectedEndTime = e.target.value;
-    setEndTime(selectedEndTime);
   };
 
   const handleOnClickSymptoms = (symptom: string) => {
@@ -98,13 +98,16 @@ const PatientBooking = ({}: Props) => {
     }
   };
 
+  const handleBookingDateChange = (event: any) => {
+    setBookingDate(event.target.value);
+  };
+
   return (
     <div className="w-full h-full flex flex-col items-center gap-3 px-12 pt-5 pb-10 overflow-auto">
-      {showDoctors ? (
+      {doctors.length > 0 ? (
         <DoctorBookingList
-          handleRefresh={handleReloadDoctors}
           handleReturn={() => {
-            setShowDoctors(false);
+            setDoctors([]);
           }}
           doctors={doctors}
         />
@@ -112,10 +115,10 @@ const PatientBooking = ({}: Props) => {
         <div className="container mx-auto max-w-lg px-6 pt-4 pb-4 border rounded-lg shadow-md bg-white">
           <h2 className="text-2xl font-semibold mb-2">Đặt lịch khám</h2>
           <form action="#" onSubmit={handleSubmit}>
-            <div className="mb-3">
+            <div className="mb-2">
               <label
                 htmlFor="fullname"
-                className="block text-gray-700 text-sm font-bold mb-2"
+                className="block text-gray-700 text-sm font-bold"
               >
                 Họ và tên
               </label>
@@ -130,10 +133,11 @@ const PatientBooking = ({}: Props) => {
                 value={fullName}
               />
             </div>
-            <div className="mb-3">
+
+            <div className="mb-2">
               <label
                 htmlFor="phone"
-                className="block text-gray-700 text-sm font-bold mb-2"
+                className="block text-gray-700 text-sm font-bold"
               >
                 Số điện thoại
               </label>
@@ -148,42 +152,87 @@ const PatientBooking = ({}: Props) => {
                 value={phoneNumber}
               />
             </div>
-            <div className="mb-3">
+
+            <div className="mb-2">
               <label
-                htmlFor="start-time"
-                className="block text-gray-700 text-sm font-bold mb-2"
+                htmlFor="booking-date"
+                className="block text-gray-700 text-sm font-bold"
+              >
+                Ngày khám
+              </label>
+              <input
+                type="date"
+                id="booking-date"
+                name="booking-date"
+                className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500"
+                required
+                onChange={handleBookingDateChange}
+                value={bookingDate}
+              />
+            </div>
+
+            <div className="mb-2">
+              <label
+                htmlFor="start-appointment"
+                className="block text-gray-700 text-sm font-bold"
               >
                 Thời gian bắt đầu
               </label>
-              <input
-                type="datetime-local"
-                id="start-time"
-                name="start-time"
+              <select
+                id="start-appointment"
+                name="start-appointment"
                 className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500"
                 required
-                onChange={handleStartTimeChange}
-                value={startTime}
-              />
+                onChange={(e) => setStartAppointment(Number(e.target.value))}
+                value={startAppointment}
+              >
+                <option value="" disabled selected>
+                  Chọn thời gian bắt đầu
+                </option>
+                {Array.from({ length: 10 }, (_, index) => {
+                  const startTime = index + 7;
+                  const endTime = startTime + 1;
+                  return (
+                    <option key={index} value={index + 1}>
+                      {`Ca ${index + 1} (${startTime}h - ${endTime}h)`}
+                    </option>
+                  );
+                })}
+              </select>
             </div>
-            <div className="mb-3">
+
+            <div className="mb-2">
               <label
-                htmlFor="end-time"
-                className="block text-gray-700 text-sm font-bold mb-2"
+                htmlFor="end-appointment"
+                className="block text-gray-700 text-sm font-bold"
               >
                 Thời gian kết thúc
               </label>
-              <input
-                type="datetime-local"
-                id="end-time"
-                name="end-time"
+              <select
+                id="end-appointment"
+                name="end-appointment"
                 className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500"
                 required
-                onChange={handleEndTimeChange}
-                value={endTime}
-              />
+                onChange={(e) => setEndAppointment(Number(e.target.value))}
+                value={endAppointment}
+              >
+                <option value="" disabled selected>
+                  Chọn thời gian kết thúc
+                </option>
+                {Array.from({ length: 10 }, (_, index) => {
+                  const startTime = index + 7;
+                  const endTime = startTime + 1;
+                  return (
+                    <option key={index} value={index + 1}>
+                      {`Ca ${index + 1} (${startTime}h - ${endTime}h)`}
+                    </option>
+                  );
+                })}
+              </select>
             </div>
-            <div className="mb-3">
-              <label className="block text-gray-700 text-sm font-bold mb-2">
+
+            <div className="mb-2">
+              <label className="block text-gray-700 text-sm font-bold">
                 Triệu chứng
               </label>
               <div className=" grid grid-cols-4 gap-2">
@@ -267,10 +316,11 @@ const PatientBooking = ({}: Props) => {
                 </Button>
               </div>
             </div>
-            <div className="mb-3">
+
+            <div className="mb-2">
               <label
                 htmlFor="department"
-                className="block text-gray-700 text-sm font-bold mb-2"
+                className="block text-gray-700 text-sm font-bold"
               >
                 Khoa khám
               </label>
@@ -289,12 +339,14 @@ const PatientBooking = ({}: Props) => {
                 <option value="External">Khoa ngoại</option>
               </select>
             </div>
+
             <button
               type="submit"
               onSubmit={handleSubmit}
+              disabled={isLoading}
               className="w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition duration-300"
             >
-              Đặt lịch khám
+              {isLoading ? 'Đang tải...' : 'Tìm bác sĩ'}
             </button>
           </form>
         </div>

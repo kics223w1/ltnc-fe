@@ -86,39 +86,22 @@ function DoctorPanel({
 type DoctorBookingListParams = {
   doctors: Doctor[];
   handleReturn: () => void;
-  handleRefresh: () => void;
 };
 
 export default function DoctorBookingList({
   doctors,
   handleReturn,
-  handleRefresh,
 }: DoctorBookingListParams) {
   const [isLoading, setIsLoading] = useState(false);
   const [idBookedDoctor, setIdBookedDoctor] = useState<string | undefined>(
     undefined
   );
 
-  const handleOnClickRefresh = async () => {
-    setIsLoading(true);
-    await handleRefresh();
-    setIsLoading(false);
-  };
-
   return (
     <div className="flex flex-col gap-5 w-full h-full">
       <div className="flex items-center gap-5">
         <Button className="w-fit" variant={'outline'} onClick={handleReturn}>
           Quay lại
-        </Button>
-        <Button
-          className="w-fit"
-          variant={'default'}
-          disabled={isLoading}
-          onClick={handleOnClickRefresh}
-        >
-          {isLoading && <ReloadIcon className=" animate-spin mr-2" />}
-          Làm mới
         </Button>
       </div>
 
