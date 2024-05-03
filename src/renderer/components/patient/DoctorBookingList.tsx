@@ -1,28 +1,35 @@
 import { useState } from 'react';
-import Doctor from '../../../main/models/doctor';
 import { Button } from '../../../~/components/ui/button';
-import { Dialog, DialogTrigger } from '../../../~/components/ui/dialog';
-import DoctorInformation from '../dialog/DoctorInformation';
 import { ReloadIcon } from '@radix-ui/react-icons';
 import { useToast } from '../../../~/components/ui/use-toast';
+import { APPOINTMENT_SERVICE } from '../../../main/models/constants';
+import moment from 'moment';
+import { IdEmailAndUserName } from '../../../main/types';
 
 type DoctorPanelParams = {
-  doctor: Doctor;
+  doctor: IdEmailAndUserName;
+  date: string;
   idBookedDoctor: string | undefined;
+  min_appointment_number: number;
+  max_appointment_number: number;
   setIdBookedDoctor: (id: string | undefined) => void;
 };
 
 function DoctorPanel({
   doctor,
   idBookedDoctor,
+  date,
+  min_appointment_number,
+  max_appointment_number,
   setIdBookedDoctor,
 }: DoctorPanelParams) {
   const [isBooked, setIsBooked] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const { toast } = useToast();
 
   const handleOnClick = () => {
-    if (idBookedDoctor && idBookedDoctor !== doctor.userId) {
+    if (idBookedDoctor && idBookedDoctor !== doctor.user_id) {
       toast({
         variant: 'destructive',
         title: 'Chỉ được đặt lịch cho một bác sĩ',
@@ -35,23 +42,50 @@ function DoctorPanel({
     const newValue = !isBooked;
 
     if (newValue) {
-      toast({
-        variant: 'default',
-        title: `Đặt lịch thành công cho bác sĩ ${doctor.userName}`,
-        description: 'Vui lòng chờ xác nhận từ bác sĩ',
-      });
-      setIdBookedDoctor(doctor.userId);
+      handleBook();
     } else {
+      handleCancel();
+    }
+  };
+
+  const handleBook = async () => {
+    setIsLoading(true);
+
+    const bookingDateTime = new Date(date);
+
+    const body = {
+      date: moment(bookingDateTime).format('DD/MM/YYYY'),
+      min_appointment_number: min_appointment_number,
+      max_appointment_number: max_appointment_number,
+      doctor_id: doctor.user_id,
+    };
+
+    const response = await window.electron.ipcRenderer.invoke(
+      APPOINTMENT_SERVICE.BOOK_APPOINTMENT,
+      body
+    );
+
+    setIsLoading(false);
+
+    if (response !== 'Success!') {
       toast({
-        variant: 'default',
-        title: `Huỷ lịch thành công cho bác sĩ ${doctor.userName}`,
-        description: 'Lịch khám của bạn đã được huỷ',
+        variant: 'destructive',
+        title: 'Đặt lịch thất bại',
+        description: 'Vui lòng thử lại sau',
       });
-      setIdBookedDoctor(undefined);
+      return;
     }
 
-    setIsBooked(!isBooked);
+    setIsBooked(true);
+    setIdBookedDoctor(doctor.user_id);
+    toast({
+      variant: 'default',
+      title: 'Đặt lịch thành công',
+      description: 'Vui lòng chờ xác nhận từ bác sĩ',
+    });
   };
+
+  const handleCancel = async () => {};
 
   return (
     <div className="flex flex-col gap-2 w-full min-h-96 h-fit pb-5 border-2 rounded-lg hover:border-primary relative">
@@ -61,22 +95,25 @@ function DoctorPanel({
       ></img>
 
       <div className="flex flex-col pl-5">
-        <span className="text-lg text-black">{doctor.userName}</span>
-        <span className="text-sm text-muted-foreground">{doctor.role}</span>
+        <span className="text-lg text-black">{doctor.user_name}</span>
       </div>
 
       <div className="flex items-center justify-between w-full gap-2 px-5">
-        <Dialog>
-          <DialogTrigger>
-            <Button variant={'outline'}>Lý lịch</Button>
-          </DialogTrigger>
-          <DoctorInformation doctor={doctor} />
-        </Dialog>
         <Button
           onClick={handleOnClick}
+          disabled={isLoading}
           variant={isBooked ? 'destructive' : 'default'}
         >
-          {isBooked ? 'Huỷ lịch' : 'Đặt lịch'}
+          {isLoading ? (
+            <>
+              <ReloadIcon className="w-4 h-4 animate-spin" />
+              Đang xử lý...
+            </>
+          ) : isBooked ? (
+            'Huỷ lịch'
+          ) : (
+            'Đặt lịch'
+          )}
         </Button>
       </div>
     </div>
@@ -84,15 +121,20 @@ function DoctorPanel({
 }
 
 type DoctorBookingListParams = {
-  doctors: Doctor[];
+  date: string;
+  min_appointment_number: number;
+  max_appointment_number: number;
+  doctors: IdEmailAndUserName[];
   handleReturn: () => void;
 };
 
 export default function DoctorBookingList({
+  date,
+  min_appointment_number,
+  max_appointment_number,
   doctors,
   handleReturn,
 }: DoctorBookingListParams) {
-  const [isLoading, setIsLoading] = useState(false);
   const [idBookedDoctor, setIdBookedDoctor] = useState<string | undefined>(
     undefined
   );
@@ -109,8 +151,11 @@ export default function DoctorBookingList({
         {doctors.map((doctor, index) => {
           return (
             <DoctorPanel
+              date={date}
               idBookedDoctor={idBookedDoctor}
-              key={`${index}_${doctor.userId}`}
+              min_appointment_number={min_appointment_number}
+              max_appointment_number={max_appointment_number}
+              key={`${index}_${doctor.user_id}`}
               doctor={doctor}
               setIdBookedDoctor={setIdBookedDoctor}
             />

@@ -8,11 +8,13 @@ import {
 import { useToast } from '../../../~/components/ui/use-toast';
 import { Button } from '../../../~/components/ui/button';
 import moment from 'moment';
+import { ReloadIcon } from '@radix-ui/react-icons';
+import { IdEmailAndUserName } from '../../../main/types';
 
 type Props = {};
 
 const PatientBooking = ({}: Props) => {
-  const [doctors, setDoctors] = useState<Doctor[]>([]);
+  const [doctors, setDoctors] = useState<IdEmailAndUserName[]>([]);
 
   const [fullName, setFullName] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
@@ -53,10 +55,9 @@ const PatientBooking = ({}: Props) => {
 
     const bookingDateTime = new Date(bookingDate);
 
-    console.log('check: ', moment(bookingDateTime).format('DD/MM/YYYY'));
-
     setIsLoading(true);
-    const newDoctors: Doctor[] = await window.electron.ipcRenderer.invoke(
+
+    const newDoctors = await window.electron.ipcRenderer.invoke(
       APPOINTMENT_SERVICE.GET_FREE_DOCTORS,
       {
         date: moment(bookingDateTime).format('DD/MM/YYYY'),
@@ -66,8 +67,6 @@ const PatientBooking = ({}: Props) => {
     );
 
     setIsLoading(false);
-
-    console.log(newDoctors);
 
     setDoctors(newDoctors);
   };
@@ -102,10 +101,15 @@ const PatientBooking = ({}: Props) => {
     setBookingDate(event.target.value);
   };
 
+  console.log('doctors: ', doctors);
+
   return (
     <div className="w-full h-full flex flex-col items-center gap-3 px-12 pt-5 pb-10 overflow-auto">
       {doctors.length > 0 ? (
         <DoctorBookingList
+          date={bookingDate}
+          min_appointment_number={startAppointment}
+          max_appointment_number={endAppointment}
           handleReturn={() => {
             setDoctors([]);
           }}
@@ -344,8 +348,9 @@ const PatientBooking = ({}: Props) => {
               type="submit"
               onSubmit={handleSubmit}
               disabled={isLoading}
-              className="w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition duration-300"
+              className="flex items-center justify-center gap-2 w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600"
             >
+              {isLoading && <ReloadIcon className="animate-spin h-5 w-5" />}
               {isLoading ? 'Đang tải...' : 'Tìm bác sĩ'}
             </button>
           </form>

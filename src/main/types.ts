@@ -13,3 +13,9 @@ export type SignInResponse = {
     refresh_token: string;
   };
 };
+
+export type IdEmailAndUserName = {
+  email: string;
+  user_id: string;
+  user_name: string;
+};

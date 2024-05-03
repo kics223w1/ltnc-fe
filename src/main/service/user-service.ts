@@ -25,7 +25,11 @@ class UserService {
     });
   }
 
-  private async loadDoctors() {
+  public getDoctors() {
+    return this.doctors;
+  }
+
+  public async loadDoctors() {
     const users = await networkService.getUsers();
     this.doctors = users.filter(
       (user) => user.role === ROLE.DOCTOR
