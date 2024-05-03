@@ -2,51 +2,29 @@ import { useState } from 'react';
 import { Button } from '../../../~/components/ui/button';
 import { ReloadIcon } from '@radix-ui/react-icons';
 import { useToast } from '../../../~/components/ui/use-toast';
-import { APPOINTMENT_SERVICE } from '../../../main/models/constants';
+import { APPOINTMENT_SERVICE, ICON_SVG } from '../../../main/models/constants';
 import moment from 'moment';
 import { IdEmailAndUserName } from '../../../main/types';
+import IconSVG from '../utils/icon-svg';
 
 type DoctorPanelParams = {
   doctor: IdEmailAndUserName;
   date: string;
-  idBookedDoctor: string | undefined;
   min_appointment_number: number;
   max_appointment_number: number;
-  setIdBookedDoctor: (id: string | undefined) => void;
+  setDoctorName: (name: string) => void;
 };
 
 function DoctorPanel({
   doctor,
-  idBookedDoctor,
   date,
   min_appointment_number,
   max_appointment_number,
-  setIdBookedDoctor,
+  setDoctorName,
 }: DoctorPanelParams) {
-  const [isBooked, setIsBooked] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   const { toast } = useToast();
-
-  const handleOnClick = () => {
-    if (idBookedDoctor && idBookedDoctor !== doctor.user_id) {
-      toast({
-        variant: 'destructive',
-        title: 'Chỉ được đặt lịch cho một bác sĩ',
-        description:
-          'Vui lòng huỷ lịch hiện tại trước khi đặt lịch cho bác sĩ khác',
-      });
-      return;
-    }
-
-    const newValue = !isBooked;
-
-    if (newValue) {
-      handleBook();
-    } else {
-      handleCancel();
-    }
-  };
 
   const handleBook = async () => {
     setIsLoading(true);
@@ -76,16 +54,13 @@ function DoctorPanel({
       return;
     }
 
-    setIsBooked(true);
-    setIdBookedDoctor(doctor.user_id);
+    setDoctorName(doctor.user_name);
     toast({
       variant: 'default',
       title: 'Đặt lịch thành công',
       description: 'Vui lòng chờ xác nhận từ bác sĩ',
     });
   };
-
-  const handleCancel = async () => {};
 
   return (
     <div className="flex flex-col gap-2 w-full min-h-96 h-fit pb-5 border-2 rounded-lg hover:border-primary relative">
@@ -99,18 +74,12 @@ function DoctorPanel({
       </div>
 
       <div className="flex items-center justify-between w-full gap-2 px-5">
-        <Button
-          onClick={handleOnClick}
-          disabled={isLoading}
-          variant={isBooked ? 'destructive' : 'default'}
-        >
+        <Button onClick={handleBook} disabled={isLoading} variant={'default'}>
           {isLoading ? (
             <>
               <ReloadIcon className="w-4 h-4 animate-spin" />
               Đang xử lý...
             </>
-          ) : isBooked ? (
-            'Huỷ lịch'
           ) : (
             'Đặt lịch'
           )}
@@ -135,9 +104,7 @@ export default function DoctorBookingList({
   doctors,
   handleReturn,
 }: DoctorBookingListParams) {
-  const [idBookedDoctor, setIdBookedDoctor] = useState<string | undefined>(
-    undefined
-  );
+  const [doctorName, setDoctorName] = useState<string | undefined>(undefined);
 
   return (
     <div className="flex flex-col gap-5 w-full h-full">
@@ -147,21 +114,41 @@ export default function DoctorBookingList({
         </Button>
       </div>
 
-      <div className="grid grid-cols-3 items-center gap-5">
-        {doctors.map((doctor, index) => {
-          return (
-            <DoctorPanel
-              date={date}
-              idBookedDoctor={idBookedDoctor}
-              min_appointment_number={min_appointment_number}
-              max_appointment_number={max_appointment_number}
-              key={`${index}_${doctor.user_id}`}
-              doctor={doctor}
-              setIdBookedDoctor={setIdBookedDoctor}
-            />
-          );
-        })}
-      </div>
+      {doctorName === undefined && (
+        <div className="grid grid-cols-3 items-center gap-5">
+          {doctors.map((doctor, index) => {
+            return (
+              <DoctorPanel
+                date={date}
+                min_appointment_number={min_appointment_number}
+                max_appointment_number={max_appointment_number}
+                key={`${index}_${doctor.user_id}`}
+                doctor={doctor}
+                setDoctorName={setDoctorName}
+              />
+            );
+          })}
+        </div>
+      )}
+
+      {doctorName && (
+        <div className="flex flex-col items-center justify-center gap-2 w-full h-full">
+          <IconSVG
+            iconName={ICON_SVG.CHECK_MARK_CIRCLE_FILL}
+            css="w-20 h-20"
+            style={{
+              filter:
+                'invert(41%) sepia(90%) saturate(2742%) hue-rotate(141deg) brightness(93%) contrast(101%)',
+            }}
+          />
+          <span className="text-2xl font-sfProSemiBold">
+            Lịch hẹn đã được đặt thành công!
+          </span>
+          <span className="text-lg text-muted-foreground">
+            Vui lòng chờ xác nhận từ bác sĩ {doctorName}
+          </span>
+        </div>
+      )}
     </div>
   );
 }
