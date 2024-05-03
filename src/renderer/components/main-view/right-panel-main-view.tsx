@@ -19,6 +19,7 @@ import AdminMedicineDashboard from '../admin/AdminMedicineDasboard';
 import PatientList from '../staff/PatientList';
 import ManagementExamination from '../staff/ManagementExamination';
 import User from '../../../main/models/user';
+import AdminBatchDashboard from '../admin/AdminBatchDasboard';
 
 type TreeLeftPanelProps = {
   user: User | undefined;
@@ -87,10 +88,12 @@ const buildView = (tab: MAIN_VIEW_TAB) => {
       return <AdminDoctorDashboard />;
     case MAIN_VIEW_TAB.ADMIN_NURSE_DASHBOARD:
       return <AdminNurseDashboard />;
-    case MAIN_VIEW_TAB.ADMIN_MACHINE_DASHBOARD:
-      return <AdminMachineDashboard />;
     case MAIN_VIEW_TAB.ADMIN_MEDICINE_DASHBOARD:
       return <AdminMedicineDashboard />;
+    case MAIN_VIEW_TAB.ADMIN_BATCH_DASHBOARD:
+      return <AdminBatchDashboard />;
+    case MAIN_VIEW_TAB.ADMIN_MACHINE_DASHBOARD:
+      return <AdminMachineDashboard />;
     default:
       return <></>;
   }

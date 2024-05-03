@@ -76,6 +76,7 @@ const TreeLeftPanel = ({ user }: TreeLeftPanelProps) => {
             MAIN_VIEW_TAB.ADMIN_NURSE_DASHBOARD,
             MAIN_VIEW_TAB.ADMIN_MACHINE_DASHBOARD,
             MAIN_VIEW_TAB.ADMIN_MEDICINE_DASHBOARD,
+            MAIN_VIEW_TAB.ADMIN_BATCH_DASHBOARD,
           ]}
           title={'Quản trị viên'}
           setCurrentTab={handleSetCurrentTab}

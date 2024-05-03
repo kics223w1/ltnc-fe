@@ -29,7 +29,9 @@ export const getTabTitle = (tab: MAIN_VIEW_TAB): string => {
     case MAIN_VIEW_TAB.ADMIN_MACHINE_DASHBOARD:
       return 'Quản trị máy móc';
     case MAIN_VIEW_TAB.ADMIN_MEDICINE_DASHBOARD:
-      return 'Quản trị thuốc'
+      return 'Quản trị thuốc';
+    case MAIN_VIEW_TAB.ADMIN_BATCH_DASHBOARD:
+      return 'Quản trị lô thuốc';
     case MAIN_VIEW_TAB.PATIENT_LIST:
       return 'Danh sách bệnh nhân';
     default:

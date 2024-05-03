@@ -28,18 +28,8 @@ const AdminMachineDashboard = () => {
   };
 
   const handleAddMachine = () => {
-    // setIsAddFormOpen(false);
     handleLoadMachines();
   };
-
-  // const handleFilterByState = () => {
-  //   if (!state) {
-  //     setFilteredMachines(machines); // If no state is selected, show all machines
-  //   } else {
-  //     const filtered = machines.filter((machine) => machine.status === state);
-  //     setFilteredMachines(filtered);
-  //   }
-  // };
 
   return (
     <div className="flex flex-col gap-5 w-full h-full px-12 py-10 overflow-auto">
@@ -55,7 +45,6 @@ const AdminMachineDashboard = () => {
               variant={'outline'}
               size={'lg'}
               disabled={selectedMachines.length === 0}
-              // onClick={handleOnClickEdit}
             >
               Chỉnh sửa
             </Button>
@@ -75,7 +64,6 @@ const AdminMachineDashboard = () => {
               variant={'default'}
               size={'lg'}
               disabled={selectedMachines.length === 0}
-              // onClick={handleOnClickEdit}
             >
               Xóa
             </Button>
@@ -88,17 +76,6 @@ const AdminMachineDashboard = () => {
             />
           )}
         </Dialog>
-        {/* <Dialog>
-          <DialogTrigger>
-            <Button
-              variant={'outline'}
-              size={'lg'}
-              onClick={handleFilterByState}
-            >
-              Trạng thái
-            </Button>
-          </DialogTrigger>
-        </Dialog> */}
 
         <Dialog>
           <DialogTrigger>

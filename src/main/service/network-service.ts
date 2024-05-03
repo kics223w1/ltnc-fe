@@ -6,6 +6,7 @@ import Medicine from '../models/medicine';
 import User from '../models/user';
 import loginService from './login-service';
 import Machine from '../models/machine';
+import Batch from '../models/batch';
 
 class NetworkService {
   private instance: any;
@@ -74,6 +75,20 @@ class NetworkService {
         : {};
 
       const response = await this.instance.get('/medicine', config);
+      return response.data ? response.data : [];
+    } catch (e) {
+      return [];
+    }
+  }
+
+  public async getBatches(): Promise<Batch[]> {
+    try {
+      const accessToken = loginService.getAccessToken();
+      const config = accessToken
+        ? { headers: { Authorization: `Bearer ${accessToken}` } }
+        : {};
+
+      const response = await this.instance.get('/medicine/batch', config);
       return response.data ? response.data : [];
     } catch (e) {
       return [];
