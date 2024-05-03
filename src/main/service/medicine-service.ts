@@ -5,13 +5,16 @@ import networkService from './network-service';
 import axios from 'axios';
 import MedicineHistory from '../models/medicine-history';
 import loginService from './login-service';
+import Batch from '../models/batch';
 
 class MedicineService {
   private medicines: Medicine[];
+  private batches: Batch[];
   private instance: any;
 
   constructor() {
     this.medicines = [];
+    this.batches = [];
 
     this.instance = axios.create({
       baseURL: 'https://helped-alpaca-obliging.ngrok-free.app',
@@ -21,6 +24,11 @@ class MedicineService {
   public async loadMedicines() {
     const medicines = await networkService.getMedicines();
     this.medicines = medicines;
+  }
+
+  public async loadBatches() {
+    const batches = await networkService.getBatches();
+    this.batches = batches;
   }
 
   private async updateMedicineCost(id: string, cost: number) {
@@ -58,14 +66,14 @@ class MedicineService {
 
   public async loadDataAtLaunch() {
     try {
-      await Promise.all([this.loadMedicines()]);
+      await Promise.all([this.loadMedicines(), this.loadBatches()]);
     } catch (e) {
       console.log('Error: ', e);
     }
   }
 
   public listenEventsFromRendererProcess() {
-    ipcMain.handle(MEDICINE_SERVICE.GET_MEDICINES_1, (event, args) => {
+    ipcMain.handle(MEDICINE_SERVICE.GET_MEDICINES, async (event, args) => {
       return this.medicines;
     });
 
@@ -89,6 +97,15 @@ class MedicineService {
 
     ipcMain.handle(MEDICINE_SERVICE.GET_MEDICINE_LOG, async (event, args) => {
       return await this.getMedicineLog(args.id);
+    });
+
+    ipcMain.handle(MEDICINE_SERVICE.GET_BATCHES, async (event, args) => {
+      return this.batches;
+    });
+
+    ipcMain.handle(MEDICINE_SERVICE.RELOAD_BATCHES, async (event, args) => {
+      await this.loadBatches();
+      return this.batches;
     });
   }
 }
