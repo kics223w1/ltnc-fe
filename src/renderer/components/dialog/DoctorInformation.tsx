@@ -51,7 +51,7 @@ export default function DoctorInformation({ doctor }: Params) {
             <span className=" select-none text-muted-foreground">
               Ngày sinh:
             </span>
-            <span>{doctor.dateOfBirth.toString()}</span>
+            <span>{doctor.dateOfBirth?.toString()}</span>
           </div>
           <div className="w-full h-px bg-border"></div>
         </div>

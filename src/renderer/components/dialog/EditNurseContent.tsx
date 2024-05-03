@@ -54,7 +54,7 @@ const DialogEditNurseContent = ({ nurse }: Params) => {
             <input
               className="col-span-3 h-8 border border-border rounded px-2"
               type="date"
-              defaultValue={nurse.dateOfBirth.toString()}
+              defaultValue={nurse.dateOfBirth?.toString()}
             />
           </div>
 

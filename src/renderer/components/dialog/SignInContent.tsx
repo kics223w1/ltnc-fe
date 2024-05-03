@@ -19,8 +19,10 @@ const DialogSignInContent = () => {
   const [rememberMe, setRememberMe] = useState<boolean>(true);
 
   const [errorMessage, setErrorMessage] = useState<string>('');
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const handleLogin = async () => {
+    setIsLoading(true);
     const response = await window.electron.ipcRenderer.invoke(
       LOGIN_SERVICE.SIGN_IN,
       {
@@ -29,6 +31,7 @@ const DialogSignInContent = () => {
         rememberMe: rememberMe,
       }
     );
+    setIsLoading(false);
 
     if (response !== 'Success!') {
       setErrorMessage('Đăng nhập thất bại!');
@@ -98,11 +101,11 @@ const DialogSignInContent = () => {
             <Button variant={'outline'}>Huỷ bỏ</Button>
           </DialogClose>
           <Button
-            disabled={!email || !password}
+            disabled={!email || !password || isLoading}
             onClick={handleLogin}
             type="submit"
           >
-            Đăng nhập
+            {isLoading ? 'Đang xử lý...' : 'Đăng nhập'}
           </Button>
         </DialogFooter>
       </DialogContent>
