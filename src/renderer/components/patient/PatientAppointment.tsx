@@ -28,12 +28,12 @@ const PatientAppointment = ({}: Params) => {
     );
   };
 
-  const handleLoadAppointments = async () => {
+  const handleLoadAppointments = async (status: APPOINTMENT_STATUS) => {
     const newAppointments: Appointment[] =
       await window.electron.ipcRenderer.invoke(
         APPOINTMENT_SERVICE.GET_APPOINTMENTS,
         {
-          status: APPOINTMENT_STATUS.CREATED,
+          status,
         }
       );
     setAppointments(newAppointments);

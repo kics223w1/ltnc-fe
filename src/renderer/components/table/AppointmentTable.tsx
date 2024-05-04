@@ -6,12 +6,20 @@ import { Button } from '../../../~/components/ui/button';
 import { ReloadIcon } from '@radix-ui/react-icons';
 import Appointment from '../../../main/models/appointment';
 import AppointmentTableModel from '../../models/examination-table-model';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '../../../~/components/ui/select';
+import { APPOINTMENT_STATUS } from '../../../main/models/constants';
 
 const model = new AppointmentTableModel();
 
 type Params = {
   appointments: Appointment[];
-  handleLoadAppointments: () => void;
+  handleLoadAppointments: (status: APPOINTMENT_STATUS) => void;
   setSelectedAppointments: (appointments: Appointment[]) => void;
 };
 
@@ -31,13 +39,13 @@ const AppointmentTable = ({
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [rows, setRows] = useState<any[]>([]);
 
-  useEffect(() => {
-    const setup = async () => {
-      handleReloadAppointments();
-    };
+  const [status, setStatus] = useState<APPOINTMENT_STATUS>(
+    APPOINTMENT_STATUS.CREATED
+  );
 
-    setup();
-  }, []);
+  useEffect(() => {
+    handleReloadAppointments();
+  }, [status]);
 
   useEffect(() => {
     try {
@@ -52,14 +60,29 @@ const AppointmentTable = ({
   const handleReloadAppointments = async () => {
     setIsLoading(true);
 
-    await handleLoadAppointments();
+    await handleLoadAppointments(status);
 
     setIsLoading(false);
   };
 
   return (
     <div className="flex flex-col gap-2">
-      <div className="flex items-center justify-end">
+      <div className="flex items-center justify-between">
+        <Select
+          onValueChange={(val) => {
+            setStatus(val as APPOINTMENT_STATUS);
+          }}
+        >
+          <SelectTrigger className="w-[180px]">
+            <SelectValue placeholder="Trạng thái ca khám" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value={APPOINTMENT_STATUS.CREATED}>Đã hẹn</SelectItem>
+            <SelectItem value={APPOINTMENT_STATUS.DONE}>Đã xong</SelectItem>
+            <SelectItem value={APPOINTMENT_STATUS.CANCEL}>Đã huỷ</SelectItem>
+          </SelectContent>
+        </Select>
+
         <Button
           variant={'outline'}
           size={'icon'}
@@ -81,6 +104,17 @@ const AppointmentTable = ({
                   pageSize: 10,
                 },
               },
+            }}
+            slots={{
+              noRowsOverlay: () => (
+                <>
+                  <div className="flex flex-col items-center justify-center w-full h-full">
+                    <span className="text-lg text-muted-foreground">
+                      Không có ca khám
+                    </span>
+                  </div>
+                </>
+              ),
             }}
             onRowSelectionModelChange={(params) => {
               const lastId = params.length > 0 ? params[params.length - 1] : -1;
