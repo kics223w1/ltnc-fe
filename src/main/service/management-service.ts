@@ -27,7 +27,8 @@ class ManagementService {
       return await this.getExaminations();
     });
 
-    ipcMain.handle(MANAGEMENT_SERVICE.GET_MEDICINES, (event, args) => {
+    ipcMain.handle(MANAGEMENT_SERVICE.GET_MEDICINES, async (event, args) => {
+      await this.loadMedicines();
       return this.medicines;
     });
   }

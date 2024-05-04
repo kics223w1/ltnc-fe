@@ -43,15 +43,18 @@ const TreeLeftPanel = ({ user }: TreeLeftPanelProps) => {
 
   return (
     <div className="w-full h-full flex flex-col px-2">
-      <ParentNode
-        tabs={[
-          MAIN_VIEW_TAB.PATIENT_BOOKING,
-          MAIN_VIEW_TAB.PATIENT_APPOINTMENT,
-        ]}
-        title={'Bệnh nhân'}
-        setCurrentTab={handleSetCurrentTab}
-        currentTab={currentTab}
-      ></ParentNode>
+      {userRole === ROLE.PATIENT && (
+        <ParentNode
+          tabs={[
+            MAIN_VIEW_TAB.PATIENT_BOOKING,
+            MAIN_VIEW_TAB.PATIENT_APPOINTMENT,
+            MAIN_VIEW_TAB.USER_PROFILE,
+          ]}
+          title={'Bệnh nhân'}
+          setCurrentTab={handleSetCurrentTab}
+          currentTab={currentTab}
+        ></ParentNode>
+      )}
 
       <ParentNode
         tabs={
@@ -62,7 +65,12 @@ const TreeLeftPanel = ({ user }: TreeLeftPanelProps) => {
                 MAIN_VIEW_TAB.PATIENT_LIST,
                 MAIN_VIEW_TAB.MANAGEMENT_EXAMINATION,
               ]
-            : [MAIN_VIEW_TAB.USER_PROFILE]
+            : [
+                MAIN_VIEW_TAB.USER_PROFILE,
+                MAIN_VIEW_TAB.MANAGEMENT_EXAMINATION,
+                MAIN_VIEW_TAB.ADMIN_MEDICINE_DASHBOARD,
+                MAIN_VIEW_TAB.ADMIN_BATCH_DASHBOARD,
+              ]
         }
         title={userRole === ROLE.ADMIN ? 'Nhân viên' : 'Bác sĩ'}
         setCurrentTab={handleSetCurrentTab}
@@ -72,6 +80,7 @@ const TreeLeftPanel = ({ user }: TreeLeftPanelProps) => {
       {userRole === ROLE.ADMIN && (
         <ParentNode
           tabs={[
+            MAIN_VIEW_TAB.USER_PROFILE,
             MAIN_VIEW_TAB.ADMIN_DOCTOR_DASHBOARD,
             MAIN_VIEW_TAB.ADMIN_NURSE_DASHBOARD,
             MAIN_VIEW_TAB.ADMIN_MEDICINE_DASHBOARD,

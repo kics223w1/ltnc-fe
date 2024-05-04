@@ -20,7 +20,8 @@ class AppointmentTableModel {
       description: appointment.description,
       queue_number: this.getDetailQueueNumber(appointment.queue_number),
       date: moment(appointment.date).format('DD/MM/YYYY'),
-      doctor_name: appointment.doctor.userName,
+      doctor_name: appointment.doctor ? appointment.doctor.userName : '',
+      patient_name: appointment.patient ? appointment.patient.userName : '',
     };
   }
 
@@ -67,6 +68,11 @@ class AppointmentTableModel {
       {
         field: 'doctor_name',
         headerName: 'Bác sĩ',
+        width: 300,
+      },
+      {
+        field: 'patient_name',
+        headerName: 'Bệnh nhân',
         width: 300,
       },
       {

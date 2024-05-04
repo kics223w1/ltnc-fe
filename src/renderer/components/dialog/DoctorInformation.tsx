@@ -9,10 +9,14 @@ import { Button } from '../../../~/components/ui/button';
 import Doctor from '../../../main/models/doctor';
 
 type Params = {
-  doctor: Doctor;
+  doctor: Doctor | undefined;
 };
 
 export default function DoctorInformation({ doctor }: Params) {
+  if (!doctor) {
+    return <></>;
+  }
+
   return (
     <>
       <DialogContent className="sm:max-w-[400px]">
