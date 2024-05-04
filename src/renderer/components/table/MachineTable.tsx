@@ -33,19 +33,6 @@ const MachineTable = ({
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [rows, setRows] = useState<any[]>([]);
 
-  // useEffect(() => {
-  //   const setup = async () => {
-  //     const newMachines: Machine[] = await handleGetMachines();
-  //     if (newMachines.length === 0) {
-  //       handleReloadMachines();
-  //       return;
-  //     }
-  //     setMachines(newMachines);
-  //   };
-
-  //   setup();
-  // }, []);
-
   useEffect(() => {
     const setup = async () => {
       handleReloadMachines();

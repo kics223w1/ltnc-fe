@@ -97,7 +97,12 @@ class NetworkService {
 
   public async getMachines(): Promise<Machine[]> {
     try {
-      const obj = await this.instance.get('/machines');
+      const accessToken = loginService.getAccessToken();
+      const config = accessToken
+        ? { headers: { Authorization: `Bearer ${accessToken}` } }
+        : {};
+
+      const obj = await this.instance.get('/machines', config);
       return obj.data;
     } catch (e) {
       return [];

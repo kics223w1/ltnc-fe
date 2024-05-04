@@ -1,19 +1,23 @@
 import { Button } from '../../../~/components/ui/button';
 import { useState, useEffect } from 'react';
-import * as Form from '@radix-ui/react-form';
 import { Dialog, DialogTrigger } from '../../../~/components/ui/dialog';
 import Machine from '/main/models/machine';
 import MachineTable from '../table/MachineTable';
-import DialogAddMachineContent from '../dialog/AddMachineContent';
 import DialogEditMachineContent from '../dialog/EditMachineContent';
-import DialogDeleteMachineContent from '../dialog/MachineContent';
 import { MACHINE_SERVICE } from '/main/models/constants';
+import AlertConfirm from '../alert/AlertConfirm';
+import {
+  AlertDialog,
+  AlertDialogTrigger,
+} from '../../../~/components/ui/alert-dialog';
+import { useToast } from '../../../~/components/ui/use-toast';
+import DialogAddMachineContent from '../dialog/AddMachineContent';
 
 const AdminMachineDashboard = () => {
   const [selectedMachines, setSelectedMachines] = useState<Machine[]>([]);
   const [machines, setMachines] = useState<Machine[]>([]);
-  const [isAddFormOpen, setIsAddFormOpen] = useState(false);
-  const [isReload, setIsReload] = useState(false);
+
+  const { toast } = useToast();
 
   useEffect(() => {
     handleLoadMachines();
@@ -21,14 +25,41 @@ const AdminMachineDashboard = () => {
 
   const handleLoadMachines = async () => {
     const values = await window.electron.ipcRenderer.invoke(
-      MACHINE_SERVICE.GET_MACHINES,
+      MACHINE_SERVICE.RELOAD_MACHINES,
       {}
     );
     setMachines(values);
   };
 
-  const handleAddMachine = () => {
-    handleLoadMachines();
+  const handleDeleteMachine = async () => {
+    const machine =
+      selectedMachines.length > 0
+        ? selectedMachines[selectedMachines.length - 1]
+        : undefined;
+
+    if (!machine) {
+      return;
+    }
+
+    const response = await window.electron.ipcRenderer.invoke(
+      MACHINE_SERVICE.DELETE_MACHINE,
+      {
+        id: machine.id,
+      }
+    );
+
+    if (response === 'Success!') {
+      toast({
+        variant: 'default',
+        title: 'Xóa máy thành công',
+      });
+      await handleLoadMachines();
+    } else {
+      toast({
+        variant: 'destructive',
+        title: 'Xóa máy thất bại',
+      });
+    }
   };
 
   return (
@@ -52,13 +83,11 @@ const AdminMachineDashboard = () => {
           {selectedMachines.length > 0 && (
             <DialogEditMachineContent
               machine={selectedMachines[selectedMachines.length - 1]}
-              onSave={handleAddMachine}
-              onClose={() => setSelectedMachines([])}
             />
           )}
         </Dialog>
-        <Dialog>
-          <DialogTrigger disabled={selectedMachines.length === 0}>
+        <AlertDialog>
+          <AlertDialogTrigger disabled={selectedMachines.length === 0}>
             <Button
               className="bg-red-500 text-white"
               variant={'default'}
@@ -67,31 +96,19 @@ const AdminMachineDashboard = () => {
             >
               Xóa
             </Button>
-          </DialogTrigger>
+          </AlertDialogTrigger>
           {selectedMachines.length > 0 && (
-            <DialogDeleteMachineContent
-              machine={selectedMachines[selectedMachines.length - 1]}
-              onSave={handleAddMachine}
-              onClose={() => setSelectedMachines([])}
-            />
+            <AlertConfirm handleAction={handleDeleteMachine}></AlertConfirm>
           )}
-        </Dialog>
+        </AlertDialog>
 
         <Dialog>
           <DialogTrigger>
-            <Button
-              variant={'default'}
-              size={'lg'}
-              onClick={() => setIsAddFormOpen(true)}
-            >
+            <Button variant={'default'} size={'lg'}>
               Thêm mới
             </Button>
           </DialogTrigger>
-          <DialogAddMachineContent
-            isOpen={isAddFormOpen}
-            setIsOpen={setIsAddFormOpen}
-            handleAddMachine={handleAddMachine}
-          />
+          <DialogAddMachineContent />
         </Dialog>
       </div>
     </div>

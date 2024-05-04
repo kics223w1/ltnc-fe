@@ -25,12 +25,12 @@ class MachineTableModel {
       {
         field: 'machineId',
         headerName: 'ID',
-        width: 100,
+        width: 50,
       },
       {
         field: 'machineName',
         headerName: 'Tên loại máy',
-        width: 150,
+        width: 300,
       },
       {
         field: 'Vendor',
@@ -45,7 +45,7 @@ class MachineTableModel {
       {
         field: 'Description',
         headerName: 'Mô tả',
-        width: 200,
+        width: 400,
       },
     ];
   }
