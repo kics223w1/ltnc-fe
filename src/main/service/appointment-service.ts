@@ -80,24 +80,14 @@ class AppointmentService {
         },
       });
 
-      const isDoctor = loginService.isDoctor();
-      const user = loginService.getUser();
-
       const result = response.data ? response.data : [];
 
-      return result.flatMap((appointment: any) => {
+      const arr = result.flatMap((appointment: any) => {
         const ele = Appointment.fromJSON(appointment);
-        if (!isDoctor) {
-          return [ele];
-        }
-
-        const userID = user ? user.userId : '';
-        if (!userID) {
-          return [];
-        }
-
-        return ele.doctor?.userId === userID ? [ele] : [];
+        return [ele];
       });
+
+      return arr;
     } catch (e) {
       return [];
     }
