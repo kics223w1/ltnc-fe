@@ -3,9 +3,7 @@ import HeaderRightPanel from '../header/HeaderRightPanel';
 import {
   EVENTS_FROM_MAIN_PROCESS,
   MAIN_VIEW_TAB,
-  ROLE,
 } from '../../../main/models/constants';
-import PatientExamination from '../patient/PatientExamination';
 import DoctorList from '../staff/DoctorList';
 import PatientBooking from '../patient/PatientBooking';
 import PatientHistory from '../patient/PatientHistory';
@@ -17,9 +15,9 @@ import AdminNurseDashboard from '../admin/AdminNurseDashboard';
 import AdminMachineDashboard from '../admin/AdminMachineDashboard';
 import AdminMedicineDashboard from '../admin/AdminMedicineDasboard';
 import PatientList from '../staff/PatientList';
-import ManagementExamination from '../staff/ManagementExamination';
 import User from '../../../main/models/user';
 import AdminBatchDashboard from '../admin/AdminBatchDasboard';
+import PatientAppointment from '../patient/PatientAppointment';
 
 type TreeLeftPanelProps = {
   user: User | undefined;
@@ -63,7 +61,7 @@ const buildView = (tab: MAIN_VIEW_TAB) => {
   switch (tab) {
     // Patient
     case MAIN_VIEW_TAB.PATIENT_APPOINTMENT:
-      return <PatientExamination />;
+      return <PatientAppointment />;
     case MAIN_VIEW_TAB.PATIENT_BOOKING:
       return <PatientBooking />;
 
@@ -78,7 +76,7 @@ const buildView = (tab: MAIN_VIEW_TAB) => {
     case MAIN_VIEW_TAB.OTHER_STAFFS_INFORMATION:
       return <OtherStaffList />;
     case MAIN_VIEW_TAB.MANAGEMENT_EXAMINATION:
-      return <ManagementExamination />;
+      return <></>;
 
     case MAIN_VIEW_TAB.PATIENT_HISTORY:
       return <PatientHistory />;

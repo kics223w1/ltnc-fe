@@ -1,26 +1,50 @@
-import Examination from '../../main/models/examination';
+import moment from 'moment';
+import Appointment from '../../main/models/appointment';
 
-class ExaminationTableModel {
+class AppointmentTableModel {
   constructor() {}
 
-  public convertToRows(examinations: Examination[]) {
-    return examinations.flatMap((examination) => {
-      return [this.convertToRow(examination)];
+  public convertToRows(appointments: Appointment[]) {
+    return appointments.flatMap((appointment) => {
+      return [this.convertToRow(appointment)];
     });
   }
 
-  public convertToRow(examination: Examination) {
+  public convertToRow(appointment: Appointment) {
     return {
-      id: examination.id,
-      disease: examination.disease,
-      level: examination.level,
-      underlyingDisease: examination.underlyingDisease,
-      advice: examination.advice,
-      description: examination.description,
-      status: examination.status,
-      doctor: undefined, // Hardcode for now
-      patient: undefined, // Hardcode for now
+      id: appointment.id,
+      disease: appointment.disease,
+      level: appointment.level,
+      underlyingDisease: appointment.underlyingDisease,
+      advice: appointment.advice,
+      description: appointment.description,
+      queue_number: this.getDetailQueueNumber(appointment.queue_number),
+      date: moment(appointment.date).format('DD/MM/YYYY'),
+      doctor_name: appointment.doctor.userName,
     };
+  }
+
+  public getDetailQueueNumber(num: number) {
+    switch (num) {
+      case 1:
+        return 'Ca 1 (7h-8h)';
+      case 2:
+        return 'Ca 2 (8h-9h)';
+      case 3:
+        return 'Ca 3 (9h-10h)';
+      case 4:
+        return 'Ca 4 (10h-11h)';
+      case 5:
+        return 'Ca 5 (13h-14h)';
+      case 6:
+        return 'Ca 6 (14h-15h)';
+      case 7:
+        return 'Ca 7 (15h-16h)';
+      case 8:
+        return 'Ca 8 (16h-17h)';
+      default:
+        return 'Ca 1 (7h-8h)';
+    }
   }
 
   public getColumns() {
@@ -31,9 +55,24 @@ class ExaminationTableModel {
         width: 90,
       },
       {
+        field: 'date',
+        headerName: 'Ngày khám',
+        width: 300,
+      },
+      {
+        field: 'queue_number',
+        headerName: 'Ca khám',
+        width: 150,
+      },
+      {
+        field: 'doctor_name',
+        headerName: 'Bác sĩ',
+        width: 300,
+      },
+      {
         field: 'disease',
         headerName: 'Bệnh',
-        width: 400,
+        width: 300,
       },
       {
         field: 'level',
@@ -48,30 +87,15 @@ class ExaminationTableModel {
       {
         field: 'advice',
         headerName: 'Lời Dặn',
-        width: 200,
+        width: 300,
       },
       {
         field: 'description',
         headerName: 'Mô tả',
-        width: 250,
-      },
-      {
-        field: 'status',
-        headerName: 'Trạng thái',
-        width: 150,
-      },
-      {
-        field: 'doctor',
-        headerName: 'Bác sĩ',
-        width: 200,
-      },
-      {
-        field: 'patient',
-        headerName: 'Bệnh nhân',
-        width: 200,
+        width: 300,
       },
     ];
   }
 }
 
-export default ExaminationTableModel;
+export default AppointmentTableModel;
