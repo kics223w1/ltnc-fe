@@ -7,6 +7,7 @@ import { MEDICINE_SERVICE, ROLE } from '/main/models/constants';
 import DialogEditMedicineContent from '../dialog/EditMedicineContent';
 import { MedicineDetails } from '../dialog/MedicineContent';
 import MedicineHistoryTable from '../table/MedicineHistoryTable';
+import DialogAddMedicineContent from '../dialog/AddMedicineContent';
 
 type Params = {
   userRole: ROLE | undefined;
@@ -85,14 +86,11 @@ const AdminMedicineDashboard = ({ userRole }: Params) => {
 
           <Dialog>
             <DialogTrigger>
-              <Button
-                variant={'default'}
-                size={'lg'}
-                onClick={() => setIsAddFormOpen(true)}
-              >
+              <Button variant={'default'} size={'lg'}>
                 Thêm mới
               </Button>
             </DialogTrigger>
+            <DialogAddMedicineContent />
           </Dialog>
         </div>
       )}

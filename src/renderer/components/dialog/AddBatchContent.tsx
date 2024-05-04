@@ -15,7 +15,7 @@ import { MedicineBodyAdd } from '../../../main/types';
 import { useToast } from '../../../~/components/ui/use-toast';
 import { Textarea } from '../../../~/components/ui/textarea';
 
-const DialogAddMedicineContent = () => {
+const DialogAddBatchContent = () => {
   const [id, setId] = useState<string>('');
   const [name, setName] = useState<string>('');
   const [unit, setUnit] = useState<string>('');
@@ -156,4 +156,4 @@ const DialogAddMedicineContent = () => {
   );
 };
 
-export default DialogAddMedicineContent;
+export default DialogAddBatchContent;
