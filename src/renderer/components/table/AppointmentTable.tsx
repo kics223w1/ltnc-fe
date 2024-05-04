@@ -18,15 +18,19 @@ import { APPOINTMENT_STATUS } from '../../../main/models/constants';
 const model = new AppointmentTableModel();
 
 type Params = {
+  status: APPOINTMENT_STATUS;
   appointments: Appointment[];
   handleLoadAppointments: (status: APPOINTMENT_STATUS) => void;
   setSelectedAppointments: (appointments: Appointment[]) => void;
+  setStatus: (status: APPOINTMENT_STATUS) => void;
 };
 
 const AppointmentTable = ({
+  status,
   appointments,
   handleLoadAppointments,
   setSelectedAppointments,
+  setStatus,
 }: Params) => {
   const { theme, setTheme } = useTheme();
   const tableTheme = createTheme({
@@ -38,10 +42,6 @@ const AppointmentTable = ({
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [rows, setRows] = useState<any[]>([]);
-
-  const [status, setStatus] = useState<APPOINTMENT_STATUS>(
-    APPOINTMENT_STATUS.CREATED
-  );
 
   useEffect(() => {
     handleReloadAppointments();
@@ -74,7 +74,15 @@ const AppointmentTable = ({
           }}
         >
           <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="Trạng thái ca khám" />
+            <SelectValue
+              placeholder={
+                status === APPOINTMENT_STATUS.CREATED
+                  ? 'Đã hẹn'
+                  : status === APPOINTMENT_STATUS.DONE
+                  ? 'Đã xong'
+                  : 'Đã huỷ'
+              }
+            />
           </SelectTrigger>
           <SelectContent>
             <SelectItem value={APPOINTMENT_STATUS.CREATED}>Đã hẹn</SelectItem>

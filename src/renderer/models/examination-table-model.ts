@@ -18,10 +18,33 @@ class AppointmentTableModel {
       underlyingDisease: appointment.underlyingDisease,
       advice: appointment.advice,
       description: appointment.description,
-      queue_number: appointment.queue_number,
-      date: moment(appointment.date).format('DD/MM/YYYY HH:mm'),
+      queue_number: this.getDetailQueueNumber(appointment.queue_number),
+      date: moment(appointment.date).format('DD/MM/YYYY'),
       doctor_name: appointment.doctor.userName,
     };
+  }
+
+  public getDetailQueueNumber(num: number) {
+    switch (num) {
+      case 1:
+        return 'Ca 1 (7h-8h)';
+      case 2:
+        return 'Ca 2 (8h-9h)';
+      case 3:
+        return 'Ca 3 (9h-10h)';
+      case 4:
+        return 'Ca 4 (10h-11h)';
+      case 5:
+        return 'Ca 5 (13h-14h)';
+      case 6:
+        return 'Ca 6 (14h-15h)';
+      case 7:
+        return 'Ca 7 (15h-16h)';
+      case 8:
+        return 'Ca 8 (16h-17h)';
+      default:
+        return 'Ca 1 (7h-8h)';
+    }
   }
 
   public getColumns() {
@@ -38,7 +61,7 @@ class AppointmentTableModel {
       },
       {
         field: 'queue_number',
-        headerName: 'Số thứ tự',
+        headerName: 'Ca khám',
         width: 150,
       },
       {

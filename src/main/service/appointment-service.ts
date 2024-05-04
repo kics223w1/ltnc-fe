@@ -2,7 +2,6 @@ import { ipcMain } from 'electron';
 import { APPOINTMENT_SERVICE, APPOINTMENT_STATUS } from '../models/constants';
 import axios from 'axios';
 import loginService from './login-service';
-import userService from './user-service';
 import Appointment from '../models/appointment';
 
 class AppointmentService {
@@ -89,6 +88,25 @@ class AppointmentService {
     }
   }
 
+  public async cancelAppointment(appointment_id: number) {
+    try {
+      const response = await this.instance.patch(
+        `/appointments/${appointment_id}/cancel`,
+        undefined,
+        {
+          headers: {
+            Authorization: `Bearer ${loginService.getAccessToken()}`,
+          },
+        }
+      );
+
+      return 'Success!';
+    } catch (e) {
+      console.error('Error:', e);
+      return 'Failed!';
+    }
+  }
+
   public listenEventsFromRendererProcess() {
     ipcMain.handle(APPOINTMENT_SERVICE.GET_FREE_DOCTORS, (event, args) => {
       return this.getFreeDoctors(
@@ -116,6 +134,13 @@ class AppointmentService {
       APPOINTMENT_SERVICE.GET_APPOINTMENTS,
       async (event, args) => {
         return await this.getAppointments(args.status);
+      }
+    );
+
+    ipcMain.handle(
+      APPOINTMENT_SERVICE.CANCEL_APPOINTMENT,
+      async (event, args) => {
+        return await this.cancelAppointment(args.appointment_id);
       }
     );
   }

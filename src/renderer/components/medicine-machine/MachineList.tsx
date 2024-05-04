@@ -8,13 +8,12 @@ import {
 } from '../../../~/components/ui/tooltip';
 import MachineTable from '../table/MachineTable';
 import Machine from '/main/models/machine';
-import { useToast } from '/~/components/ui/use-toast';
 
 const MachineList = () => {
   const [selectedMachines, setSelectedMachines] = useState<Machine[]>([]);
   return (
     <div className="flex flex-col pt-10 px-12 w-full h-full">
-      <MachineTable setSelectedMachines={setSelectedMachines} />
+      {/* <MachineTable setSelectedMachines={setSelectedMachines} /> */}
 
       <div className="flex items-center justify-end gap-4 mt-5">
         <TooltipProvider>
