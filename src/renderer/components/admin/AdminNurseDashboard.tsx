@@ -21,23 +21,6 @@ const AdminNurseDashboard = () => {
           </DialogTrigger>
           <DialogAddNurseContent />
         </Dialog>
-
-        <Dialog>
-          <DialogTrigger disabled={selectedNurses.length === 0}>
-            <Button
-              variant={'default'}
-              size={'lg'}
-              disabled={selectedNurses.length === 0}
-            >
-              Chỉnh sửa
-            </Button>
-          </DialogTrigger>
-          {selectedNurses.length > 0 && (
-            <DialogEditNurseContent
-              nurse={selectedNurses[selectedNurses.length - 1]}
-            />
-          )}
-        </Dialog>
       </div>
     </div>
   );

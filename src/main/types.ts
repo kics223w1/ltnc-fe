@@ -19,3 +19,11 @@ export type IdEmailAndUserName = {
   user_id: string;
   user_name: string;
 };
+
+export type BodyUpdateUser = {
+  user_name: string;
+  isMale: boolean;
+  date_of_birth: string;
+  CID: string;
+  phone: string;
+};

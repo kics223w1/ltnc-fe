@@ -177,6 +177,11 @@ class LoginService {
       }
     );
 
+    ipcMain.handle(LOGIN_SERVICE.RELOAD_USER, async (event, args: {}) => {
+      await this.loadLogicAtLaunch();
+      return this.user;
+    });
+
     ipcMain.on(LOGIN_SERVICE.LOGOUT, (event, args: {}) => {
       this.logout();
     });

@@ -18,6 +18,7 @@ import PatientList from '../staff/PatientList';
 import User from '../../../main/models/user';
 import AdminBatchDashboard from '../admin/AdminBatchDasboard';
 import PatientAppointment from '../patient/PatientAppointment';
+import UserProfile from '../staff/UserProfile';
 
 type TreeLeftPanelProps = {
   user: User | undefined;
@@ -77,6 +78,9 @@ const buildView = (tab: MAIN_VIEW_TAB) => {
       return <OtherStaffList />;
     case MAIN_VIEW_TAB.MANAGEMENT_EXAMINATION:
       return <></>;
+
+    case MAIN_VIEW_TAB.USER_PROFILE:
+      return <UserProfile />;
 
     case MAIN_VIEW_TAB.PATIENT_HISTORY:
       return <PatientHistory />;

@@ -5,7 +5,7 @@ import Nurse from '../models/nurse';
 import Patient from '../models/patient';
 import { ROLE, USER_SERVICE } from '../models/constants';
 import axios from 'axios';
-import { UserResponseErrorMessage } from '../types';
+import { BodyUpdateUser, UserResponseErrorMessage } from '../types';
 import loginService from './login-service';
 
 class UserService {
@@ -96,6 +96,22 @@ class UserService {
     }
   }
 
+  public async updateUser(body: BodyUpdateUser) {
+    try {
+      const response = await this.instance.patch('/users', body, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${loginService.getAccessToken()}`,
+        },
+      });
+
+      return 'Success!';
+    } catch (e) {
+      console.error('Error:', e);
+      return 'Failed!';
+    }
+  }
+
   public listenEventsFromRendererProcess() {
     ipcMain.handle(USER_SERVICE.GET_DOCTORS, (event, args) => {
       return this.doctors;
@@ -161,6 +177,10 @@ class UserService {
         );
       }
     );
+
+    ipcMain.handle(USER_SERVICE.UPDATE_USER, async (event, args) => {
+      return await this.updateUser(args.body);
+    });
   }
 }
 
