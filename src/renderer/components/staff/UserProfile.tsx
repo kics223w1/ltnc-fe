@@ -4,6 +4,7 @@ import { LOGIN_SERVICE } from '../../../main/models/constants';
 import { Dialog, DialogTrigger } from '../../../~/components/ui/dialog';
 import { Button } from '../../../~/components/ui/button';
 import DialogEditDoctorContent from '../dialog/EditDoctorContent';
+import moment from 'moment';
 
 export default function UserProfile() {
   const [user, setUser] = useState<User | undefined>(undefined);
@@ -51,12 +52,25 @@ export default function UserProfile() {
 
       <div className="flex items-center gap-2">
         <span className="text-muted-foreground">Giới tính: </span>
-        <span>{getTitle(user.isMale ? 'Nam' : 'Nữ')}</span>
+        <span>
+          {getTitle(
+            user.isMale === undefined
+              ? 'Chưa cập nhật'
+              : user.isMale
+              ? 'Nam'
+              : 'Nữ'
+          )}
+        </span>
       </div>
 
       <div className="flex items-center gap-2">
         <span className="text-muted-foreground">Ngày sinh: </span>
-        <span>{getTitle(user.dateOfBirth?.toString())}</span>
+        <span>
+          {' '}
+          {user.dateOfBirth
+            ? moment(user.dateOfBirth).format('DD/MM/YYYY')
+            : 'Chưa cập nhật'}
+        </span>
       </div>
 
       <div className="flex items-center gap-2">

@@ -20,7 +20,11 @@ const DialogSignUpContent = () => {
   const [errorMessage, setErrorMessage] = useState<string>('');
   const [successMessage, setSuccessMessage] = useState<string>('');
 
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
   const handleSignUp = async () => {
+    setIsLoading(true);
+
     const response: string = await window.electron.ipcRenderer.invoke(
       LOGIN_SERVICE.SIGN_UP,
       {
@@ -29,6 +33,8 @@ const DialogSignUpContent = () => {
         email,
       }
     );
+
+    setIsLoading(false);
 
     // Success
     if (response === 'Success!') {
@@ -69,12 +75,12 @@ const DialogSignUpContent = () => {
 
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="name" className="text-right">
-              Tài khoản
+              Họ và tên
             </Label>
             <Input
               value={user_name}
               onChange={(e) => setUser_name(e.target.value)}
-              placeholder="Nhập tài khoản của bạn"
+              placeholder="Nhập họ tên của bạn"
               className="col-span-3"
             />
           </div>
@@ -109,10 +115,10 @@ const DialogSignUpContent = () => {
             <Button variant={'outline'}>Huỷ bỏ</Button>
           </DialogClose>
           <Button
-            disabled={!user_name || !password || !email}
+            disabled={!user_name || !password || !email || isLoading}
             onClick={handleSignUp}
           >
-            Đăng kí
+            {isLoading ? 'Đang xử lý...' : 'Đăng kí'}
           </Button>
         </DialogFooter>
       </DialogContent>

@@ -56,26 +56,28 @@ const TreeLeftPanel = ({ user }: TreeLeftPanelProps) => {
         ></ParentNode>
       )}
 
-      <ParentNode
-        tabs={
-          userRole === ROLE.ADMIN
-            ? [
-                MAIN_VIEW_TAB.DOCTOR_LIST,
-                MAIN_VIEW_TAB.NURSE_LIST,
-                MAIN_VIEW_TAB.PATIENT_LIST,
-                MAIN_VIEW_TAB.MANAGEMENT_EXAMINATION,
-              ]
-            : [
-                MAIN_VIEW_TAB.USER_PROFILE,
-                MAIN_VIEW_TAB.MANAGEMENT_EXAMINATION,
-                MAIN_VIEW_TAB.ADMIN_MEDICINE_DASHBOARD,
-                MAIN_VIEW_TAB.ADMIN_BATCH_DASHBOARD,
-              ]
-        }
-        title={userRole === ROLE.ADMIN ? 'Nhân viên' : 'Bác sĩ'}
-        setCurrentTab={handleSetCurrentTab}
-        currentTab={currentTab}
-      ></ParentNode>
+      {userRole !== ROLE.PATIENT && (
+        <ParentNode
+          tabs={
+            userRole === ROLE.ADMIN
+              ? [
+                  MAIN_VIEW_TAB.DOCTOR_LIST,
+                  MAIN_VIEW_TAB.NURSE_LIST,
+                  MAIN_VIEW_TAB.PATIENT_LIST,
+                  MAIN_VIEW_TAB.MANAGEMENT_EXAMINATION,
+                ]
+              : [
+                  MAIN_VIEW_TAB.USER_PROFILE,
+                  MAIN_VIEW_TAB.MANAGEMENT_EXAMINATION,
+                  MAIN_VIEW_TAB.ADMIN_MEDICINE_DASHBOARD,
+                  MAIN_VIEW_TAB.ADMIN_BATCH_DASHBOARD,
+                ]
+          }
+          title={userRole === ROLE.ADMIN ? 'Nhân viên' : 'Bác sĩ'}
+          setCurrentTab={handleSetCurrentTab}
+          currentTab={currentTab}
+        ></ParentNode>
+      )}
 
       {userRole === ROLE.ADMIN && (
         <ParentNode
