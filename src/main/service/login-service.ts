@@ -33,6 +33,14 @@ class LoginService {
     return this.access_token;
   }
 
+  public getUser() {
+    return this.user;
+  }
+
+  public isDoctor() {
+    return this.user?.role === ROLE.DOCTOR;
+  }
+
   private setUser(user: User | undefined) {
     this.user = user;
 

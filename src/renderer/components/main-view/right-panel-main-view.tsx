@@ -3,6 +3,7 @@ import HeaderRightPanel from '../header/HeaderRightPanel';
 import {
   EVENTS_FROM_MAIN_PROCESS,
   MAIN_VIEW_TAB,
+  ROLE,
 } from '../../../main/models/constants';
 import DoctorList from '../staff/DoctorList';
 import PatientBooking from '../patient/PatientBooking';
@@ -18,6 +19,7 @@ import PatientList from '../staff/PatientList';
 import User from '../../../main/models/user';
 import AdminBatchDashboard from '../admin/AdminBatchDasboard';
 import PatientAppointment from '../patient/PatientAppointment';
+import ManagementAppointment from '../staff/ManagementAppointment';
 
 type TreeLeftPanelProps = {
   user: User | undefined;
@@ -26,6 +28,8 @@ type TreeLeftPanelProps = {
 
 const RightPanelMainView = ({ user, setUser }: TreeLeftPanelProps) => {
   const [currentTab, setCurrentTab] = useState(MAIN_VIEW_TAB.PATIENT_BOOKING);
+
+  const userRole = user ? user.role : undefined;
 
   useEffect(() => {
     const ipcListener1 = window.electron.ipcRenderer.on(
@@ -46,7 +50,9 @@ const RightPanelMainView = ({ user, setUser }: TreeLeftPanelProps) => {
   return (
     <div className="w-full h-full flex flex-col">
       <HeaderRightPanel user={user} setUser={setUser} />
-      <div className="w-full h-[calc(100%-96px)]">{buildView(currentTab)}</div>
+      <div className="w-full h-[calc(100%-96px)]">
+        {buildView(currentTab, userRole)}
+      </div>
       <div className="flex flex-shrink-0 items-center w-full h-12 pl-12 border-t border-border">
         <span className="text-sm text-muted-foreground">
           © 2024 Đại học Bách Khoa Thành Phố Hồ Chí Minh - BTL Lập trình nâng
@@ -57,7 +63,7 @@ const RightPanelMainView = ({ user, setUser }: TreeLeftPanelProps) => {
   );
 };
 
-const buildView = (tab: MAIN_VIEW_TAB) => {
+const buildView = (tab: MAIN_VIEW_TAB, userRole: ROLE | undefined) => {
   switch (tab) {
     // Patient
     case MAIN_VIEW_TAB.PATIENT_APPOINTMENT:
@@ -76,7 +82,7 @@ const buildView = (tab: MAIN_VIEW_TAB) => {
     case MAIN_VIEW_TAB.OTHER_STAFFS_INFORMATION:
       return <OtherStaffList />;
     case MAIN_VIEW_TAB.MANAGEMENT_EXAMINATION:
-      return <></>;
+      return <ManagementAppointment />;
 
     case MAIN_VIEW_TAB.PATIENT_HISTORY:
       return <PatientHistory />;
@@ -87,7 +93,7 @@ const buildView = (tab: MAIN_VIEW_TAB) => {
     case MAIN_VIEW_TAB.ADMIN_NURSE_DASHBOARD:
       return <AdminNurseDashboard />;
     case MAIN_VIEW_TAB.ADMIN_MEDICINE_DASHBOARD:
-      return <AdminMedicineDashboard />;
+      return <AdminMedicineDashboard userRole={userRole} />;
     case MAIN_VIEW_TAB.ADMIN_BATCH_DASHBOARD:
       return <AdminBatchDashboard />;
     case MAIN_VIEW_TAB.ADMIN_MACHINE_DASHBOARD:

@@ -3,6 +3,7 @@ import { APPOINTMENT_SERVICE, APPOINTMENT_STATUS } from '../models/constants';
 import axios from 'axios';
 import loginService from './login-service';
 import Appointment from '../models/appointment';
+import { AppointmentDoneBody } from '../types';
 
 class AppointmentService {
   private instance: any;
@@ -79,9 +80,23 @@ class AppointmentService {
         },
       });
 
+      const isDoctor = loginService.isDoctor();
+      const user = loginService.getUser();
+
       const result = response.data ? response.data : [];
+
       return result.flatMap((appointment: any) => {
-        return [Appointment.fromJSON(appointment)];
+        const ele = Appointment.fromJSON(appointment);
+        if (!isDoctor) {
+          return [ele];
+        }
+
+        const userID = user ? user.userId : '';
+        if (!userID) {
+          return [];
+        }
+
+        return ele.doctor?.userId === userID ? [ele] : [];
       });
     } catch (e) {
       return [];
@@ -99,6 +114,31 @@ class AppointmentService {
           },
         }
       );
+
+      return 'Success!';
+    } catch (e) {
+      console.error('Error:', e);
+      return 'Failed!';
+    }
+  }
+
+  public async doneAppointment(
+    appointment_id: number,
+    body: AppointmentDoneBody
+  ) {
+    try {
+      const response = await this.instance.patch(
+        `/appointments/${appointment_id}/done`,
+        body,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${loginService.getAccessToken()}`,
+          },
+        }
+      );
+
+      console.log('data ne: ', response.data);
 
       return 'Success!';
     } catch (e) {
@@ -141,6 +181,13 @@ class AppointmentService {
       APPOINTMENT_SERVICE.CANCEL_APPOINTMENT,
       async (event, args) => {
         return await this.cancelAppointment(args.appointment_id);
+      }
+    );
+
+    ipcMain.handle(
+      APPOINTMENT_SERVICE.DONE_APPOINTMENT,
+      async (event, args) => {
+        return await this.doneAppointment(args.appointment_id, args.body);
       }
     );
   }

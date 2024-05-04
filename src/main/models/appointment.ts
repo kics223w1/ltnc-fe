@@ -1,4 +1,5 @@
 import Doctor from './doctor';
+import Patient from './patient';
 
 class Appointment {
   public readonly id: number;
@@ -10,7 +11,8 @@ class Appointment {
   public readonly date: string;
   public readonly queue_number: number;
 
-  public readonly doctor: Doctor;
+  public readonly doctor: Doctor | undefined;
+  public readonly patient: Patient | undefined;
 
   constructor(
     id: number,
@@ -21,14 +23,26 @@ class Appointment {
     advice: string | null,
     date: string,
     queue_number: number,
-    doctor: {
-      user_id: string;
-      user_name: string;
-      isMale: boolean;
-      date_of_birth: string | undefined;
-      phone: string | undefined;
-      CID: string | undefined;
-    }
+    doctor:
+      | {
+          user_id: string;
+          user_name: string;
+          isMale: boolean;
+          date_of_birth: string | undefined;
+          phone: string | undefined;
+          CID: string | undefined;
+        }
+      | undefined,
+    patient:
+      | {
+          user_id: string;
+          user_name: string;
+          isMale: boolean;
+          date_of_birth: string | undefined;
+          phone: string | undefined;
+          CID: string | undefined;
+        }
+      | undefined
   ) {
     this.id = id;
     this.disease = disease;
@@ -38,7 +52,10 @@ class Appointment {
     this.advice = advice;
     this.date = date;
     this.queue_number = queue_number;
-    this.doctor = Doctor.fromDoctorAppointment(doctor);
+    this.doctor = doctor ? Doctor.fromDoctorAppointment(doctor) : undefined;
+    this.patient = patient
+      ? Patient.fromPatientAppointment(patient)
+      : undefined;
   }
 
   public static fromJSON(obj: {
@@ -50,14 +67,26 @@ class Appointment {
     advice: string | null;
     date: string;
     queue_number: number;
-    doctor: {
-      user_id: string;
-      user_name: string;
-      isMale: boolean;
-      date_of_birth: string | undefined;
-      phone: string | undefined;
-      CID: string | undefined;
-    };
+    doctor:
+      | {
+          user_id: string;
+          user_name: string;
+          isMale: boolean;
+          date_of_birth: string | undefined;
+          phone: string | undefined;
+          CID: string | undefined;
+        }
+      | undefined;
+    patient:
+      | {
+          user_id: string;
+          user_name: string;
+          isMale: boolean;
+          date_of_birth: string | undefined;
+          phone: string | undefined;
+          CID: string | undefined;
+        }
+      | undefined;
   }) {
     return new Appointment(
       obj.id,
@@ -68,7 +97,8 @@ class Appointment {
       obj.advice,
       obj.date,
       obj.queue_number,
-      obj.doctor
+      obj.doctor,
+      obj.patient
     );
   }
 }

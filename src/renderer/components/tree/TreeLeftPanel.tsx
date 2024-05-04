@@ -43,28 +43,25 @@ const TreeLeftPanel = ({ user }: TreeLeftPanelProps) => {
 
   return (
     <div className="w-full h-full flex flex-col px-2">
-      <ParentNode
-        tabs={[
-          MAIN_VIEW_TAB.PATIENT_BOOKING,
-          MAIN_VIEW_TAB.PATIENT_APPOINTMENT,
-        ]}
-        title={'Bệnh nhân'}
-        setCurrentTab={handleSetCurrentTab}
-        currentTab={currentTab}
-      ></ParentNode>
+      {userRole === ROLE.PATIENT && (
+        <ParentNode
+          tabs={[
+            MAIN_VIEW_TAB.PATIENT_BOOKING,
+            MAIN_VIEW_TAB.PATIENT_APPOINTMENT,
+          ]}
+          title={'Bệnh nhân'}
+          setCurrentTab={handleSetCurrentTab}
+          currentTab={currentTab}
+        ></ParentNode>
+      )}
 
       <ParentNode
-        tabs={
-          userRole && userRole !== ROLE.PATIENT
-            ? [
-                MAIN_VIEW_TAB.DOCTOR_LIST,
-                MAIN_VIEW_TAB.NURSE_LIST,
-                MAIN_VIEW_TAB.PATIENT_LIST,
-                MAIN_VIEW_TAB.MANAGEMENT_EXAMINATION,
-              ]
-            : [MAIN_VIEW_TAB.DOCTOR_LIST, MAIN_VIEW_TAB.NURSE_LIST]
-        }
-        title={'Nhân viên'}
+        tabs={[
+          MAIN_VIEW_TAB.MANAGEMENT_EXAMINATION,
+          MAIN_VIEW_TAB.ADMIN_MEDICINE_DASHBOARD,
+          MAIN_VIEW_TAB.ADMIN_BATCH_DASHBOARD,
+        ]}
+        title={'Bác sĩ'}
         setCurrentTab={handleSetCurrentTab}
         currentTab={currentTab}
       ></ParentNode>

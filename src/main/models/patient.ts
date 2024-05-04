@@ -11,7 +11,7 @@ class Patient extends User {
     password: string,
     isActive: boolean | undefined,
     isMale: boolean,
-    dateOfBirth: Date,
+    dateOfBirth: string | undefined,
     phone: string,
     email: string,
     CID: string,
@@ -46,6 +46,31 @@ class Patient extends User {
 
   setExaminations(examinations: Examination[]): void {
     this.examinations = examinations;
+  }
+
+  public static fromPatientAppointment(obj: {
+    user_id: string;
+    user_name: string;
+    isMale: boolean;
+    date_of_birth: string | undefined;
+    phone: string | undefined;
+    CID: string | undefined;
+  }) {
+    return new Patient(
+      obj.user_id,
+      obj.user_name,
+      '',
+      true,
+      obj.isMale,
+      obj.date_of_birth,
+      obj.phone ? obj.phone : '',
+      '',
+      obj.CID ? obj.CID : '',
+      new Date(),
+      new Date(),
+      null,
+      ''
+    );
   }
 }
 
