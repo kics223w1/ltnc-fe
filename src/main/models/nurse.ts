@@ -11,13 +11,13 @@ class Nurse extends User {
     password: string,
     isActive: boolean | undefined,
     isMale: boolean,
-    dateOfBirth: Date,
+    dateOfBirth: string | undefined,
     phone: string,
     email: string,
     CID: string,
-    createdAt: Date,
-    updatedAt: Date,
-    deletedAt: Date | null | undefined,
+    createdAt: string | undefined,
+    updatedAt: string | undefined,
+    deletedAt: string | undefined,
     hashedRt: string
   ) {
     super(

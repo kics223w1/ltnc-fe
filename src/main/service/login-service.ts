@@ -52,7 +52,7 @@ class LoginService {
       });
       const obj = response.data as SignInResponse;
 
-      this.setUser(obj.user);
+      this.setUser(User.fromJSON(obj.user));
       this.saveUserObject(email, password, rememberMe);
       this.setAccessToken(obj.tokens.access_token);
 

@@ -1,3 +1,4 @@
+import { ROLE } from './models/constants';
 import User from './models/user';
 
 export type UserResponseErrorMessage = {
@@ -7,7 +8,7 @@ export type UserResponseErrorMessage = {
 };
 
 export type SignInResponse = {
-  user: User;
+  user: BodyUserResponse;
   tokens: {
     access_token: string;
     refresh_token: string;
@@ -26,4 +27,18 @@ export type BodyUpdateUser = {
   date_of_birth: string;
   CID: string;
   phone: string;
+};
+
+export type BodyUserResponse = {
+  user_id: string;
+  user_name: string | undefined;
+  isMale: boolean;
+  date_of_birth: string | undefined;
+  phone: string | undefined;
+  email: string | undefined;
+  CID: string | undefined;
+  role: ROLE;
+  createdAt: string | undefined;
+  updatedAt: string | undefined;
+  deletedAt: string | undefined;
 };
