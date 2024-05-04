@@ -113,9 +113,7 @@ const DialogAppointmentContent = ({ appointment, handleClose }: Params) => {
     );
   };
 
-  const handleOnClickSubmit = async (event: any) => {
-    event.preventDefault();
-
+  const handleOnClickSubmit = async () => {
     const medicineList = addedMedicines.map((medicine) => {
       return {
         medicine_id: medicine.id,
@@ -129,7 +127,7 @@ const DialogAppointmentContent = ({ appointment, handleClose }: Params) => {
       underlyingDisease: underlyingDisease,
       description: description,
       advice: advice,
-      medicineList: medicineList,
+      medicinesList: medicineList,
     };
 
     const result = await window.electron.ipcRenderer.invoke(
@@ -297,9 +295,7 @@ const DialogAppointmentContent = ({ appointment, handleClose }: Params) => {
           <DialogClose className="w-full flex items-start pl-5">
             <Button variant={'outline'}>Huỷ bỏ</Button>
           </DialogClose>
-          <Button onClick={handleOnClickSubmit} type="submit">
-            Hoàn tất
-          </Button>
+          <Button onClick={handleOnClickSubmit}>Hoàn tất</Button>
         </DialogFooter>
       </DialogContent>
     </>

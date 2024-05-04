@@ -32,17 +32,6 @@ const AdminBatchDashboard = () => {
         setSelectedBatches={setSelectedBatches}
       />
 
-      <div className="flex items-center justify-end gap-3">
-        <Dialog>
-          <DialogTrigger>
-            <Button variant={'default'} size={'lg'}>
-              Thêm mới
-            </Button>
-          </DialogTrigger>
-          <DialogAddBatchContent />
-        </Dialog>
-      </div>
-
       <h1>
         {selectedBatches.length > 0
           ? `Chi tiết lô hàng ${selectedBatches[selectedBatches.length - 1].id}`

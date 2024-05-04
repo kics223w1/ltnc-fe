@@ -26,7 +26,7 @@ export type AppointmentDoneBody = {
   underlyingDisease: string | null;
   description: string | null;
   advice: string | null;
-  medicineList: { medicine_id: string; amount: number }[];
+  medicinesList: { medicine_id: string; amount: number }[];
 };
 
 export type BodyUpdateUser = {

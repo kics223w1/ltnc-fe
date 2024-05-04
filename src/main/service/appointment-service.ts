@@ -128,7 +128,7 @@ class AppointmentService {
         }
       );
 
-      console.log('data ne: ', response.data);
+      console.log('Response:', response.data);
 
       return 'Success!';
     } catch (e) {
