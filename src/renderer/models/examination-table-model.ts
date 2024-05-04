@@ -1,25 +1,26 @@
-import Examination from '../../main/models/examination';
+import moment from 'moment';
+import Appointment from '../../main/models/appointment';
 
-class ExaminationTableModel {
+class AppointmentTableModel {
   constructor() {}
 
-  public convertToRows(examinations: Examination[]) {
-    return examinations.flatMap((examination) => {
-      return [this.convertToRow(examination)];
+  public convertToRows(appointments: Appointment[]) {
+    return appointments.flatMap((appointment) => {
+      return [this.convertToRow(appointment)];
     });
   }
 
-  public convertToRow(examination: Examination) {
+  public convertToRow(appointment: Appointment) {
     return {
-      id: examination.id,
-      disease: examination.disease,
-      level: examination.level,
-      underlyingDisease: examination.underlyingDisease,
-      advice: examination.advice,
-      description: examination.description,
-      status: examination.status,
-      doctor: undefined, // Hardcode for now
-      patient: undefined, // Hardcode for now
+      id: appointment.id,
+      disease: appointment.disease,
+      level: appointment.level,
+      underlyingDisease: appointment.underlyingDisease,
+      advice: appointment.advice,
+      description: appointment.description,
+      queue_number: appointment.queue_number,
+      date: moment(appointment.date).format('DD/MM/YYYY HH:mm'),
+      doctor_name: appointment.doctor.userName,
     };
   }
 
@@ -31,9 +32,24 @@ class ExaminationTableModel {
         width: 90,
       },
       {
+        field: 'date',
+        headerName: 'Ngày khám',
+        width: 300,
+      },
+      {
+        field: 'queue_number',
+        headerName: 'Số thứ tự',
+        width: 150,
+      },
+      {
+        field: 'doctor_name',
+        headerName: 'Bác sĩ',
+        width: 300,
+      },
+      {
         field: 'disease',
         headerName: 'Bệnh',
-        width: 400,
+        width: 300,
       },
       {
         field: 'level',
@@ -48,30 +64,15 @@ class ExaminationTableModel {
       {
         field: 'advice',
         headerName: 'Lời Dặn',
-        width: 200,
+        width: 300,
       },
       {
         field: 'description',
         headerName: 'Mô tả',
-        width: 250,
-      },
-      {
-        field: 'status',
-        headerName: 'Trạng thái',
-        width: 150,
-      },
-      {
-        field: 'doctor',
-        headerName: 'Bác sĩ',
-        width: 200,
-      },
-      {
-        field: 'patient',
-        headerName: 'Bệnh nhân',
-        width: 200,
+        width: 300,
       },
     ];
   }
 }
 
-export default ExaminationTableModel;
+export default AppointmentTableModel;

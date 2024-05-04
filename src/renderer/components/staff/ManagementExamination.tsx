@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import Examination from '../../../main/models/examination';
-import ExaminationTable from '../table/ExaminationTable';
+import AppointmentTable from '../table/AppointmentTable';
 import { Button } from '../../../~/components/ui/button';
 import { useToast } from '~/components/ui/use-toast';
 import { ToastAction } from '../../../~/components/ui/toast';
@@ -53,12 +53,6 @@ export default function ManagementExamination() {
 
   return (
     <div className="flex flex-col w-full h-full px-12 pt-5">
-      <ExaminationTable
-        examinations={examinations}
-        handleLoadExaminations={handleLoadExaminations}
-        setSelectedExaminations={setSelectedExaminations}
-      />
-
       <div className="flex items-center justify-between gap-2 w-full mt-5">
         <Dialog>
           <DialogTrigger disabled={selectedExaminations.length === 0}>

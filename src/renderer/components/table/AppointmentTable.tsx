@@ -4,21 +4,21 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useEffect, useState } from 'react';
 import { Button } from '../../../~/components/ui/button';
 import { ReloadIcon } from '@radix-ui/react-icons';
-import ExaminationTableModel from '../../models/examination-table-model';
-import Examination from '../../../main/models/examination';
+import Appointment from '../../../main/models/appointment';
+import AppointmentTableModel from '../../models/examination-table-model';
 
-const model = new ExaminationTableModel();
+const model = new AppointmentTableModel();
 
 type Params = {
-  examinations: Examination[];
-  handleLoadExaminations: () => void;
-  setSelectedExaminations: (examinations: Examination[]) => void;
+  appointments: Appointment[];
+  handleLoadAppointments: () => void;
+  setSelectedAppointments: (appointments: Appointment[]) => void;
 };
 
-const ExaminationTable = ({
-  examinations,
-  handleLoadExaminations,
-  setSelectedExaminations,
+const AppointmentTable = ({
+  appointments,
+  handleLoadAppointments,
+  setSelectedAppointments,
 }: Params) => {
   const { theme, setTheme } = useTheme();
   const tableTheme = createTheme({
@@ -33,7 +33,7 @@ const ExaminationTable = ({
 
   useEffect(() => {
     const setup = async () => {
-      handleReloadExaminations();
+      handleReloadAppointments();
     };
 
     setup();
@@ -41,18 +41,18 @@ const ExaminationTable = ({
 
   useEffect(() => {
     try {
-      const newRows = model.convertToRows(examinations);
+      const newRows = model.convertToRows(appointments);
       setRows(newRows);
     } catch (e) {
       setRows([]);
       console.error(e);
     }
-  }, [examinations]);
+  }, [appointments]);
 
-  const handleReloadExaminations = async () => {
+  const handleReloadAppointments = async () => {
     setIsLoading(true);
 
-    await handleLoadExaminations();
+    await handleLoadAppointments();
 
     setIsLoading(false);
   };
@@ -63,7 +63,7 @@ const ExaminationTable = ({
         <Button
           variant={'outline'}
           size={'icon'}
-          onClick={handleReloadExaminations}
+          onClick={handleReloadAppointments}
         >
           <ReloadIcon className={`${isLoading ? 'animate-spin' : ''}`} />
         </Button>
@@ -84,10 +84,10 @@ const ExaminationTable = ({
             }}
             onRowSelectionModelChange={(params) => {
               const lastId = params.length > 0 ? params[params.length - 1] : -1;
-              const newSelected = examinations.flatMap((ex) =>
+              const newSelected = appointments.flatMap((ex) =>
                 ex.id === lastId ? [ex] : []
               );
-              setSelectedExaminations(newSelected);
+              setSelectedAppointments(newSelected);
             }}
             pageSizeOptions={[10]}
             disableRowSelectionOnClick
@@ -98,4 +98,4 @@ const ExaminationTable = ({
   );
 };
 
-export default ExaminationTable;
+export default AppointmentTable;

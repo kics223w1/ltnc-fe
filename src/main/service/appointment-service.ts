@@ -1,8 +1,9 @@
 import { ipcMain } from 'electron';
-import { APPOINTMENT_SERVICE } from '../models/constants';
+import { APPOINTMENT_SERVICE, APPOINTMENT_STATUS } from '../models/constants';
 import axios from 'axios';
 import loginService from './login-service';
 import userService from './user-service';
+import Appointment from '../models/appointment';
 
 class AppointmentService {
   private instance: any;
@@ -69,6 +70,25 @@ class AppointmentService {
     }
   }
 
+  public async getAppointments(
+    status: APPOINTMENT_STATUS
+  ): Promise<Appointment[]> {
+    try {
+      const response = await this.instance.get(`/appointments?src=${status}`, {
+        headers: {
+          Authorization: `Bearer ${loginService.getAccessToken()}`,
+        },
+      });
+
+      const result = response.data ? response.data : [];
+      return result.flatMap((appointment: any) => {
+        return [Appointment.fromJSON(appointment)];
+      });
+    } catch (e) {
+      return [];
+    }
+  }
+
   public listenEventsFromRendererProcess() {
     ipcMain.handle(APPOINTMENT_SERVICE.GET_FREE_DOCTORS, (event, args) => {
       return this.getFreeDoctors(
@@ -89,6 +109,13 @@ class AppointmentService {
           args.max_appointment_number,
           args.doctor_id
         );
+      }
+    );
+
+    ipcMain.handle(
+      APPOINTMENT_SERVICE.GET_APPOINTMENTS,
+      async (event, args) => {
+        return await this.getAppointments(args.status);
       }
     );
   }

@@ -6,7 +6,7 @@ class User {
   public readonly password: string;
   public readonly isActive?: boolean;
   public readonly isMale: boolean;
-  public readonly dateOfBirth: Date | undefined;
+  public readonly dateOfBirth: string | undefined;
   public readonly phone: string | undefined;
   public readonly email: string;
   public readonly CID: string | undefined;
@@ -22,7 +22,7 @@ class User {
     password: string,
     isActive: boolean | undefined,
     isMale: boolean,
-    dateOfBirth: Date | undefined,
+    dateOfBirth: string | undefined,
     phone: string | undefined,
     email: string,
     CID: string | undefined,
