@@ -4,6 +4,7 @@ class Machine {
   public readonly vendor: string;
   public readonly status: string;
   public readonly description: string;
+
   constructor(
     id: string,
     name: string,

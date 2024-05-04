@@ -4,7 +4,6 @@ import { Dialog, DialogTrigger } from '../../../~/components/ui/dialog';
 import Medicine from '/main/models/medicine';
 import MedicineTable from '../table/MedicineTable';
 import { MEDICINE_SERVICE, ROLE } from '/main/models/constants';
-import DialogAddMedicineContent from '../dialog/AddMedicineContent';
 import DialogEditMedicineContent from '../dialog/EditMedicineContent';
 import { MedicineDetails } from '../dialog/MedicineContent';
 import MedicineHistoryTable from '../table/MedicineHistoryTable';
@@ -94,11 +93,6 @@ const AdminMedicineDashboard = ({ userRole }: Params) => {
                 Thêm mới
               </Button>
             </DialogTrigger>
-            <DialogAddMedicineContent
-              isOpen={isAddFormOpen}
-              setIsOpen={setIsAddFormOpen}
-              handleAddMedicine={handleAddMedicine}
-            />
           </Dialog>
         </div>
       )}

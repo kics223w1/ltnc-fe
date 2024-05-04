@@ -66,9 +66,9 @@ class Patient extends User {
       obj.phone ? obj.phone : '',
       '',
       obj.CID ? obj.CID : '',
-      new Date(),
-      new Date(),
-      null,
+      '',
+      '',
+      '',
       ''
     );
   }

@@ -1,160 +1,144 @@
+import { useState } from 'react';
+import {
+  MACHINE_SERVICE,
+  MACHINE_STATUS,
+} from '../../../main/models/constants';
 import { Button } from '../../../~/components/ui/button';
 import { Input } from '../../../~/components/ui/input';
 import { Label } from '../../../~/components/ui/label';
 import {
-  Dialog,
   DialogClose,
   DialogContent,
   DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from '/~/components/ui/dialog';
-import { useState, useEffect, MouseEvent, ChangeEvent, FormEvent } from 'react';
-import Machine from '/main/models/machine';
-import { ICON_SVG, MACHINE_SERVICE } from '../../../main/models/constants';
+import { MachineBodyAdd } from '../../../main/types';
+import { useToast } from '../../../~/components/ui/use-toast';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '../../../~/components/ui/select';
 
-interface Props {
-  handleAddMachine: () => void;
-  isOpen: boolean;
-  setIsOpen: (isOpen: boolean) => void;
-}
+const DialogAddMachineContent = () => {
+  const [name, setName] = useState<string>('');
+  const [status, setStatus] = useState<MACHINE_STATUS>(MACHINE_STATUS.ACTIVE);
+  const [vendor, setVendor] = useState<string>('');
+  const [description, setDescription] = useState<string>('');
 
-const DialogAddMachineContent: React.FC<Props> = ({
-  handleAddMachine,
-  isOpen,
-  setIsOpen,
-}) => {
-  const [machines, setMachines] = useState<Machine>({
-    id: '',
-    name: '',
-    vendor: '',
-    status: '',
-    description: '',
-  });
+  const { toast } = useToast();
 
-  useEffect(() => {}, []);
+  const handleDone = async () => {
+    const body: MachineBodyAdd = {
+      name,
+      status,
+      vendor,
+      description,
+    };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setMachines((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
-  };
-
-  const handleSubmit = async (e: FormEvent) => {
-    try {
-      e.preventDefault();
-      const response = await fetch('http://localhost:3001/machines', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(machines),
-      });
-      if (response.ok) {
-        resetForm();
-        handleAddMachine();
-        setIsOpen(false);
-      } else {
-        // Handle error, e.g., show an error message
+    const response = await window.electron.ipcRenderer.invoke(
+      MACHINE_SERVICE.ADD_MACHINE,
+      {
+        body,
       }
-    } catch (error) {
-      // Handle fetch error
-      console.error('Error:', error);
-    }
-  };
+    );
 
-  const resetForm = () => {
-    setMachines({
-      id: '',
-      name: '',
-      vendor: '',
-      status: '',
-      description: '',
+    if (response === 'Success!') {
+      toast({
+        variant: 'default',
+        title: 'Thêm máy thành công',
+      });
+      return;
+    }
+
+    toast({
+      variant: 'destructive',
+      title: 'Thêm máy thất bại',
+      description: 'Vui lòng thử lại sau',
     });
   };
 
   return (
     <>
-      {isOpen && (
-        <DialogContent className="sm:max-w-[425px]">
-          <DialogHeader>
-            <DialogTitle>Thêm máy mới</DialogTitle>
-            <DialogDescription>Thêm máy mới vào hệ thống</DialogDescription>
-          </DialogHeader>
-          <div className="grid gap-4 py-4">
-            <form onSubmit={handleSubmit}>
-              <div className="grid grid-cols-4 py-4 items-center gap-4">
-                <Label htmlFor="id" className="text-right">
-                  Id máy
-                </Label>
-                <Input
-                  name="id"
-                  className="col-span-3"
-                  value={machines.id}
-                  onChange={handleInputChange}
-                />
-              </div>
-
-              <div className="grid grid-cols-4 py-4 items-center gap-4">
-                <Label htmlFor="username" className="text-right">
-                  Tên máy
-                </Label>
-                <Input
-                  className="col-span-3"
-                  name="name"
-                  value={machines.name}
-                  onChange={handleInputChange}
-                />
-              </div>
-
-              <div className="grid grid-cols-4 py-4 items-center gap-4">
-                <Label htmlFor="username" className="text-right">
-                  Nhà cung cấp
-                </Label>
-                <input
-                  className="col-span-3 h-8 border border-border rounded px-2"
-                  name="vendor"
-                  value={machines.vendor}
-                  onChange={handleInputChange}
-                />
-              </div>
-
-              <div className="grid grid-cols-4 py-4 items-center gap-4">
-                <Label htmlFor="username" className="text-right">
-                  Trạng thái
-                </Label>
-                <input
-                  className="col-span-3 h-8 border border-border rounded px-2"
-                  name="status"
-                  value={machines.status}
-                  onChange={handleInputChange}
-                />
-              </div>
-              <div className="grid grid-cols-4 py-4 items-center gap-4">
-                <Label htmlFor="username" className="text-right">
-                  Mô tả
-                </Label>
-                <input
-                  className="col-span-3 h-8 border border-border rounded px-2"
-                  name="description"
-                  value={machines.description}
-                  onChange={handleInputChange}
-                />
-              </div>
-              <DialogFooter className="flex items-center justify-between w-full">
-                <DialogClose className="w-full flex items-start pl-5">
-                  <Button variant={'outline'}>Huỷ bỏ</Button>
-                </DialogClose>
-                <Button type="submit">Hoàn tất</Button>
-              </DialogFooter>
-            </form>
+      <DialogContent className="sm:max-w-[450px]">
+        <DialogHeader>
+          <DialogTitle>Thêm máy mới</DialogTitle>
+          <DialogDescription>Thêm máy mới mới vào hệ thống</DialogDescription>
+        </DialogHeader>
+        <div className="grid gap-4 py-4">
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label htmlFor="name" className="text-right">
+              Tên máy
+            </Label>
+            <Input
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="Nhập tên máy"
+              className="col-span-3"
+            />
           </div>
-        </DialogContent>
-      )}
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label htmlFor="status" className="text-right">
+              Trạng thái
+            </Label>
+
+            <Select
+              value={status}
+              onValueChange={(value: any) => setStatus(value)}
+            >
+              <SelectTrigger className="col-span-3">
+                <SelectValue placeholder={'Chọn trạng thái'}></SelectValue>
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value={MACHINE_STATUS.ACTIVE}>Hoạt động</SelectItem>
+                <SelectItem value={MACHINE_STATUS.IN_PROGRESS}>
+                  Đang sử dụng
+                </SelectItem>
+                <SelectItem value={MACHINE_STATUS.INACTIVE}>Hỏng</SelectItem>
+                <SelectItem value={MACHINE_STATUS.IN_MAINTENANCE}>
+                  Đang bảo trì
+                </SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label htmlFor="vendor" className="text-right">
+              Nhà sản xuất
+            </Label>
+            <Input
+              value={vendor}
+              onChange={(e) => setVendor(e.target.value)}
+              placeholder="Nhập nhà sản xuất"
+              className="col-span-3"
+            />
+          </div>
+
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label htmlFor="description" className="text-right">
+              Mô tả
+            </Label>
+            <Input
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              placeholder="Nhập mô tả"
+              className="col-span-3"
+            />
+          </div>
+        </div>
+        <DialogFooter className="flex items-center justify-between w-full">
+          <DialogClose className="w-full flex items-start pl-5">
+            <Button variant={'outline'}>Huỷ bỏ</Button>
+          </DialogClose>
+          <Button disabled={!name || !status || !vendor} onClick={handleDone}>
+            Hoàn tất
+          </Button>
+        </DialogFooter>
+      </DialogContent>
     </>
   );
 };

@@ -50,3 +50,10 @@ export type BodyUserResponse = {
   updatedAt: string | undefined;
   deletedAt: string | undefined;
 };
+
+export type MachineBodyAdd = {
+  name: string;
+  vendor: string;
+  status: string;
+  description: string;
+};
