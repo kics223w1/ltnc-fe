@@ -6,6 +6,7 @@ import axios from 'axios';
 import MedicineHistory from '../models/medicine-history';
 import loginService from './login-service';
 import Batch from '../models/batch';
+import { BatchBodyAdd, MedicineBodyAdd } from '../types';
 
 class MedicineService {
   private medicines: Medicine[];
@@ -31,7 +32,37 @@ class MedicineService {
     this.batches = batches;
   }
 
-  private async updateMedicineCost(id: string, cost: number) {
+  public async addMedicine(body: MedicineBodyAdd) {
+    try {
+      await this.instance.post('/medicine', body, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${loginService.getAccessToken()}`,
+        },
+      });
+      return 'Success!';
+    } catch (e) {
+      console.error('Error:', e);
+      return 'Failed';
+    }
+  }
+
+  public async addBatch(body: BatchBodyAdd) {
+    try {
+      await this.instance.post('/medicine/batch', body, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${loginService.getAccessToken()}`,
+        },
+      });
+      return 'Success!';
+    } catch (e) {
+      console.error('Error:', e);
+      return 'Failed';
+    }
+  }
+
+  public async updateMedicineCost(id: string, cost: number) {
     try {
       const body = {
         cost,
@@ -50,7 +81,7 @@ class MedicineService {
     }
   }
 
-  private async getMedicineLog(id: string): Promise<MedicineHistory[]> {
+  public async getMedicineLog(id: string): Promise<MedicineHistory[]> {
     try {
       const response = await this.instance.get(`/medicine/log/${id}`, {
         headers: {
@@ -90,6 +121,10 @@ class MedicineService {
       }
     );
 
+    ipcMain.handle(MEDICINE_SERVICE.ADD_MEDICINE, async (event, args) => {
+      return await this.addMedicine(args.body);
+    });
+
     ipcMain.handle(MEDICINE_SERVICE.RELOAD_MEDICINES, async (event, args) => {
       await this.loadMedicines();
       return this.medicines;
@@ -106,6 +141,10 @@ class MedicineService {
     ipcMain.handle(MEDICINE_SERVICE.RELOAD_BATCHES, async (event, args) => {
       await this.loadBatches();
       return this.batches;
+    });
+
+    ipcMain.handle(MEDICINE_SERVICE.ADD_BATCH, async (event, args) => {
+      return await this.addBatch(args.body);
     });
   }
 }

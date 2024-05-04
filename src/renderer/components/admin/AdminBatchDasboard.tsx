@@ -3,6 +3,9 @@ import { MEDICINE_SERVICE } from '/main/models/constants';
 import Batch from '../../../main/models/batch';
 import BatchTable from '../table/BatchTable';
 import BatchMedicineTable from '../table/BatchMedicineTable';
+import { Dialog, DialogTrigger } from '../../../~/components/ui/dialog';
+import { Button } from '../../../~/components/ui/button';
+import DialogAddBatchContent from '../dialog/AddBatchContent';
 
 const AdminBatchDashboard = () => {
   const [selectedBatches, setSelectedBatches] = useState<Batch[]>([]);
@@ -28,6 +31,17 @@ const AdminBatchDashboard = () => {
         batches={batches}
         setSelectedBatches={setSelectedBatches}
       />
+
+      <div className="flex items-center justify-end gap-3">
+        <Dialog>
+          <DialogTrigger>
+            <Button variant={'default'} size={'lg'}>
+              Thêm mới
+            </Button>
+          </DialogTrigger>
+          <DialogAddBatchContent />
+        </Dialog>
+      </div>
 
       <h1>
         {selectedBatches.length > 0

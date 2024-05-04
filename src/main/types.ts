@@ -57,3 +57,28 @@ export type MachineBodyAdd = {
   status: string;
   description: string;
 };
+
+export type MedicineBodyAdd = {
+  medicine_id: string;
+  name: string;
+  unit: string;
+  cost_out: number;
+  ingredients: string[];
+  description: string;
+};
+
+export type BatchBodyAdd = {
+  status: string;
+  placer_name: string;
+  placer_CID: string;
+  placer_phone: string;
+  import_date: string;
+  medicines: {
+    medicine_id: string;
+    quantity: number;
+    cost_in: number;
+    expire: string;
+    vendor: string;
+  }[];
+  description: string;
+};
