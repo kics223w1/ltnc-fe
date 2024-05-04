@@ -60,7 +60,7 @@ class LoginService {
       });
       const obj = response.data as SignInResponse;
 
-      this.setUser(obj.user);
+      this.setUser(User.fromJSON(obj.user));
       this.saveUserObject(email, password, rememberMe);
       this.setAccessToken(obj.tokens.access_token);
 
@@ -184,6 +184,11 @@ class LoginService {
         return await this.signIn(args.email, args.password, args.rememberMe);
       }
     );
+
+    ipcMain.handle(LOGIN_SERVICE.RELOAD_USER, async (event, args: {}) => {
+      await this.loadLogicAtLaunch();
+      return this.user;
+    });
 
     ipcMain.on(LOGIN_SERVICE.LOGOUT, (event, args: {}) => {
       this.logout();

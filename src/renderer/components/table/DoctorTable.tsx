@@ -11,10 +11,11 @@ import UserTableModel from '../../models/user-table-model';
 const model = new UserTableModel();
 
 type Params = {
+  isAllowSelection: boolean;
   setSelectedDoctors: (doctor: Doctor[]) => void;
 };
 
-const DoctorTable = ({ setSelectedDoctors }: Params) => {
+const DoctorTable = ({ isAllowSelection, setSelectedDoctors }: Params) => {
   const { theme, setTheme } = useTheme();
   const tableTheme = createTheme({
     palette: {
@@ -81,7 +82,7 @@ const DoctorTable = ({ setSelectedDoctors }: Params) => {
       <div className="h-[500px] w-full">
         <ThemeProvider theme={tableTheme}>
           <DataGrid
-            checkboxSelection
+            checkboxSelection={isAllowSelection}
             rows={rows}
             columns={columns}
             initialState={{

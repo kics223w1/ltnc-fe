@@ -1,3 +1,4 @@
+import { BodyUserResponse } from './../types';
 import { ROLE } from './constants';
 
 class User {
@@ -11,9 +12,9 @@ class User {
   public readonly email: string;
   public readonly CID: string | undefined;
   public readonly role: ROLE;
-  public readonly createdAt: Date;
-  public readonly updatedAt: Date;
-  public readonly deletedAt?: Date | null;
+  public readonly createdAt: string | undefined;
+  public readonly updatedAt: string | undefined;
+  public readonly deletedAt: string | undefined;
   public readonly hashedRt: string;
 
   constructor(
@@ -27,9 +28,9 @@ class User {
     email: string,
     CID: string | undefined,
     role: ROLE,
-    createdAt: Date,
-    updatedAt: Date,
-    deletedAt: Date | null | undefined,
+    createdAt: string | undefined,
+    updatedAt: string | undefined,
+    deletedAt: string | undefined,
     hashedRt: string
   ) {
     this.userId = userId;
@@ -46,6 +47,25 @@ class User {
     this.updatedAt = updatedAt;
     this.deletedAt = deletedAt;
     this.hashedRt = hashedRt;
+  }
+
+  public static fromJSON(obj: BodyUserResponse) {
+    return new User(
+      obj.user_id,
+      obj.user_name || '',
+      '',
+      true,
+      obj.isMale,
+      obj.date_of_birth,
+      obj.phone,
+      obj.email || '',
+      obj.CID,
+      obj.role,
+      obj.createdAt,
+      obj.updatedAt,
+      obj.deletedAt,
+      ''
+    );
   }
 }
 

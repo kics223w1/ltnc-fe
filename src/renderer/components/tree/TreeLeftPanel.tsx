@@ -56,12 +56,22 @@ const TreeLeftPanel = ({ user }: TreeLeftPanelProps) => {
       )}
 
       <ParentNode
-        tabs={[
-          MAIN_VIEW_TAB.MANAGEMENT_EXAMINATION,
-          MAIN_VIEW_TAB.ADMIN_MEDICINE_DASHBOARD,
-          MAIN_VIEW_TAB.ADMIN_BATCH_DASHBOARD,
-        ]}
-        title={'Bác sĩ'}
+        tabs={
+          userRole === ROLE.ADMIN
+            ? [
+                MAIN_VIEW_TAB.DOCTOR_LIST,
+                MAIN_VIEW_TAB.NURSE_LIST,
+                MAIN_VIEW_TAB.PATIENT_LIST,
+                MAIN_VIEW_TAB.MANAGEMENT_EXAMINATION,
+              ]
+            : [
+                MAIN_VIEW_TAB.USER_PROFILE,
+                MAIN_VIEW_TAB.MANAGEMENT_EXAMINATION,
+                MAIN_VIEW_TAB.ADMIN_MEDICINE_DASHBOARD,
+                MAIN_VIEW_TAB.ADMIN_BATCH_DASHBOARD,
+              ]
+        }
+        title={userRole === ROLE.ADMIN ? 'Nhân viên' : 'Bác sĩ'}
         setCurrentTab={handleSetCurrentTab}
         currentTab={currentTab}
       ></ParentNode>
@@ -71,7 +81,6 @@ const TreeLeftPanel = ({ user }: TreeLeftPanelProps) => {
           tabs={[
             MAIN_VIEW_TAB.ADMIN_DOCTOR_DASHBOARD,
             MAIN_VIEW_TAB.ADMIN_NURSE_DASHBOARD,
-            MAIN_VIEW_TAB.ADMIN_MACHINE_DASHBOARD,
             MAIN_VIEW_TAB.ADMIN_MEDICINE_DASHBOARD,
             MAIN_VIEW_TAB.ADMIN_BATCH_DASHBOARD,
           ]}

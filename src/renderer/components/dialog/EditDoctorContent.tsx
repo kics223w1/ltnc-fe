@@ -4,7 +4,6 @@ import { Label } from '../../../~/components/ui/label';
 import {
   DialogClose,
   DialogContent,
-  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
@@ -17,33 +16,80 @@ import {
   SelectValue,
 } from '../../../~/components/ui/select';
 import Doctor from '../../../main/models/doctor';
+import { useEffect, useState } from 'react';
+import { BodyUpdateUser } from '../../../main/types';
+import User from '../../../main/models/user';
+import { USER_SERVICE } from '../../../main/models/constants';
+import { useToast } from '../../../~/components/ui/use-toast';
 
 type DialogEditDoctorContentProps = {
-  doctor: Doctor;
+  doctor: User;
+  handleClose: () => void;
 };
 
 const DialogEditDoctorContent = ({ doctor }: DialogEditDoctorContentProps) => {
+  const [phone, setPhone] = useState<string>('');
+  const [cid, setCID] = useState<string>('');
+  const [userName, setUserName] = useState<string>('');
+  const [isMale, setIsMale] = useState<boolean>(true);
+  const [dateOfBirth, setDateOfBirth] = useState<string>('');
+
+  const { toast } = useToast();
+
+  useEffect(() => {
+    setPhone(doctor.phone || '');
+    setCID(doctor.CID || '');
+    setUserName(doctor.userName);
+    setIsMale(doctor.isMale);
+    setDateOfBirth(doctor.dateOfBirth || '');
+  }, [doctor]);
+
+  const handleSubmit = async () => {
+    const body: BodyUpdateUser = {
+      user_name: userName,
+      isMale: isMale,
+      date_of_birth: `${dateOfBirth} 07:00:00`,
+      CID: cid,
+      phone: phone,
+    };
+    const response = await window.electron.ipcRenderer.invoke(
+      USER_SERVICE.UPDATE_USER,
+      {
+        body,
+      }
+    );
+
+    if (response !== 'Success!') {
+      toast({
+        variant: 'destructive',
+        title: 'Cập nhật thông tin thất bại',
+        description: 'Vui lòng thử lại sau',
+      });
+      return;
+    }
+
+    toast({
+      variant: 'default',
+      title: 'Cập nhật thông tin thành công',
+      description: 'Thông tin của bác sĩ đã được cập nhật',
+    });
+  };
+
   return (
     <>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Thêm bác sĩ</DialogTitle>
-          <DialogDescription>Thêm bác sĩ mới vào hệ thống</DialogDescription>
+          <DialogTitle>Chỉnh sửa thông tin bác sĩ</DialogTitle>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
             <Label className="text-right">Tên</Label>
-            <Input className="col-span-3" defaultValue={doctor.userName} />
-          </div>
-
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="username" className="text-right">
-              Mật khẩu
-            </Label>
             <Input
-              type="password"
               className="col-span-3"
-              defaultValue={doctor.password}
+              value={userName}
+              onChange={(e) => {
+                setUserName(e.target.value);
+              }}
             />
           </div>
 
@@ -54,15 +100,22 @@ const DialogEditDoctorContent = ({ doctor }: DialogEditDoctorContentProps) => {
             <input
               className="col-span-3 h-8 border border-border rounded px-2"
               type="date"
-              defaultValue={doctor.dateOfBirth?.toString()}
+              value={dateOfBirth}
+              onChange={(e) => {
+                setDateOfBirth(e.target.value);
+              }}
             />
           </div>
 
           <div className="grid grid-cols-4 items-center gap-4">
             <Label className="text-right">Giới tính</Label>
-            <Select>
+            <Select
+              onValueChange={(e: any) => {
+                setIsMale(!isMale);
+              }}
+            >
               <SelectTrigger
-                defaultValue={doctor.isMale ? 'male' : 'female'}
+                value={isMale ? 'male' : 'female'}
                 className="col-span-3"
               >
                 <SelectValue placeholder="Giới tính" />
@@ -76,19 +129,31 @@ const DialogEditDoctorContent = ({ doctor }: DialogEditDoctorContentProps) => {
 
           <div className="grid grid-cols-4 items-center gap-4">
             <Label className="text-right">Điện thoại</Label>
-            <Input className="col-span-3" defaultValue={doctor.phone} />
+            <Input
+              className="col-span-3"
+              value={phone}
+              onChange={(e) => {
+                setPhone(e.target.value);
+              }}
+            />
           </div>
 
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right">Email</Label>
-            <Input className="col-span-3" defaultValue={doctor.email} />
+            <Label className="text-right">CID</Label>
+            <Input
+              className="col-span-3"
+              value={cid}
+              onChange={(e) => {
+                setCID(e.target.value);
+              }}
+            />
           </div>
         </div>
         <DialogFooter className="flex items-center justify-between w-full">
           <DialogClose className="w-full flex items-start pl-5">
             <Button variant={'outline'}>Huỷ bỏ</Button>
           </DialogClose>
-          <Button type="submit">Hoàn tất</Button>
+          <Button onClick={handleSubmit}>Hoàn tất</Button>
         </DialogFooter>
       </DialogContent>
     </>

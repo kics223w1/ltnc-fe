@@ -15,9 +15,9 @@ class Nurse extends User {
     phone: string,
     email: string,
     CID: string,
-    createdAt: Date,
-    updatedAt: Date,
-    deletedAt: Date | null | undefined,
+    createdAt: string | undefined,
+    updatedAt: string | undefined,
+    deletedAt: string | undefined,
     hashedRt: string
   ) {
     super(

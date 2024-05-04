@@ -11,7 +11,10 @@ const AdminDoctorDashboard = () => {
 
   return (
     <div className="flex flex-col gap-5 w-full h-full px-12 py-10 overflow-auto">
-      <DoctorTable setSelectedDoctors={setSelectedDoctors} />
+      <DoctorTable
+        isAllowSelection={true}
+        setSelectedDoctors={setSelectedDoctors}
+      />
       <div className="flex items-center justify-end gap-3">
         <Dialog>
           <DialogTrigger>
@@ -20,23 +23,6 @@ const AdminDoctorDashboard = () => {
             </Button>
           </DialogTrigger>
           <DialogAddDoctorContent />
-        </Dialog>
-
-        <Dialog>
-          <DialogTrigger disabled={selectedDoctors.length === 0}>
-            <Button
-              variant={'default'}
-              size={'lg'}
-              disabled={selectedDoctors.length === 0}
-            >
-              Chỉnh sửa
-            </Button>
-          </DialogTrigger>
-          {selectedDoctors.length > 0 && (
-            <DialogEditDoctorContent
-              doctor={selectedDoctors[selectedDoctors.length - 1]}
-            />
-          )}
         </Dialog>
       </div>
     </div>

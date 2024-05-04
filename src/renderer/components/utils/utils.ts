@@ -34,6 +34,9 @@ export const getTabTitle = (tab: MAIN_VIEW_TAB): string => {
       return 'Quản trị lô thuốc';
     case MAIN_VIEW_TAB.PATIENT_LIST:
       return 'Danh sách bệnh nhân';
+
+    case MAIN_VIEW_TAB.USER_PROFILE:
+      return 'Thông tin cá nhân';
     default:
       return '';
   }

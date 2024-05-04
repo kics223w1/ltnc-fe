@@ -1,4 +1,4 @@
-import User from './models/user';
+import { ROLE } from './models/constants';
 
 export type UserResponseErrorMessage = {
   message: string[];
@@ -7,7 +7,7 @@ export type UserResponseErrorMessage = {
 };
 
 export type SignInResponse = {
-  user: User;
+  user: BodyUserResponse;
   tokens: {
     access_token: string;
     refresh_token: string;
@@ -27,4 +27,26 @@ export type AppointmentDoneBody = {
   description: string | null;
   advice: string | null;
   medicineList: { medicine_id: string; amount: number }[];
+};
+
+export type BodyUpdateUser = {
+  user_name: string;
+  isMale: boolean;
+  date_of_birth: string;
+  CID: string;
+  phone: string;
+};
+
+export type BodyUserResponse = {
+  user_id: string;
+  user_name: string | undefined;
+  isMale: boolean;
+  date_of_birth: string | undefined;
+  phone: string | undefined;
+  email: string | undefined;
+  CID: string | undefined;
+  role: ROLE;
+  createdAt: string | undefined;
+  updatedAt: string | undefined;
+  deletedAt: string | undefined;
 };
